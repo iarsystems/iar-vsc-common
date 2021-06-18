@@ -27,16 +27,18 @@ import { TestOptions } from "vscode-test/out/runTest";
  * @param testPath The path to the index file to run.
  * @param additionalDirectories A directory to include in the tests.
  */
- export async function runTestsIn(testPath:string, additionalDirectories: string | undefined = undefined){
-    const extensionDevelopmentPath = path.resolve(__dirname, '../../');
+ export async function runTestsIn(relPath:string ,extensionPath:string, testPath:string, additionalDirectories: string | undefined = undefined){
     try {
+        console.log("Extension from " + extensionPath);
         console.log("Running tests in " + testPath);
-        const unitTestsPath = path.resolve(__dirname, testPath);
 
-        let options:TestOptions = {extensionDevelopmentPath, extensionTestsPath: unitTestsPath};
+        let options:TestOptions = {
+            extensionDevelopmentPath : path.resolve(relPath, extensionPath), 
+            extensionTestsPath: path.resolve(relPath, testPath)
+        };
 
         if(additionalDirectories){
-            const additionals = path.resolve(__dirname, additionalDirectories);
+            const additionals = path.resolve(relPath, additionalDirectories);
             options.launchArgs = [additionals];
         }
 
@@ -44,6 +46,6 @@ import { TestOptions } from "vscode-test/out/runTest";
 
         await runTests(options);
     } catch (err) {
-        console.error(err);
+        console.log("Error:" + err);
     }
 }
