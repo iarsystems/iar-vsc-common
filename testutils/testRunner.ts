@@ -47,11 +47,3 @@ import { TestOptions } from "vscode-test/out/runTest";
         console.error(err);
     }
 }
-
-async function main() {
-    await runTestsIn('./unitTests/index');
-    await runTestsIn('./integrationTests/index');
-    await runTestsIn('./vscodeTests/index', '../../test/vscodeTests/TestProjects' );
-}
-
-main();
