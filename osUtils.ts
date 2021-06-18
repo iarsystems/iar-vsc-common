@@ -44,7 +44,7 @@ export namespace OsUtils {
 /**
  * This is a general class used of OS specific knownledge about a the Iar libraries and binaries.
  */
-export class IarUtils{
+export class IarOsUtils{
 
 	/**
 	 *	Resolve a shared library to the active os from the target.
