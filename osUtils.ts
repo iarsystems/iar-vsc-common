@@ -4,7 +4,7 @@ import * as Path from "path";
 
 export namespace OsUtils {
     export enum OsType {
-        Windows, 
+        Windows,
         Linux,
         Mac
     }
@@ -44,7 +44,7 @@ export namespace OsUtils {
 /**
  * This is a general class used of OS specific knownledge about a the Iar libraries and binaries.
  */
-export class IarOsUtils{
+export namespace IarOsUtils{
 
 	/**
 	 *	Resolve a shared library to the active os from the target.
@@ -53,7 +53,7 @@ export class IarOsUtils{
 	 * @param libraryBasename
 	 * @returns
 	 */
-	static resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
+	export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
 		var libName:string = libraryBasename;
 		const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? targetName : "lib" + targetName;
 		const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
@@ -68,4 +68,12 @@ export class IarOsUtils{
 
 		return Path.join(workbenchPath,targetName.toLowerCase(),"bin", libName);
 	}
+
+    export function executableExtension(){
+        if(OsUtils.detectOsType() === OsUtils.OsType.Windows){
+            return ".exe";
+        }else{
+            return "";
+        }
+    }
 }
