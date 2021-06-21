@@ -34,12 +34,12 @@ export async function Setup(){
  * @param testsRoot 
  * @returns 
  */
-export async function getTestPromise(testsRoot:string) : Promise<void>{
+export async function getTestPromise(testsRoot:string, localTimeout: number = 2000) : Promise<void>{
     await Setup();
 
     let junitFile:string = "/junit-vs-" + path.basename(testsRoot) + ".xml";
 
-    let options:any = {ui: 'tdd'};
+    let options:any = {ui: 'tdd', timeout: localTimeout};
     if(process.env["junit"]){
         console.log("Adding junit file " + junitFile);
         options.reporter = 'mocha-junit-reporter';
