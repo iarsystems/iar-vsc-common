@@ -26,6 +26,7 @@ export async function Setup(){
 
         // Update the set of available workbenches
         await vscode.workspace.getConfiguration("iarvsc").update("iarInstallDirectories", ewPaths, false);
+        console.log("EW Setup complete");
     }
 }
 
@@ -46,8 +47,6 @@ export async function getTestPromise(testsRoot:string, localTimeout: number = 20
         options.reporterOptions = {mochaFile: testsRoot + junitFile}
     }
     const mocha = new Mocha(options);
-    mocha.useColors(true);
-
 
     return new Promise((c, e) => {
         // run all test files in this directory
@@ -72,4 +71,21 @@ export async function getTestPromise(testsRoot:string, localTimeout: number = 20
             }
         });
     });
+}
+
+
+export namespace TestUtils{
+
+    /**
+     * Replaces the $TARGET$ string in the @param testEwpFile with @param targetName
+     * and produces a copy placed alongside which can be used for testing.
+     * @param targetName 
+     * @param testEwpFile 
+     */
+    export function pathEwpFile(targetName:string, testEwpFile:string){
+        let fileContent: string = fs.readFileSync(testEwpFile, {encoding:'utf8'});
+        fileContent = fileContent.replace("$TARGET$", targetName);
+        fs.writeFileSync(testEwpFile.replace(".ewp", "_" + targetName + ".ewp"),fileContent,{encoding:'utf8'});       
+    }
+
 }
