@@ -20,8 +20,10 @@ export async function Setup(){
         let ewPaths: String[] = [];
         for(var key of values.getKeys()){
             let newPath = values.get(key);
-            console.log("Adding " + newPath);
-            ewPaths.push(newPath);
+            if(!ewPaths.includes(newPath)){
+                console.log("Adding " + newPath);
+                ewPaths.push(newPath);
+            }
         }
 
         // Update the set of available workbenches
@@ -79,13 +81,15 @@ export namespace TestUtils{
     /**
      * Replaces the $TARGET$ string in the @param testEwpFile with @param targetName
      * and produces a copy placed alongside which can be used for testing.
-     * @param targetName 
-     * @param testEwpFile 
+     * @param targetName
+     * @param testEwpFile
      */
-    export function pathEwpFile(targetName:string, testEwpFile:string){
+    export function patchEwpFile(targetName:string, testEwpFile:string) :string{
+        let newEwpFile: string = testEwpFile.replace(".ewp", "_" + targetName + ".ewp");
         let fileContent: string = fs.readFileSync(testEwpFile, {encoding:'utf8'});
         fileContent = fileContent.replace("$TARGET$", targetName);
-        fs.writeFileSync(testEwpFile.replace(".ewp", "_" + targetName + ".ewp"),fileContent,{encoding:'utf8'});       
+        fs.writeFileSync(testEwpFile.replace(".ewp", "_" + targetName + ".ewp"),fileContent,{encoding:'utf8'});
+        return newEwpFile;
     }
 
 }
