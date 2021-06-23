@@ -84,12 +84,27 @@ export namespace TestUtils{
      * @param targetName
      * @param testEwpFile
      */
-    export function patchEwpFile(targetName:string, testEwpFile:string) :string{
-        let newEwpFile: string = testEwpFile.replace(".ewp", "_" + targetName + ".ewp");
+    export function patchEwpFile(targetName:string, testEwpFile:string, outputFile:string) : void{
         let fileContent: string = fs.readFileSync(testEwpFile, {encoding:'utf8'});
         fileContent = fileContent.replace("$TARGET$", targetName);
-        fs.writeFileSync(testEwpFile.replace(".ewp", "_" + targetName + ".ewp"),fileContent,{encoding:'utf8'});
-        return newEwpFile;
+        fs.writeFileSync(outputFile,fileContent,{encoding:'utf8'});
+    }
+
+    /**
+     * Recursively delete a folder and its content.
+     * @param root 
+     */
+    export function deleteDirectory(root:string){
+        let contents = fs.readdirSync(root);
+        for(let content of contents){
+            let absPath = path.join(root, content);
+            if(fs.lstatSync(absPath).isDirectory()){
+                deleteDirectory(absPath);
+            }else{
+                fs.unlinkSync(absPath);
+            }   
+        }
+        fs.rmdirSync(root);
     }
 
 }
