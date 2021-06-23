@@ -1,7 +1,11 @@
 
 import * as os from 'os';
 import * as Path from "path";
+import * as fs from 'fs'
 
+/**
+ * A collection of utilities for working with OS:s.
+ */
 export namespace OsUtils {
     export enum OsType {
         Windows,
@@ -42,7 +46,7 @@ export namespace OsUtils {
 }
 
 /**
- * This is a general class used of OS specific knownledge about a the Iar libraries and binaries.
+ * A collection of utilities to use for resolving extensions and libraries when working cross-platform.
  */
 export namespace IarOsUtils{
 
