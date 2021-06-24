@@ -1,6 +1,7 @@
 
 import * as path from 'path';
-import { runTests } from "vscode-test";
+import * as cp from 'child_process'
+import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from "vscode-test";
 import { TestOptions } from "vscode-test/out/runTest";
 
 /**
@@ -42,7 +43,18 @@ import { TestOptions } from "vscode-test/out/runTest";
             options.launchArgs = [additionals];
         }
 
+        // Install the C/C++ extension from Microsoft which is a hard requirement.
         options.extensionTestsEnv = getEnvs()
+
+        const vscodeExecutablePath = await downloadAndUnzipVSCode('1.57.1');
+        const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
+
+        // Use cp.spawn / cp.exec for custom setup
+        cp.spawnSync(cliPath, ['--install-extension', 'ms-vscode.cpptools'], {
+          encoding: 'utf-8',
+          stdio: 'inherit'
+        });
+
 
         await runTests(options);
     } catch (err) {
