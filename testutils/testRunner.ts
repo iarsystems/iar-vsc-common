@@ -35,12 +35,13 @@ import { TestOptions } from "vscode-test/out/runTest";
 
         let options:TestOptions = {
             extensionDevelopmentPath : path.resolve(relPath, extensionPath), 
-            extensionTestsPath: path.resolve(relPath, testPath)
+            extensionTestsPath: path.resolve(relPath, testPath),
+            launchArgs: ["--disable-workspace-trust"] // our extensions do not work with untrusted workspaces
         };
 
         if(additionalDirectories){
             const additionals = path.resolve(relPath, additionalDirectories);
-            options.launchArgs = [additionals];
+            options.launchArgs?.push(additionals);
         }
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
