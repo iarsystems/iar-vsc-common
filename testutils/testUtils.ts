@@ -27,7 +27,8 @@ export async function Setup(){
         }
 
         // Update the set of available workbenches
-        await vscode.workspace.getConfiguration("iarvsc").update("iarInstallDirectories", ewPaths, false);
+        const configTarget = vscode.workspace.workspaceFolders ? vscode.ConfigurationTarget.Workspace : vscode.ConfigurationTarget.Global;
+        await vscode.workspace.getConfiguration("iarvsc").update("iarInstallDirectories", ewPaths, configTarget);
         console.log("EW Setup complete");
     }
 }
