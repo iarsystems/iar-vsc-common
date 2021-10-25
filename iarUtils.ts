@@ -18,7 +18,7 @@ import * as fs from 'fs'
         var targets:string[] = [];
         for(var i = 0; i < folders.length; i++){
             var possibleTarget = path.basename(folders[i]);
-            if(possibleTarget !== "common"){
+            if(possibleTarget !== "common" && fs.statSync(path.join(workbenchPath, folders[i])).isDirectory()){
                 targets.push(possibleTarget);
             }
         }
