@@ -60,7 +60,7 @@ export namespace IarOsUtils{
 	export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
 		var libName:string = libraryBasename;
 		const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? targetName : "lib" + targetName;
-		const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
+		const slExt = libraryExtension();
 
         if(!libName.startsWith(slPre)){
 			libName = slPre + libName;
@@ -80,4 +80,9 @@ export namespace IarOsUtils{
             return "";
         }
     }
+
+    export function libraryExtension() {
+		return OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
+    }
+
 }
