@@ -50,19 +50,6 @@ export namespace OsUtils {
  */
 export namespace IarOsUtils{
 
-<<<<<<< Updated upstream
-	/**
-	 *	Resolve a shared library to the active os from the target.
-	 * @param workbenchPath
-	 * @param targetName
-	 * @param libraryBasename
-	 * @returns
-	 */
-	export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
-		var libName:string = libraryBasename;
-		const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? targetName : "lib" + targetName;
-		const slExt = libraryExtension();
-=======
     /**
      * Resolve a shared library to the active os from the target. This is done case-insensitive,
      * e.g. the "bat" lib on arm may resolve to "Armbat", "armBat", "armBAT" etc.
@@ -78,9 +65,9 @@ export namespace IarOsUtils{
             libName = targetName + libName;
         }
 
-        const slPre = libraryPrefix();
-        const slExt = libraryExtension();
->>>>>>> Stashed changes
+        const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? "" : "lib";
+        const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
+
 
         if(!libName.startsWith(slPre)){
             libName = slPre + libName;
@@ -105,17 +92,4 @@ export namespace IarOsUtils{
             return "";
         }
     }
-
-    export function libraryExtension() {
-<<<<<<< Updated upstream
-		return OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
-=======
-        return OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
-    }
-
-    export function libraryPrefix() {
-        return OsUtils.detectOsType() === OsUtils.OsType.Windows ? "" : "lib";
->>>>>>> Stashed changes
-    }
-
 }
