@@ -6,7 +6,7 @@ import * as vscode from "vscode"
 
 
 /**
- * The Setup allows the user to inject workbenches into the workspace using a 
+ * The Setup allows the user to inject workbenches into the workspace using a
  * java-properties file.
  */
 export async function Setup(){
@@ -35,8 +35,8 @@ export async function Setup(){
 
 /**
  * The mocha test promise that runs the actual test using mocha and produces the junit results.
- * @param testsRoot 
- * @returns 
+ * @param testsRoot
+ * @returns
  */
 export async function getTestPromise(testsRoot:string, localTimeout: number = 2000) : Promise<void>{
     await Setup();
@@ -47,7 +47,7 @@ export async function getTestPromise(testsRoot:string, localTimeout: number = 20
     if(process.env["junit"]){
         console.log("Adding junit file " + junitFile);
         options.reporter = 'mocha-junit-reporter';
-        options.reporterOptions = {mochaFile: testsRoot + junitFile}
+        options.reporterOptions = {mochaFile: testsRoot + junitFile, jenkinsMode: true}
     }
     const mocha = new Mocha(options);
 
@@ -93,19 +93,10 @@ export namespace TestUtils{
 
     /**
      * Recursively delete a folder and its content.
-     * @param root 
+     * @param root
      */
     export function deleteDirectory(root:string){
-        let contents = fs.readdirSync(root);
-        for(let content of contents){
-            let absPath = path.join(root, content);
-            if(fs.lstatSync(absPath).isDirectory()){
-                deleteDirectory(absPath);
-            }else{
-                fs.unlinkSync(absPath);
-            }   
-        }
-        fs.rmdirSync(root);
+        fs.rmdirSync(root, {recursive: true});
     }
 
 }
