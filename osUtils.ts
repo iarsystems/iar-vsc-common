@@ -50,28 +50,40 @@ export namespace OsUtils {
  */
 export namespace IarOsUtils{
 
-	/**
-	 *	Resolve a shared library to the active os from the target.
-	 * @param workbenchPath
-	 * @param targetName
-	 * @param libraryBasename
-	 * @returns
-	 */
-	export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
-		var libName:string = libraryBasename;
-		const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? targetName : "lib" + targetName;
-		const slExt = libraryExtension();
+    /**
+     * Resolve a shared library to the active os from the target. This is done case-insensitive,
+     * e.g. the "bat" lib on arm may resolve to "Armbat", "armBat", "armBAT" etc.
+     * @param workbenchPath
+     * @param targetName
+     * @param libraryBasename
+     * @returns The full path to the library (e.g. /install/dir/bin/arm/libarmPROC.so)
+     */
+    export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
+        var libName:string = libraryBasename;
+
+        if(!libName.startsWith(targetName)){
+            libName = targetName + libName;
+        }
+
+        const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? "" : "lib";
+        const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
+
 
         if(!libName.startsWith(slPre)){
-			libName = slPre + libName;
+            libName = slPre + libName;
         }
 
-		if(!libName.endsWith(slExt)){
-			libName = libName + slExt;
+        if(!libName.endsWith(slExt)){
+            libName = libName + slExt;
         }
 
-		return Path.join(workbenchPath,targetName.toLowerCase(),"bin", libName);
-	}
+        // We need to check what the library is actually called, since capitalization varies between
+        // ew versions and OSs.
+        const candidates = fs.readdirSync(Path.join(workbenchPath,targetName.toLowerCase(),"bin"));
+        const actualLibName = candidates.find(cand => cand.toLowerCase() === libName.toLowerCase());
+        if (!actualLibName) throw new Error(`Couldn't locate library '${libName}' for '${workbenchPath}'.`);
+        return Path.join(workbenchPath,targetName.toLowerCase(),"bin", actualLibName);
+    }
 
     export function executableExtension(){
         if(OsUtils.detectOsType() === OsUtils.OsType.Windows){
@@ -80,9 +92,4 @@ export namespace IarOsUtils{
             return "";
         }
     }
-
-    export function libraryExtension() {
-		return OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
-    }
-
 }
