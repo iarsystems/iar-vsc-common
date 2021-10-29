@@ -1,7 +1,7 @@
 
-import * as os from 'os';
+import * as os from "os";
 import * as Path from "path";
-import * as fs from 'fs'
+import * as fs from "fs";
 
 /**
  * A collection of utilities for working with OS:s.
@@ -14,16 +14,16 @@ export namespace OsUtils {
     }
     export function detectOsType(): OsType {
         const platform = os.platform();
-        switch(platform) {
-            case "win32":
-                return OsType.Windows;
-            case "linux":
-                return OsType.Linux;
-            case "darwin":
-                return OsType.Mac;
-            default:
-                console.error("Unknown platform " + platform);
-                return OsType.Linux;
+        switch (platform) {
+        case "win32":
+            return OsType.Windows;
+        case "linux":
+            return OsType.Linux;
+        case "darwin":
+            return OsType.Mac;
+        default:
+            console.error("Unknown platform " + platform);
+            return OsType.Linux;
         }
     }
 
@@ -33,14 +33,14 @@ export namespace OsUtils {
     }
     export function detectArchitecture(): Architecture {
         const arch = os.arch();
-        switch(arch) {
-            case "x64":
-                return Architecture.x64;
-            case "x32":
-                return Architecture.x32;
-            default:
-                console.error("Unsupported architecture " + arch);
-                return Architecture.x64;
+        switch (arch) {
+        case "x64":
+            return Architecture.x64;
+        case "x32":
+            return Architecture.x32;
+        default:
+            console.error("Unsupported architecture " + arch);
+            return Architecture.x64;
         }
     }
 }
@@ -58,10 +58,10 @@ export namespace IarOsUtils{
      * @param libraryBasename
      * @returns The full path to the library (e.g. /install/dir/bin/arm/libarmPROC.so)
      */
-    export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string){
-        var libName:string = libraryBasename;
+    export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string) {
+        let libName: string = libraryBasename;
 
-        if(!libName.startsWith(targetName)){
+        if (!libName.startsWith(targetName)) {
             libName = targetName + libName;
         }
 
@@ -69,26 +69,26 @@ export namespace IarOsUtils{
         const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
 
 
-        if(!libName.startsWith(slPre)){
+        if (!libName.startsWith(slPre)) {
             libName = slPre + libName;
         }
 
-        if(!libName.endsWith(slExt)){
+        if (!libName.endsWith(slExt)) {
             libName = libName + slExt;
         }
 
         // We need to check what the library is actually called, since capitalization varies between
         // ew versions and OSs.
-        const candidates = fs.readdirSync(Path.join(workbenchPath,targetName.toLowerCase(),"bin"));
+        const candidates = fs.readdirSync(Path.join(workbenchPath, targetName.toLowerCase(), "bin"));
         const actualLibName = candidates.find(cand => cand.toLowerCase() === libName.toLowerCase());
         if (!actualLibName) throw new Error(`Couldn't locate library '${libName}' for '${workbenchPath}'.`);
-        return Path.join(workbenchPath,targetName.toLowerCase(),"bin", actualLibName);
+        return Path.join(workbenchPath, targetName.toLowerCase(), "bin", actualLibName);
     }
 
-    export function executableExtension(){
-        if(OsUtils.detectOsType() === OsUtils.OsType.Windows){
+    export function executableExtension() {
+        if (OsUtils.detectOsType() === OsUtils.OsType.Windows) {
             return ".exe";
-        }else{
+        } else {
             return "";
         }
     }

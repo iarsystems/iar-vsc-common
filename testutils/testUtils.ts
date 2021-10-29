@@ -1,26 +1,26 @@
 
-import * as Mocha from 'mocha';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as vscode from "vscode"
+import * as Mocha from "mocha";
+import * as path from "path";
+import * as fs from "fs";
+import * as vscode from "vscode";
+import * as properties from "java-properties";
 
 
 /**
  * The Setup allows the user to inject workbenches into the workspace using a
  * java-properties file.
  */
-export async function Setup(){
+export async function Setup() {
     const ewSetupFile = process.env["ew-setup-file"];
-    if(ewSetupFile){
+    if (ewSetupFile) {
         console.log(`Reading stages from ${ewSetupFile}`);
 
-        var properties = require('java-properties');
-        var values = properties.of(ewSetupFile);
+        const values = properties.of(ewSetupFile);
 
-        let ewPaths: String[] = [];
-        for(var key of values.getKeys()){
-            let newPath = values.get(key);
-            if(!ewPaths.includes(newPath)){
+        const ewPaths: string[] = [];
+        for (const key of values.getKeys()) {
+            const newPath = values.get(key) as string;
+            if (!ewPaths.includes(newPath)) {
                 console.log("Adding " + newPath);
                 ewPaths.push(newPath);
             }
@@ -38,23 +38,26 @@ export async function Setup(){
  * @param testsRoot
  * @returns
  */
-export async function getTestPromise(testsRoot:string, localTimeout: number = 2000) : Promise<void>{
+export async function getTestPromise(testsRoot: string, localTimeout = 2000): Promise<void> {
     await Setup();
 
-    let junitFile:string = "/junit-vs-" + path.basename(testsRoot) + ".xml";
+    const junitFile: string = "/junit-vs-" + path.basename(testsRoot) + ".xml";
 
-    let options:any = {ui: 'tdd', timeout: localTimeout};
-    if(process.env["junit"]){
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const options: any = {ui: "tdd", timeout: localTimeout};
+    if (process.env["junit"]) {
         console.log("Adding junit file " + junitFile);
-        options.reporter = 'mocha-junit-reporter';
-        options.reporterOptions = {mochaFile: testsRoot + junitFile, jenkinsMode: true}
+        options.reporter = "mocha-junit-reporter";
+        options.reporterOptions = {mochaFile: testsRoot + junitFile, jenkinsMode: true};
     }
     const mocha = new Mocha(options);
 
     return new Promise((c, e) => {
         // run all test files in this directory
         fs.readdir(testsRoot, (err, files) => {
-            if (err) { return e(err); }
+            if (err) {
+                return e(err);
+            }
             files = files.filter(file => file.endsWith(".test.js"));
 
             // Add files to the test suite
@@ -77,7 +80,7 @@ export async function getTestPromise(testsRoot:string, localTimeout: number = 20
 }
 
 
-export namespace TestUtils{
+export namespace TestUtils {
 
     /**
      * Replaces the $TARGET$ string in the @param testEwpFile with @param targetName
@@ -85,17 +88,17 @@ export namespace TestUtils{
      * @param targetName
      * @param testEwpFile
      */
-    export function patchEwpFile(targetName:string, testEwpFile:string, outputFile:string) : void{
-        let fileContent: string = fs.readFileSync(testEwpFile, {encoding:'utf8'});
+    export function patchEwpFile(targetName: string, testEwpFile: string, outputFile: string): void {
+        let fileContent: string = fs.readFileSync(testEwpFile, {encoding:"utf8"});
         fileContent = fileContent.replace("$TARGET$", targetName);
-        fs.writeFileSync(outputFile,fileContent,{encoding:'utf8'});
+        fs.writeFileSync(outputFile, fileContent, {encoding:"utf8"});
     }
 
     /**
      * Recursively delete a folder and its content.
      * @param root
      */
-    export function deleteDirectory(root:string){
+    export function deleteDirectory(root: string) {
         fs.rmdirSync(root, {recursive: true});
     }
 

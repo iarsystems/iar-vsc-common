@@ -1,4 +1,4 @@
-"use strict";
+
 
 import * as Path from "path";
 import * as Fs from "fs";
@@ -9,9 +9,9 @@ import * as Fs from "fs";
  * The sandbox can be removed afterwards, or kept for traceability.
  */
 export class TestSandbox {
-    private static readonly TMP_FOLDER_NAME = "test-sandbox"
+    private static readonly TMP_FOLDER_NAME = "test-sandbox";
 
-    constructor(private extensionRoot: string) {
+    constructor(private readonly extensionRoot: string) {
     }
 
     /**
@@ -21,7 +21,9 @@ export class TestSandbox {
      * @returns The path to the object's copy in the sandbox
      */
     copyToSandbox(toCopy: string, newName?: string): string {
-        if (newName === undefined) { newName = Path.basename(toCopy); }
+        if (newName === undefined) {
+            newName = Path.basename(toCopy);
+        }
 
         const targetPath = Path.join(this.sandBoxRoot, newName);
         if (Fs.statSync(toCopy).isFile()) {
@@ -48,12 +50,12 @@ export class TestSandbox {
         Fs.mkdirSync(dest, { recursive: true });
 
         Fs.readdirSync(src, { withFileTypes: true }).forEach((entry) => {
-        let sourcePath = Path.join(src, entry.name);
-        let destinationPath = Path.join(dest, entry.name);
+            const sourcePath = Path.join(src, entry.name);
+            const destinationPath = Path.join(dest, entry.name);
 
-        entry.isDirectory()
-            ? TestSandbox.copyDirectory(sourcePath, destinationPath)
-            : Fs.copyFileSync(sourcePath, destinationPath);
+            entry.isDirectory()
+                ? TestSandbox.copyDirectory(sourcePath, destinationPath)
+                : Fs.copyFileSync(sourcePath, destinationPath);
         });
-  }
+    }
 }

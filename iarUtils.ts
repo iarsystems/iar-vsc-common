@@ -1,11 +1,11 @@
 
-import * as path from 'path'
-import * as fs from 'fs'
+import * as path from "path";
+import * as fs from "fs";
 
 /**
  * A collection of general utility methods coupled to the IAR toolchains.
  */
- export namespace IarUtils{
+export namespace IarUtils {
 
     /**
      * Get all installed targets from a given Embedded Workbench installation path.
@@ -13,12 +13,12 @@ import * as fs from 'fs'
      *                      common folder.
      * @returns
      */
-    export function getTargetsFromEwPath(workbenchPath: string) : string[]{
-        var folders = fs.readdirSync(workbenchPath);
-        var targets:string[] = [];
-        for(var i = 0; i < folders.length; i++){
-            var possibleTarget = path.basename(folders[i]);
-            if(possibleTarget !== "common" && fs.statSync(path.join(workbenchPath, folders[i])).isDirectory()){
+    export function getTargetsFromEwPath(workbenchPath: string): string[] {
+        const folders = fs.readdirSync(workbenchPath);
+        const targets: string[] = [];
+        for (let i = 0; i < folders.length; i++) {
+            const possibleTarget = path.basename(folders[i]);
+            if (possibleTarget !== "common" && fs.statSync(path.join(workbenchPath, folders[i])).isDirectory()) {
                 targets.push(possibleTarget);
             }
         }
