@@ -33,7 +33,7 @@ export async function Setup() {
             process.env.ewPaths = JSON.stringify(ewPaths);
             // The debug plugin cannot set this, since it does not contribute this setting
             await vscode.workspace.getConfiguration("iarvsc").update("iarInstallDirectories", ewPaths, configTarget);
-        } catch(e) {
+        } catch (e) {
         }
         console.log("EW Setup complete");
     }
