@@ -30,7 +30,7 @@ export async function Setup() {
         const configTarget = vscode.workspace.workspaceFolders ? vscode.ConfigurationTarget.Workspace : vscode.ConfigurationTarget.Global;
         try {
             // Set an env variable for the debug plugin to use
-            process.env.ewPaths = JSON.stringify(ewPaths);
+            process.env["ewPaths"] = JSON.stringify(ewPaths);
             // The debug plugin cannot set this, since it does not contribute this setting
             await vscode.workspace.getConfiguration("iarvsc").update("iarInstallDirectories", ewPaths, configTarget);
         } catch (e) {
