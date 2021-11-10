@@ -21,11 +21,9 @@ export class TestSandbox {
      * @returns The path to the object's copy in the sandbox
      */
     copyToSandbox(toCopy: string, newName?: string): string {
-        if (newName === undefined) {
-            newName = Path.basename(toCopy);
-        }
+        newName ??= Path.basename(toCopy);
 
-        const targetPath = Path.join(this.sandBoxRoot, newName);
+        const targetPath = Path.join(this.sandboxRoot, newName);
         if (Fs.statSync(toCopy).isFile()) {
             Fs.copyFileSync(toCopy, targetPath);
         } else {
@@ -38,10 +36,14 @@ export class TestSandbox {
      * Removes the sandbox folder (and all files in it)
      */
     clear() {
-        Fs.rmdirSync(this.sandBoxRoot, {recursive: true});
+        Fs.rmdirSync(this.sandboxRoot, {recursive: true});
     }
 
-    private get sandBoxRoot() {
+    get path(): string {
+        return this.sandboxRoot;
+    }
+
+    private get sandboxRoot() {
         return Path.join(this.extensionRoot, TestSandbox.TMP_FOLDER_NAME);
     }
 
