@@ -58,13 +58,14 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
         }
 
         // Use cp.spawn / cp.exec for custom setup
-        for (var i = 0; i < extensions.length; i++) {
-            console.log("Installing " + extensions[i])
-            cp.spawnSync(cliPath, ['--install-extension', extensions[i]], {
+        extensions.forEach(extension => {
+            console.log("Installing " + extension)
+
+            cp.spawnSync(cliPath, ['--install-extension', extension], {
                 encoding: 'utf-8',
                 stdio: 'inherit'
             });
-        }
+        })
 
         // List all installed extensions for
         cp.spawnSync(cliPath, ['--list-extensions', '--show-versions'], {
