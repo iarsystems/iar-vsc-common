@@ -30,13 +30,13 @@ export function getEnvs(): Record<string, string> {
  * @param testPath The path to the index file to run.
  * @param additionalDirectories A directory to include in the tests.
  */
-export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, additionalDirectories: string | undefined = undefined) {
+export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, additionalDirectories: string | undefined = undefined, vsix: string[] | undefined = undefined) {
     try {
         console.log("Extension from " + extensionPath);
         console.log("Running tests in " + testPath);
 
         const options: TestOptions = {
-            extensionDevelopmentPath : path.resolve(relPath, extensionPath),
+            extensionDevelopmentPath: path.resolve(relPath, extensionPath),
             extensionTestsPath: path.resolve(relPath, testPath),
             launchArgs: ["--disable-workspace-trust"] // our extensions do not work with untrusted workspaces
         };
@@ -47,17 +47,30 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
         }
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
-        options.extensionTestsEnv = getEnvs();
+        options.extensionTestsEnv = getEnvs()
 
-        const vscodeExecutablePath = await downloadAndUnzipVSCode("1.57.1");
+        const vscodeExecutablePath = await downloadAndUnzipVSCode('1.57.1');
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
-        // Use cp.spawn / cp.exec for custom setup
-        cp.spawnSync(cliPath, ["--install-extension", "ms-vscode.cpptools"], {
-            encoding: "utf-8",
-            stdio: "inherit"
-        });
+        let extensions = ['ms-vscode.cpptools']
+        if (vsix) {
+            extensions = extensions.concat(vsix)
+        }
 
+        // Use cp.spawn / cp.exec for custom setup
+        for (var i = 0; i < extensions.length; i++) {
+            console.log("Installing " + extensions[i])
+            cp.spawnSync(cliPath, ['--install-extension', extensions[i]], {
+                encoding: 'utf-8',
+                stdio: 'inherit'
+            });
+        }
+
+        // List all installed extensions for
+        cp.spawnSync(cliPath, ['--list-extensions', '--show-versions'], {
+            encoding: 'utf-8',
+            stdio: 'inherit'
+        });
 
         await runTests(options);
     } catch (err) {
