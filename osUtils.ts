@@ -43,6 +43,13 @@ export namespace OsUtils {
             return Architecture.x64;
         }
     }
+
+    /**
+     * Checks whether two paths point to the same object.
+     */
+    export function pathsEqual(a: string, b: string) {
+        return Path.relative(a, b) === "";
+    }
 }
 
 /**
