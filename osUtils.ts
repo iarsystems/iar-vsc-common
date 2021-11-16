@@ -72,8 +72,8 @@ export namespace IarOsUtils{
             libName = targetName + libName;
         }
 
-        const slPre = OsUtils.detectOsType() === OsUtils.OsType.Windows ? "" : "lib";
-        const slExt = OsUtils.detectOsType() === OsUtils.OsType.Windows ? ".dll" : ".so";
+        const slPre = libraryPrefix();
+        const slExt = libraryExtension();
 
 
         if (!libName.startsWith(slPre)) {
@@ -97,6 +97,22 @@ export namespace IarOsUtils{
             return ".exe";
         } else {
             return "";
+        }
+    }
+
+    export function libraryExtension() {
+        if (OsUtils.detectOsType() === OsUtils.OsType.Windows) {
+            return ".dll";
+        } else {
+            return ".so";
+        }
+    }
+
+    export function libraryPrefix() {
+        if (OsUtils.detectOsType() === OsUtils.OsType.Windows) {
+            return "";
+        } else {
+            return "lib";
         }
     }
 }
