@@ -47,30 +47,30 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
         }
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
-        options.extensionTestsEnv = getEnvs()
+        options.extensionTestsEnv = getEnvs();
 
-        const vscodeExecutablePath = await downloadAndUnzipVSCode('1.57.1');
+        const vscodeExecutablePath = await downloadAndUnzipVSCode("1.57.1");
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
-        let extensions = ['ms-vscode.cpptools']
+        let extensions = ["ms-vscode.cpptools"];
         if (vsix) {
-            extensions = extensions.concat(vsix)
+            extensions = extensions.concat(vsix);
         }
 
         // Use cp.spawn / cp.exec for custom setup
         extensions.forEach(extension => {
-            console.log("Installing " + extension)
+            console.log("Installing " + extension);
 
-            cp.spawnSync(cliPath, ['--install-extension', extension], {
-                encoding: 'utf-8',
-                stdio: 'inherit'
+            cp.spawnSync(cliPath, ["--install-extension", extension], {
+                encoding: "utf-8",
+                stdio: "inherit"
             });
-        })
+        });
 
         // List all installed extensions for
-        cp.spawnSync(cliPath, ['--list-extensions', '--show-versions'], {
-            encoding: 'utf-8',
-            stdio: 'inherit'
+        cp.spawnSync(cliPath, ["--list-extensions", "--show-versions"], {
+            encoding: "utf-8",
+            stdio: "inherit"
         });
 
         await runTests(options);
