@@ -50,6 +50,15 @@ export namespace OsUtils {
     export function pathsEqual(a: string, b: string) {
         return Path.relative(a, b) === "";
     }
+
+    /**
+     * Splits the path into it's segments. Any zero-length segments are removed
+     * @param path The path to split into segments
+     */
+    export function splitPath(path:string) : string[]{
+        let firstSplit = path.split(/\\+|\/+/g);
+        return firstSplit.filter(segment => segment.length > 0);
+    }
 }
 
 /**
