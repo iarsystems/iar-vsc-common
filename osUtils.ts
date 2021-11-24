@@ -55,8 +55,8 @@ export namespace OsUtils {
      * Splits the path into it's segments. Any zero-length segments are removed
      * @param path The path to split into segments
      */
-    export function splitPath(path:string) : string[]{
-        let firstSplit = path.split(/\\+|\/+/g);
+    export function splitPath(path: string): string[] {
+        const firstSplit = path.split(/\\+|\/+/g);
         return firstSplit.filter(segment => segment.length > 0);
     }
 }
@@ -64,7 +64,7 @@ export namespace OsUtils {
 /**
  * A collection of utilities to use for resolving extensions and libraries when working cross-platform.
  */
-export namespace IarOsUtils{
+export namespace IarOsUtils {
 
     /**
      * Resolve a shared library to the active os from the target. This is done case-insensitive,
