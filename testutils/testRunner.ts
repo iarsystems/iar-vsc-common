@@ -12,13 +12,14 @@ export function getEnvs(): Record<string, string> {
     const envs: Record<string, string> = {};
     for (const opt of process.argv.slice(2)) {
         if (opt.startsWith("--")) {
-            const options = opt.substr(2).split("=");
-            if (options[0] !== undefined) {
-                if (options[1] !== undefined) {
-                    envs[options[0]] = options[1];
-                } else {
-                    envs[options[0]] = "true";
-                }
+            const separatorIdx = opt.indexOf("=");
+            if (separatorIdx === -1) {
+                const optName = opt.substr(2);
+                envs[optName] = "true";
+            } else {
+                const optName = opt.substr(2, separatorIdx - 2);
+                const val = opt.substr(separatorIdx + 1);
+                envs[optName] = val;
             }
         }
     }
