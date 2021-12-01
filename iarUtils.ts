@@ -18,7 +18,7 @@ export namespace IarUtils {
         const targets: string[] = [];
         folders.forEach(folder => {
             const possibleTarget = path.basename(folder);
-            if (possibleTarget !== "common" && fs.statSync(path.join(workbenchPath, folder)).isDirectory()) {
+            if (!["common", "drivers"].includes(possibleTarget) && fs.statSync(path.join(workbenchPath, folder)).isDirectory()) {
                 targets.push(possibleTarget);
             }
         });
