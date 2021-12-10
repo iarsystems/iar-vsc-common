@@ -24,6 +24,7 @@ export class TestSandbox {
         newName ??= Path.basename(toCopy);
 
         const targetPath = Path.join(this.sandboxRoot, newName);
+        if (Fs.existsSync(targetPath)) Fs.rmSync(targetPath, { recursive: true });
         if (Fs.statSync(toCopy).isFile()) {
             Fs.copyFileSync(toCopy, targetPath);
         } else {
