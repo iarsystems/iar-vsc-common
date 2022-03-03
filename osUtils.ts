@@ -59,6 +59,20 @@ export namespace OsUtils {
         const firstSplit = path.split(/\\+|\/+/g);
         return firstSplit.filter(segment => segment.length > 0);
     }
+
+    /**
+     * Normalizes a path into a 'canonical representation' that is the same for
+     * all representations of the path. In other words, to paths pointing to the same item should always
+     * return the same string from this function.
+     * NOTE: this might not be safe for Mac OSs.
+     */
+    export function normalizePath(path: string): string {
+        path = Path.resolve(path);
+        if (OsUtils.detectOsType() === OsUtils.OsType.Windows) {
+            path = path.toLowerCase();
+        }
+        return path;
+    }
 }
 
 /**
