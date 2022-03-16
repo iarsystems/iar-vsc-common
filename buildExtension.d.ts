@@ -1,4 +1,9 @@
 
+export interface ProjectConfiguration {
+    name: string;
+    target: string;
+}
+
 /**
  * The API exposed by the build extension, callable by other extensions. Fetch it using:
  * vscode.extensions.getExtension('extensionId').exports
@@ -16,12 +21,20 @@ export interface BuildExtensionApi {
     getLoadedProject(): Promise<string | undefined>;
 
     /**
-     * Gets the name of the selected configuration, if any.
+     * Gets the name of the selected configuration for the project.
+     * If the project is not already loaded, returns undefined.
      */
-    getSelectedConfiguration(): Promise<string | undefined>;
+    getSelectedConfiguration(project: string): Promise<ProjectConfiguration | undefined>;
+
+    /**
+     * Gets all configurations of the project.
+     * If the project is not already loaded, returns undefined.
+     */
+    getProjectConfigurations(project: string): Promise<ProjectConfiguration[] | undefined>;
 
     /**
      * Gets the cspy arguments that should be used to launch a debug session for the given project and configuration.
+     * NOTE: may reject if the selected workbench does not support the operation.
      * @param projectPath Path to the ewp file of the project to get the command line for
      * @param configuration Name of the configuration to get the command line for
      * @returns The cspy arguments, or undefined if the project is not loaded
