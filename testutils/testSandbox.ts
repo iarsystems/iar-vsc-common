@@ -24,10 +24,17 @@ export class TestSandbox {
         newName ??= Path.basename(toCopy);
 
         const targetPath = Path.join(this.sandboxRoot, newName);
-        if (Fs.existsSync(targetPath)) Fs.rmSync(targetPath, { recursive: true });
         if (Fs.statSync(toCopy).isFile()) {
             Fs.copyFileSync(toCopy, targetPath);
         } else {
+            // Remove old contents (e.g. from previous test runs)
+            // Removing the entire directory can break the .ewp file watcher,
+            // so only remove each of the items *in* the directory.
+            if (Fs.existsSync(targetPath)) {
+                Fs.readdirSync(targetPath).forEach(subItem => {
+                    Fs.rmSync(Path.join(targetPath, subItem), { recursive: true });
+                });
+            }
             TestSandbox.copyDirectory(toCopy, targetPath);
         }
         return targetPath;
