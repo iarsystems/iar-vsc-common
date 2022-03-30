@@ -31,7 +31,7 @@ export function getEnvs(): Record<string, string> {
  * @param testPath The path to the index file to run.
  * @param additionalDirectories A directory to include in the tests.
  */
-export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, additionalDirectories: string | undefined = undefined, vsix: string[] | undefined = undefined) {
+export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, additionalDirectories?: string, rootName?: string) {
     try {
         console.log("Extension from " + extensionPath);
         console.log("Running tests in " + testPath);
@@ -49,15 +49,12 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
         options.extensionTestsEnv = getEnvs();
+        options.extensionTestsEnv["rootName"] = rootName;
 
         const vscodeExecutablePath = await downloadAndUnzipVSCode("1.57.1");
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
-        let extensions = ["ms-vscode.cpptools"];
-        if (vsix) {
-            extensions = extensions.concat(vsix);
-        }
-
+        const extensions = ["ms-vscode.cpptools"];
         // Use cp.spawn / cp.exec for custom setup
         extensions.forEach(extension => {
             console.log("Installing " + extension);

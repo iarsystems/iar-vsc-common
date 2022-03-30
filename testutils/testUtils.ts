@@ -54,7 +54,12 @@ export async function getTestPromise(testsRoot: string, localTimeout = 2000): Pr
     if (process.env["junit"]) {
         console.log("Adding junit file " + junitFile);
         options.reporter = "mocha-junit-reporter";
-        options.reporterOptions = {mochaFile: testsRoot + junitFile, jenkinsMode: true};
+        options.reporterOptions = {
+            mochaFile: testsRoot + junitFile,
+            jenkinsMode: true,
+            testsuitesTitle: true, // use unique filenames so we can run the suites multiple times with different parameters
+            rootSuiteTitle: process.env["rootName"]
+        };
     }
     const mocha = new Mocha(options);
 
