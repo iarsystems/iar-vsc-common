@@ -5,33 +5,15 @@ import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTest
 import { TestOptions } from "vscode-test/out/runTest";
 
 /**
- * Construct a key:string based on the supplied options from the commandline.
- * @returns
- */
-export function getEnvs(): Record<string, string> {
-    const envs: Record<string, string> = {};
-    for (const opt of process.argv.slice(2)) {
-        if (opt.startsWith("--")) {
-            const separatorIdx = opt.indexOf("=");
-            if (separatorIdx === -1) {
-                const optName = opt.substr(2);
-                envs[optName] = "true";
-            } else {
-                const optName = opt.substr(2, separatorIdx - 2);
-                const val = opt.substr(separatorIdx + 1);
-                envs[optName] = val;
-            }
-        }
-    }
-    return envs;
-}
-
-/**
  * Run a set of tests using the vscode-runtests interface.
+ * @param relPath The path from which to resolve the other path parameters (if they are relative).
+ * @param extensionPath The path to the extension root, containing the package.json file. This is the extension that will be loaded in the test window.
  * @param testPath The path to the index file to run.
- * @param additionalDirectories A directory to include in the tests.
+ * @param envVars Environment variables to pass to the test process. Since tests are run in a separate process, this is the easiest way to pass parameters to them.
+ * @param workspaceDirectory A directory to open as the workspace when running the tests.
+ * @param rootName A custom name for the outermost test suite. Can be used to differentiate between runs of the same test suite with different parameters.
  */
-export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, additionalDirectories?: string, rootName?: string) {
+export async function runTestsIn(relPath: string, extensionPath: string, testPath: string, envVars: Record<string, string>, workspaceDirectory?: string, rootName?: string) {
     try {
         console.log("Extension from " + extensionPath);
         console.log("Running tests in " + testPath);
@@ -42,18 +24,19 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
             launchArgs: ["--disable-workspace-trust"] // our extensions do not work with untrusted workspaces
         };
 
-        if (additionalDirectories) {
-            const additionals = path.resolve(relPath, additionalDirectories);
+        if (workspaceDirectory) {
+            const additionals = path.resolve(relPath, workspaceDirectory);
             options.launchArgs?.push(additionals);
         }
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
-        options.extensionTestsEnv = getEnvs();
+        options.extensionTestsEnv = envVars;
         options.extensionTestsEnv["rootName"] = rootName;
 
         const vscodeExecutablePath = await downloadAndUnzipVSCode("1.57.1");
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
+        // Install the C/C++ extension from Microsoft which is a hard requirement.
         const extensions = ["ms-vscode.cpptools"];
         // Use cp.spawn / cp.exec for custom setup
         extensions.forEach(extension => {
@@ -65,12 +48,7 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
             });
         });
 
-        // List all installed extensions for
-        cp.spawnSync(cliPath, ["--list-extensions", "--show-versions"], {
-            encoding: "utf-8",
-            stdio: "inherit"
-        });
-
+        console.log("Starting vs code with the following envVars: ", options.extensionTestsEnv);
         await runTests(options);
     } catch (err) {
         console.log("Error:" + err);
