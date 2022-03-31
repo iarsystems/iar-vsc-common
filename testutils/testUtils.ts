@@ -58,7 +58,7 @@ export async function getTestPromise(testsRoot: string, localTimeout = 2000): Pr
             mochaFile: testsRoot + junitFile,
             jenkinsMode: true,
             useFullSuiteTitle: true,
-            rootSuiteTitle: "root." + process.env["rootName"]
+            rootSuiteTitle: process.env["rootName"]
         };
     }
     const mocha = new Mocha(options);
