@@ -47,7 +47,7 @@ export async function Setup() {
 export async function getTestPromise(testsRoot: string, localTimeout = 2000): Promise<void> {
     await Setup();
 
-    const junitFile: string = "/junit-vs-" + path.basename(testsRoot) + ".xml";
+    const junitFile: string = "/junit-vs-" + path.basename(testsRoot) + "[hash].xml";
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const options: any = {ui: "tdd", timeout: localTimeout};
@@ -57,7 +57,7 @@ export async function getTestPromise(testsRoot: string, localTimeout = 2000): Pr
         options.reporterOptions = {
             mochaFile: testsRoot + junitFile,
             jenkinsMode: true,
-            testsuitesTitle: true, // use unique filenames so we can run the suites multiple times with different parameters
+            useFullSuiteTitle: true,
             rootSuiteTitle: process.env["rootName"]
         };
     }
