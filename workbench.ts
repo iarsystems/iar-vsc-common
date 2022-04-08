@@ -25,9 +25,9 @@ export interface Workbench {
     readonly version: WorkbenchVersion;
     /** Whether this is a full IDE or just build tools (BX) */
     readonly type: WorkbenchType;
-    /** An identifier for the target (e.g. 'arm').
-     *  This is the name of the folder in the workbench root containing target-specific files (e.g. the compiler) */
-    readonly targetId: string | undefined;
+    /** Identifiers for the targets supported by this workbench (e.g. 'arm').
+     *  Each identifier is the name of the folder in the workbench root containing the files for the target (e.g. the compiler) */
+    readonly targetIds: string[];
 }
 
 export interface WorkbenchVersion { major: number, minor: number, patch: number }
@@ -125,12 +125,10 @@ class WorkbenchImpl implements Workbench {
         return WorkbenchType.BX;
     }
 
-    get targetId(): string | undefined {
-        let entries = Fs.readdirSync(this.path);
-        entries = entries.filter(entry => !["install-info", "common"].includes(entry)).
+    get targetIds(): string[] {
+        const entries = Fs.readdirSync(this.path);
+        return entries.filter(entry => !["install-info", "common"].includes(entry)).
             filter(entry => Fs.statSync(Path.join(this.path, entry)).isDirectory);
-        const target = entries[0];
-        return target;
     }
 
 
