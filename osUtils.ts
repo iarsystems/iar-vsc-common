@@ -86,9 +86,9 @@ export namespace IarOsUtils {
      * @param workbenchPath
      * @param targetName
      * @param libraryBasename
-     * @returns The full path to the library (e.g. /install/dir/bin/arm/libarmPROC.so)
+     * @returns The full path to the library (e.g. /install/dir/bin/arm/libarmPROC.so), or undefined if it could not be found
      */
-    export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string) {
+    export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string): string | undefined {
         let libName: string = libraryBasename;
 
         if (!libName.startsWith(targetName)) {
@@ -111,7 +111,7 @@ export namespace IarOsUtils {
         // ew versions and OSs.
         const candidates = fs.readdirSync(Path.join(workbenchPath, targetName.toLowerCase(), "bin"));
         const actualLibName = candidates.find(cand => cand.toLowerCase() === libName.toLowerCase());
-        if (!actualLibName) throw new Error(`Couldn't locate library '${libName}' for '${workbenchPath}'.`);
+        if (!actualLibName) return undefined;
         return Path.join(workbenchPath, targetName.toLowerCase(), "bin", actualLibName);
     }
 
