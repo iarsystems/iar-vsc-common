@@ -33,7 +33,7 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
         options.extensionTestsEnv = envVars;
         options.extensionTestsEnv["rootName"] = rootName;
 
-        const vscodeExecutablePath = await downloadAndUnzipVSCode("1.57.1");
+        const vscodeExecutablePath = await downloadAndUnzipVSCode("insiders");
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
         // Install the C/C++ extension from Microsoft which is a hard requirement.
