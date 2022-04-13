@@ -21,19 +21,22 @@ export class TestSandbox {
      * @returns The path to the object's copy in the sandbox
      */
     copyToSandbox(toCopy: string, newName?: string): string {
+        console.log("Copying ", toCopy);
         newName ??= Path.basename(toCopy);
 
         const targetPath = Path.join(this.sandboxRoot, newName);
         if (Fs.statSync(toCopy).isFile()) {
             Fs.copyFileSync(toCopy, targetPath);
         } else {
-            // Remove old contents (e.g. from previous test runs)
-            // Removing the entire directory can break the .ewp file watcher,
-            // so only remove each of the items *in* the directory.
             if (Fs.existsSync(targetPath)) {
-                Fs.readdirSync(targetPath).forEach(subItem => {
-                    Fs.rmSync(Path.join(targetPath, subItem), { recursive: true });
-                });
+                // Remove old contents (e.g. from previous test runs).
+                // Removing the entire directory can break the .ewp file watcher,
+                // so this only removes each of the items *in* the directory.
+                //
+                // Also note that we don't remove .ewp files. The .ewp file watcher sometimes won't catch if we delete
+                // and then quickly recreate a .ewp file, so just leave them be; they will be overwritten when we do the
+                // copying anyway.
+                TestSandbox.removeRecursive(targetPath, path => !path.endsWith(".ewp"));
             }
             TestSandbox.copyDirectory(toCopy, targetPath);
         }
@@ -67,5 +70,30 @@ export class TestSandbox {
                 ? TestSandbox.copyDirectory(sourcePath, destinationPath)
                 : Fs.copyFileSync(sourcePath, destinationPath);
         });
+    }
+
+    /**
+     * Recursively removes all contents of a directory that matches the predicate.
+     * Note that this does not remove the directory itself.
+     *
+     * @returns Whether there are any entries left in the directory.
+     */
+    private static removeRecursive(dir: string, predicate: (path: string) => boolean): boolean {
+        let anyItemsLeft = false;
+        Fs.readdirSync(dir).forEach(subItem => {
+            const subItemPath = Path.join(dir, subItem);
+            if (Fs.statSync(subItemPath).isDirectory()) {
+                if (!this.removeRecursive(subItemPath, predicate)) {
+                    Fs.rmdirSync(subItemPath);
+                } else {
+                    anyItemsLeft = true;
+                }
+            } else if (predicate(subItemPath)) {
+                Fs.rmSync(subItemPath);
+            } else {
+                anyItemsLeft = true;
+            }
+        });
+        return anyItemsLeft;
     }
 }
