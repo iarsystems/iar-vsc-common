@@ -22,7 +22,7 @@ export class TestSandbox {
      */
     copyToSandbox(toCopy: string, newName?: string): string {
         console.log("Copying ", toCopy);
-        newName ??= Path.basename(toCopy);
+        newName = newName ?? Path.basename(toCopy);
 
         const targetPath = Path.join(this.sandboxRoot, newName);
         if (Fs.statSync(toCopy).isFile()) {

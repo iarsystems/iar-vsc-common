@@ -23,7 +23,8 @@
   },
   "scripts": {
     "postinstall": "tsc -p . && copyfiles -u 3 \"src/thrift/bindings/*\" dist/thrift/bindings/",
-		"lint": "eslint . --ext .ts"
+		"lint": "eslint . --ext .ts",
+    "watch": "tsc -p . --watch"
   },
   "repository": {
     "type": "git",
