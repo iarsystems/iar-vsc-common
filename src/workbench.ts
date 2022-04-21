@@ -128,7 +128,7 @@ class WorkbenchImpl implements Workbench {
     get targetIds(): string[] {
         const entries = Fs.readdirSync(this.path);
         return entries.filter(entry => !["install-info", "common", "drivers"].includes(entry)).
-            filter(entry => Fs.statSync(Path.join(this.path, entry)).isDirectory);
+            filter(entry => Fs.statSync(Path.join(this.path, entry)).isDirectory());
     }
 
 

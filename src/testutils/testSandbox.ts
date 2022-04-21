@@ -84,12 +84,12 @@ export class TestSandbox {
             const subItemPath = Path.join(dir, subItem);
             if (Fs.statSync(subItemPath).isDirectory()) {
                 if (!this.removeRecursive(subItemPath, predicate)) {
-                    Fs.unlinkSync(subItemPath);
+                    Fs.rmSync(subItemPath, {recursive: true, force: true});
                 } else {
                     anyItemsLeft = true;
                 }
             } else if (predicate(subItemPath)) {
-                Fs.unlinkSync(subItemPath);
+                Fs.rmSync(subItemPath);
             } else {
                 anyItemsLeft = true;
             }
