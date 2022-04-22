@@ -84,12 +84,17 @@ export class TestSandbox {
             const subItemPath = Path.join(dir, subItem);
             if (Fs.statSync(subItemPath).isDirectory()) {
                 if (!this.removeRecursive(subItemPath, predicate)) {
-                    Fs.rmSync(subItemPath, {recursive: true, force: true});
+                    try {
+                        Fs.rmSync(subItemPath, {recursive: true, force: true});
+                    } catch (_) {}
                 } else {
                     anyItemsLeft = true;
                 }
             } else if (predicate(subItemPath)) {
-                Fs.rmSync(subItemPath);
+                // Removing might fail if VS Code is using the file (e.g. for settings.json files), but we can tolerate that.
+                try {
+                    Fs.rmSync(subItemPath);
+                } catch (_) {}
             } else {
                 anyItemsLeft = true;
             }
