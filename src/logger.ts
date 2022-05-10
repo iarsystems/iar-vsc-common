@@ -39,7 +39,11 @@ export class IarLogger {
 
     private write(msg: string) {
         const dateString = new Date().toLocaleString();
-        this.channel?.appendLine(`[${dateString}]` + msg);
+        msg = `[${dateString}]` + msg;
+        this.channel?.appendLine(msg);
+        if (process.env["LOG_TO_CONSOLE"]) {
+            console.log(msg);
+        }
     }
 }
 
