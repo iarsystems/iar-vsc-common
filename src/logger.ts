@@ -41,7 +41,7 @@ export class IarLogger {
         const dateString = new Date().toLocaleString();
         msg = `[${dateString}]` + msg;
         this.channel?.appendLine(msg);
-        if (process.env["LOG_TO_CONSOLE"]) {
+        if (process.env["log-to-console"]) {
             console.log(msg);
         }
     }
