@@ -100,7 +100,15 @@ class WorkbenchImpl implements Workbench {
         this.builderPath = Path.join(this.path.toString(), Workbench.builderSubPath);
         const entries = Fs.readdirSync(path);
         this.targetIds =  entries.filter(entry => !["install-info", "common", "drivers"].includes(entry)).
-            filter(entry => Fs.statSync(Path.join(path, entry)).isDirectory());
+            filter(entry => {
+                if (!Fs.statSync(Path.join(path, entry)).isDirectory() ||
+                    !Fs.existsSync(Path.join(path, entry, "bin")) ||
+                    !Fs.statSync(Path.join(path, entry, "bin")).isDirectory()) {
+                    return false;
+                }
+                const binEntries = Fs.readdirSync(Path.join(path, entry, "bin"));
+                return binEntries.some(ent => ent.startsWith("icc"));
+            });
     }
 
     get name(): string {
