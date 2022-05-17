@@ -63,13 +63,13 @@ export namespace Workbench {
     }
 
     const targetDisplayNames: { [target: string]: string } = {
-        "arm":   "ARM",
+        "arm":   "Arm",
         "riscv": "RISC-V",
         "430":   "MSP430",
         "avr":   "AVR",
         "rh850": "RH850",
-        "rl78":  "Renesas RL78",
-        "rx":    "Renesas RX",
+        "rl78":  "RL78",
+        "rx":    "RX",
         "stm8":  "STM8",
     };
     /**
@@ -86,6 +86,7 @@ class WorkbenchImpl implements Workbench {
     readonly path: string;
     readonly idePath: string;
     readonly builderPath: string;
+    readonly targetIds: string[];
 
     /**
      * Create a new Workbench object based using a path.
@@ -97,10 +98,14 @@ class WorkbenchImpl implements Workbench {
         this.path = path;
         this.idePath = Path.join(this.path.toString(), Workbench.ideSubPath);
         this.builderPath = Path.join(this.path.toString(), Workbench.builderSubPath);
+        const entries = Fs.readdirSync(path);
+        this.targetIds =  entries.filter(entry => !["install-info", "common", "drivers"].includes(entry)).
+            filter(entry => Fs.statSync(Path.join(path, entry)).isDirectory());
     }
 
     get name(): string {
-        return Path.parse(this.path.toString()).base;
+        const targetNames = this.targetIds.map(target => Workbench.getTargetDisplayName(target) ?? target);
+        return Path.parse(this.path.toString()).base + ` (${targetNames.join("/")})`;
     }
 
     get version(): WorkbenchVersion {
@@ -124,12 +129,5 @@ class WorkbenchImpl implements Workbench {
         }
         return WorkbenchType.BX;
     }
-
-    get targetIds(): string[] {
-        const entries = Fs.readdirSync(this.path);
-        return entries.filter(entry => !["install-info", "common", "drivers"].includes(entry)).
-            filter(entry => Fs.statSync(Path.join(this.path, entry)).isDirectory());
-    }
-
 
 }
