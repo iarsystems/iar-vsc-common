@@ -34,6 +34,7 @@ export async function Setup() {
             // The debug plugin cannot set this, since it does not contribute this setting
             await vscode.workspace.getConfiguration("iar-build").update("iarInstallDirectories", ewPaths, configTarget);
         } catch (e) {
+            console.error(e);
         }
         console.log("EW Setup complete");
     }
