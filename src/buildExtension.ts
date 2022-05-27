@@ -21,11 +21,11 @@ export interface BuildExtensionApi {
     /**
      * Gets the path to the loaded project, if any.
      */
-    getLoadedProject(): Promise<string | undefined>;
+    getSelectedProject(): Promise<string | undefined>;
 
     /**
      * Gets the name of the selected configuration for the project.
-     * If the project is not already loaded, returns undefined.
+     * If the project is not currently selected, returns undefined.
      */
     getSelectedConfiguration(project: string): Promise<ProjectConfiguration | undefined>;
 
