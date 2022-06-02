@@ -75,8 +75,8 @@ export namespace Workbench {
     /**
      * Gets the user-friendly name of a target
      */
-    export function getTargetDisplayName(targetId: string): string | undefined {
-        return targetDisplayNames[targetId];
+    export function getTargetDisplayName(targetId: string): string {
+        return targetDisplayNames[targetId] ?? targetId;
     }
 }
 
@@ -112,7 +112,7 @@ class WorkbenchImpl implements Workbench {
     }
 
     get name(): string {
-        const targetNames = this.targetIds.map(target => Workbench.getTargetDisplayName(target) ?? target);
+        const targetNames = this.targetIds.map(Workbench.getTargetDisplayName);
         return Path.parse(this.path.toString()).base + ` (${targetNames.join("/")})`;
     }
 
