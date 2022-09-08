@@ -28,6 +28,7 @@ import SESSION_SYNCHRONIZER_SERVICE = ttypes.SESSION_SYNCHRONIZER_SERVICE
 import GATE_KEEPER_SERVICE = ttypes.GATE_KEEPER_SERVICE
 import MULTI_CORE_LOG_SERVICE = ttypes.MULTI_CORE_LOG_SERVICE
 import SOFT_CTI_SERVICE = ttypes.SOFT_CTI_SERVICE
+import CPU_STATUS_POLL_CONTROL_SERVICE = ttypes.CPU_STATUS_POLL_CONTROL_SERVICE
 import DEBUGGER_STARTER_SERVICE = ttypes.DEBUGGER_STARTER_SERVICE
 import PARTNER_REGISTRY_PARTNER_SET_EVENT = ttypes.PARTNER_REGISTRY_PARTNER_SET_EVENT
 import PARTNER_REGISTRY_PARTNER_IS_ALIVE_EVENT = ttypes.PARTNER_REGISTRY_PARTNER_IS_ALIVE_EVENT
@@ -55,6 +56,8 @@ import EXEC_CONTROL_EVENT_CORE_KEY_PREFIX = ttypes.EXEC_CONTROL_EVENT_CORE_KEY_P
 import SOFT_CTI_STOP_ALL_EVENT = ttypes.SOFT_CTI_STOP_ALL_EVENT
 import SOFT_CTI_EVENT_CORE_KEY_PREFIX = ttypes.SOFT_CTI_EVENT_CORE_KEY_PREFIX
 import SOFT_CTI_EVENT_ID_KEY_PREFIX = ttypes.SOFT_CTI_EVENT_ID_KEY_PREFIX
+import CPU_STATUS_POLL_CONTROL_DISABLE_EVENT = ttypes.CPU_STATUS_POLL_CONTROL_DISABLE_EVENT
+import CPU_STATUS_POLL_CONTROL_ENABLE_EVENT = ttypes.CPU_STATUS_POLL_CONTROL_ENABLE_EVENT
 import DEBUGGER_STARTER_TOOL_TO_START_KEY = ttypes.DEBUGGER_STARTER_TOOL_TO_START_KEY
 import DEBUGKERNEL_EXEC_STARTED_EVENT = ttypes.DEBUGKERNEL_EXEC_STARTED_EVENT
 import DEBUGKERNEL_EXEC_STOPPED_EVENT = ttypes.DEBUGKERNEL_EXEC_STOPPED_EVENT
@@ -131,6 +134,14 @@ declare class Client extends HeartbeatService.Client {
   IsItOkToStopCore(core: number): Q.Promise<boolean>;
 
   IsItOkToStopCore(core: number, callback?: (error: void, response: boolean)=>void): void;
+
+  SetCPUStatusPolling(on: boolean): Q.Promise<void>;
+
+  SetCPUStatusPolling(on: boolean, callback?: (error: void, response: void)=>void): void;
+
+  AckCPUStatusPolling(coreCount: number): Q.Promise<void>;
+
+  AckCPUStatusPolling(coreCount: number, callback?: (error: void, response: void)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -151,4 +162,6 @@ declare class Processor extends HeartbeatService.Processor {
   process_SpontaneousCoreStatusChange(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetCoreStatus(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsItOkToStopCore(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetCPUStatusPolling(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_AckCPUStatusPolling(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

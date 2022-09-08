@@ -1085,6 +1085,156 @@ Gatekeeper_IsItOkToStopCore_result.prototype.write = function(output) {
   return;
 };
 
+var Gatekeeper_SetCPUStatusPolling_args = function(args) {
+  this.on = null;
+  if (args) {
+    if (args.on !== undefined && args.on !== null) {
+      this.on = args.on;
+    }
+  }
+};
+Gatekeeper_SetCPUStatusPolling_args.prototype = {};
+Gatekeeper_SetCPUStatusPolling_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.BOOL) {
+        this.on = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Gatekeeper_SetCPUStatusPolling_args.prototype.write = function(output) {
+  output.writeStructBegin('Gatekeeper_SetCPUStatusPolling_args');
+  if (this.on !== null && this.on !== undefined) {
+    output.writeFieldBegin('on', Thrift.Type.BOOL, 1);
+    output.writeBool(this.on);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Gatekeeper_SetCPUStatusPolling_result = function(args) {
+};
+Gatekeeper_SetCPUStatusPolling_result.prototype = {};
+Gatekeeper_SetCPUStatusPolling_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Gatekeeper_SetCPUStatusPolling_result.prototype.write = function(output) {
+  output.writeStructBegin('Gatekeeper_SetCPUStatusPolling_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Gatekeeper_AckCPUStatusPolling_args = function(args) {
+  this.coreCount = null;
+  if (args) {
+    if (args.coreCount !== undefined && args.coreCount !== null) {
+      this.coreCount = args.coreCount;
+    }
+  }
+};
+Gatekeeper_AckCPUStatusPolling_args.prototype = {};
+Gatekeeper_AckCPUStatusPolling_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.coreCount = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Gatekeeper_AckCPUStatusPolling_args.prototype.write = function(output) {
+  output.writeStructBegin('Gatekeeper_AckCPUStatusPolling_args');
+  if (this.coreCount !== null && this.coreCount !== undefined) {
+    output.writeFieldBegin('coreCount', Thrift.Type.I32, 1);
+    output.writeI32(this.coreCount);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Gatekeeper_AckCPUStatusPolling_result = function(args) {
+};
+Gatekeeper_AckCPUStatusPolling_result.prototype = {};
+Gatekeeper_AckCPUStatusPolling_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Gatekeeper_AckCPUStatusPolling_result.prototype.write = function(output) {
+  output.writeStructBegin('Gatekeeper_AckCPUStatusPolling_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var GatekeeperClient = exports.Client = function(output, pClass) {
   this.output = output;
   this.pClass = pClass;
@@ -1831,6 +1981,118 @@ GatekeeperClient.prototype.recv_IsItOkToStopCore = function(input,mtype,rseqid) 
   }
   return callback('IsItOkToStopCore failed: unknown result');
 };
+
+GatekeeperClient.prototype.SetCPUStatusPolling = function(on, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_SetCPUStatusPolling(on);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_SetCPUStatusPolling(on);
+  }
+};
+
+GatekeeperClient.prototype.send_SetCPUStatusPolling = function(on) {
+  var output = new this.pClass(this.output);
+  var params = {
+    on: on
+  };
+  var args = new Gatekeeper_SetCPUStatusPolling_args(params);
+  try {
+    output.writeMessageBegin('SetCPUStatusPolling', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+GatekeeperClient.prototype.recv_SetCPUStatusPolling = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Gatekeeper_SetCPUStatusPolling_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  callback(null);
+};
+
+GatekeeperClient.prototype.AckCPUStatusPolling = function(coreCount, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_AckCPUStatusPolling(coreCount);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_AckCPUStatusPolling(coreCount);
+  }
+};
+
+GatekeeperClient.prototype.send_AckCPUStatusPolling = function(coreCount) {
+  var output = new this.pClass(this.output);
+  var params = {
+    coreCount: coreCount
+  };
+  var args = new Gatekeeper_AckCPUStatusPolling_args(params);
+  try {
+    output.writeMessageBegin('AckCPUStatusPolling', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+GatekeeperClient.prototype.recv_AckCPUStatusPolling = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Gatekeeper_AckCPUStatusPolling_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  callback(null);
+};
 var GatekeeperProcessor = exports.Processor = function(handler) {
   this._handler = handler;
 };
@@ -2323,6 +2585,80 @@ GatekeeperProcessor.prototype.process_IsItOkToStopCore = function(seqid, input, 
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("IsItOkToStopCore", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+GatekeeperProcessor.prototype.process_SetCPUStatusPolling = function(seqid, input, output) {
+  var args = new Gatekeeper_SetCPUStatusPolling_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.SetCPUStatusPolling.length === 1) {
+    Q.fcall(this._handler.SetCPUStatusPolling.bind(this._handler),
+      args.on
+    ).then(function(result) {
+      var result_obj = new Gatekeeper_SetCPUStatusPolling_result({success: result});
+      output.writeMessageBegin("SetCPUStatusPolling", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("SetCPUStatusPolling", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.SetCPUStatusPolling(args.on, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Gatekeeper_SetCPUStatusPolling_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("SetCPUStatusPolling", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("SetCPUStatusPolling", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+GatekeeperProcessor.prototype.process_AckCPUStatusPolling = function(seqid, input, output) {
+  var args = new Gatekeeper_AckCPUStatusPolling_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.AckCPUStatusPolling.length === 1) {
+    Q.fcall(this._handler.AckCPUStatusPolling.bind(this._handler),
+      args.coreCount
+    ).then(function(result) {
+      var result_obj = new Gatekeeper_AckCPUStatusPolling_result({success: result});
+      output.writeMessageBegin("AckCPUStatusPolling", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("AckCPUStatusPolling", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.AckCPUStatusPolling(args.coreCount, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Gatekeeper_AckCPUStatusPolling_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("AckCPUStatusPolling", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("AckCPUStatusPolling", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

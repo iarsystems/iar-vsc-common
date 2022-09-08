@@ -17,6 +17,7 @@ import ToolType = ttypes.ToolType
 import InvocationType = ttypes.InvocationType
 import NodeType = ttypes.NodeType
 import OptionType = ttypes.OptionType
+import FileCollectionType = ttypes.FileCollectionType
 import PROJECTMANAGER_ID = ttypes.PROJECTMANAGER_ID
 import ProjectManagerError = ttypes.ProjectManagerError
 import ToolDefinition = ttypes.ToolDefinition
@@ -29,6 +30,7 @@ import OptionElementDescription = ttypes.OptionElementDescription
 import OptionDescription = ttypes.OptionDescription
 import OptionCategory = ttypes.OptionCategory
 import BuildItem = ttypes.BuildItem
+import BatchBuildItem = ttypes.BatchBuildItem
 import BuildResult = ttypes.BuildResult
 import HeartbeatService = require('./HeartbeatService');
 
@@ -63,6 +65,16 @@ declare class Client extends HeartbeatService.Client {
    * will be created.
    */
   CreateEwwFile(file_path: string, callback?: (error: ttypes.ProjectManagerError, response: WorkspaceContext)=>void): void;
+
+  /**
+   * Disable the storing of data into the wsdt file used mostly by MFC side
+   */
+  DisableAutoDataStoring(): Q.Promise<void>;
+
+  /**
+   * Disable the storing of data into the wsdt file used mostly by MFC side
+   */
+  DisableAutoDataStoring(callback?: (error: void, response: void)=>void): void;
 
   /**
    * Supplying an empty path will create an empty workspace and not attempt to load anything.
@@ -115,6 +127,16 @@ declare class Client extends HeartbeatService.Client {
   GetProjects(callback?: (error: void, response: ProjectContext[])=>void): void;
 
   /**
+   * There is always only one workspace so no context is needed. Requires a target.
+   */
+  GetLoadedProjects(): Q.Promise<ProjectContext[]>;
+
+  /**
+   * There is always only one workspace so no context is needed. Requires a target.
+   */
+  GetLoadedProjects(callback?: (error: void, response: ProjectContext[])=>void): void;
+
+  /**
    * Get current project.
    */
   GetCurrentProject(): Q.Promise<ProjectContext>;
@@ -153,6 +175,26 @@ declare class Client extends HeartbeatService.Client {
    * Create new, empty project with the provided file path
    */
   CreateEwpFile(file_path: string, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
+
+  /**
+   * Create new, empty project with the provided file path and toolchain
+   */
+  CreateEwpFileWithToolChain(file_path: string, toolchain: string): Q.Promise<ProjectContext>;
+
+  /**
+   * Create new, empty project with the provided file path and toolchain
+   */
+  CreateEwpFileWithToolChain(file_path: string, toolchain: string, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
+
+  /**
+   * Create new project from a template
+   */
+  CreateProjectFromTemplate(template_path: string, project_path: string): Q.Promise<ProjectContext>;
+
+  /**
+   * Create new project from a template
+   */
+  CreateProjectFromTemplate(template_path: string, project_path: string, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
 
   /**
    * Load project from .ewp file
@@ -247,6 +289,26 @@ declare class Client extends HeartbeatService.Client {
    * It only has any effect on anonymous workspaces.
    */
   CloseProject(project: ProjectContext, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Remove the project from the workspace. This works on any workspace as opposed to CloseProject.
+   */
+  RemoveProject(project: ProjectContext): Q.Promise<void>;
+
+  /**
+   * Remove the project from the workspace. This works on any workspace as opposed to CloseProject.
+   */
+  RemoveProject(project: ProjectContext, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * on the project wide collection.
+   */
+  GetFiles(project: ProjectContext, configurationName: string, col: FileCollectionType): Q.Promise<string[]>;
+
+  /**
+   * on the project wide collection.
+   */
+  GetFiles(project: ProjectContext, configurationName: string, col: FileCollectionType, callback?: (error: ttypes.ProjectManagerError, response: string[])=>void): void;
 
   /**
    * Add a Configuration to a project
@@ -369,6 +431,56 @@ declare class Client extends HeartbeatService.Client {
   SetNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], node: Node, save: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
+   * If the node is not part of the project an exception is thrown.
+   */
+  AddNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], node: Node, save: boolean): Q.Promise<void>;
+
+  /**
+   * If the node is not part of the project an exception is thrown.
+   */
+  AddNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], node: Node, save: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Some nodes cannot be removed - just silently ignored then
+   */
+  RemoveNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], save: boolean): Q.Promise<void>;
+
+  /**
+   * Some nodes cannot be removed - just silently ignored then
+   */
+  RemoveNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], save: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * If the node is not part of the project an exception is thrown.
+   */
+  UpdateNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], node: Node, save: boolean): Q.Promise<void>;
+
+  /**
+   * If the node is not part of the project an exception is thrown.
+   */
+  UpdateNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], node: Node, save: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Determine whether a node can be moved to another.
+   */
+  CanMoveNode(ctx: ProjectContext, srcNodeIndexPath: Int64[], dstNodeIndexPath: Int64[]): Q.Promise<boolean>;
+
+  /**
+   * Determine whether a node can be moved to another.
+   */
+  CanMoveNode(ctx: ProjectContext, srcNodeIndexPath: Int64[], dstNodeIndexPath: Int64[], callback?: (error: ttypes.ProjectManagerError, response: boolean)=>void): void;
+
+  /**
+   * If for some reason the move canot be done, false is returned.
+   */
+  MoveNode(ctx: ProjectContext, srcNodeIndexPath: Int64[], dstNodeIndexPath: Int64[]): Q.Promise<boolean>;
+
+  /**
+   * If for some reason the move canot be done, false is returned.
+   */
+  MoveNode(ctx: ProjectContext, srcNodeIndexPath: Int64[], dstNodeIndexPath: Int64[], callback?: (error: ttypes.ProjectManagerError, response: boolean)=>void): void;
+
+  /**
    * Within each string [:;, ] are used as separators
    */
   GetToolChainExtensions(ctx: ProjectContext): Q.Promise<string[]>;
@@ -405,6 +517,26 @@ declare class Client extends HeartbeatService.Client {
    * Register a toolchain with the project manager. Will fail if the toolchain is already registered.
    */
   AddToolchain(toolchain: Toolchain, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Get batch build item list.
+   */
+  GetBatchBuildItems(): Q.Promise<BatchBuildItem[]>;
+
+  /**
+   * Get batch build item list.
+   */
+  GetBatchBuildItems(callback?: (error: ttypes.ProjectManagerError, response: BatchBuildItem[])=>void): void;
+
+  /**
+   * the same as the one already stored.
+   */
+  SetBatchBuildItems(batchBuildItems: BatchBuildItem[]): Q.Promise<void>;
+
+  /**
+   * the same as the one already stored.
+   */
+  SetBatchBuildItems(batchBuildItems: BatchBuildItem[], callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
    * Build a project configuration synchronously, and return its result
@@ -611,6 +743,18 @@ declare class Client extends HeartbeatService.Client {
   GetToolArgumentsForConfiguration(prj: ProjectContext, toolId: string, configurationName: string, callback?: (error: void, response: string[])=>void): void;
 
   /**
+   * Expand all argument variables ('argvar' e.g. $TOOLKIT_DIR$) in the provided input string,
+   * given the current workspace and provided project and build configuration
+   */
+  ExpandArgVars(input: string, project: ProjectContext, configurationName: string, throwOnFailure: boolean): Q.Promise<string>;
+
+  /**
+   * Expand all argument variables ('argvar' e.g. $TOOLKIT_DIR$) in the provided input string,
+   * given the current workspace and provided project and build configuration
+   */
+  ExpandArgVars(input: string, project: ProjectContext, configurationName: string, throwOnFailure: boolean, callback?: (error: void, response: string)=>void): void;
+
+  /**
    * Gets a JSON representaion of the option presentation
    * 
    * Supported locales: en_GB
@@ -631,15 +775,19 @@ declare class Processor extends HeartbeatService.Processor {
   constructor(handler: object);
   process(input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CreateEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_DisableAutoDataStoring(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_LoadEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsWorkspaceModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwwFileAs(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetProjects(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetLoadedProjects(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetCurrentProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetCurrentProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CloseWorkspace(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CreateEwpFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CreateEwpFileWithToolChain(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CreateProjectFromTemplate(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_LoadEwpFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwpFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwpFileAs(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -649,6 +797,8 @@ declare class Processor extends HeartbeatService.Processor {
   process_FindMatchingHeaderOrSourceFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CloseProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_RemoveProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetFiles(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddConfigurationNoSave(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_RemoveConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -661,9 +811,16 @@ declare class Processor extends HeartbeatService.Processor {
   process_SetNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_AddNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_RemoveNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_UpdateNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CanMoveNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_MoveNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetToolChainExtensions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetToolchains(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddToolchain(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetBatchBuildItems(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetBatchBuildItems(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_BuildProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_RebuildAllAsync(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CanCompile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -684,5 +841,6 @@ declare class Processor extends HeartbeatService.Processor {
   process_IsMultiFileCompilationEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsMultiFileDiscardPublicSymbolsEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetToolArgumentsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ExpandArgVars(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetPresentationForOptionsAsJson(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

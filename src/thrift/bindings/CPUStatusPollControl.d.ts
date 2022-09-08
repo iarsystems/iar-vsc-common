@@ -81,25 +81,13 @@ declare class Client {
 
   constructor(output: thrift.TTransport, pClass: { new(trans: thrift.TTransport): thrift.TProtocol });
 
-  Go(core: number): Q.Promise<void>;
+  SetCPUStatusPoll(core: number, on: boolean): Q.Promise<void>;
 
-  Go(core: number, callback?: (error: void, response: void)=>void): void;
+  SetCPUStatusPoll(core: number, on: boolean, callback?: (error: void, response: void)=>void): void;
 
-  Stop(core: number): Q.Promise<void>;
+  GetCPUStatusPoll(): Q.Promise<boolean>;
 
-  Stop(core: number, callback?: (error: void, response: void)=>void): void;
-
-  MultiStop(): Q.Promise<void>;
-
-  MultiStop(callback?: (error: void, response: void)=>void): void;
-
-  MultiGo(): Q.Promise<void>;
-
-  MultiGo(callback?: (error: void, response: void)=>void): void;
-
-  SetRunAll(all: boolean): Q.Promise<void>;
-
-  SetRunAll(all: boolean, callback?: (error: void, response: void)=>void): void;
+  GetCPUStatusPoll(callback?: (error: void, response: boolean)=>void): void;
 }
 
 declare class Processor {
@@ -107,9 +95,6 @@ declare class Processor {
 
   constructor(handler: object);
   process(input: thrift.TProtocol, output: thrift.TProtocol): void;
-  process_Go(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
-  process_Stop(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
-  process_MultiStop(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
-  process_MultiGo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
-  process_SetRunAll(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetCPUStatusPoll(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetCPUStatusPoll(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

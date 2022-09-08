@@ -54,6 +54,20 @@ ttypes.OptionType = {
   '5' : 'CheckList',
   'CheckList' : 5
 };
+ttypes.FileCollectionType = {
+  '0' : 'ProjFiles',
+  'ProjFiles' : 0,
+  '1' : 'ProjAndUserIncludeFiles',
+  'ProjAndUserIncludeFiles' : 1,
+  '2' : 'ProjAndAllIncludeFiles',
+  'ProjAndAllIncludeFiles' : 2,
+  '3' : 'WsFiles',
+  'WsFiles' : 3,
+  '4' : 'WsAndUserIncludeFiles',
+  'WsAndUserIncludeFiles' : 4,
+  '5' : 'WsAndAllIncludeFiles',
+  'WsAndAllIncludeFiles' : 5
+};
 var ProjectManagerError = module.exports.ProjectManagerError = function(args) {
   Thrift.TException.call(this, "ProjectManagerError");
   this.name = "ProjectManagerError";
@@ -1219,6 +1233,85 @@ BuildItem.prototype.write = function(output) {
   return;
 };
 
+var BatchBuildItem = module.exports.BatchBuildItem = function(args) {
+  this.name = null;
+  this.buildItems = null;
+  if (args) {
+    if (args.name !== undefined && args.name !== null) {
+      this.name = args.name;
+    }
+    if (args.buildItems !== undefined && args.buildItems !== null) {
+      this.buildItems = Thrift.copyList(args.buildItems, [ttypes.BuildItem]);
+    }
+  }
+};
+BatchBuildItem.prototype = {};
+BatchBuildItem.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.name = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        this.buildItems = [];
+        var _rtmp341 = input.readListBegin();
+        var _size40 = _rtmp341.size || 0;
+        for (var _i42 = 0; _i42 < _size40; ++_i42) {
+          var elem43 = null;
+          elem43 = new ttypes.BuildItem();
+          elem43.read(input);
+          this.buildItems.push(elem43);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+BatchBuildItem.prototype.write = function(output) {
+  output.writeStructBegin('BatchBuildItem');
+  if (this.name !== null && this.name !== undefined) {
+    output.writeFieldBegin('name', Thrift.Type.STRING, 1);
+    output.writeString(this.name);
+    output.writeFieldEnd();
+  }
+  if (this.buildItems !== null && this.buildItems !== undefined) {
+    output.writeFieldBegin('buildItems', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRUCT, this.buildItems.length);
+    for (var iter44 in this.buildItems) {
+      if (this.buildItems.hasOwnProperty(iter44)) {
+        iter44 = this.buildItems[iter44];
+        iter44.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var BuildResult = module.exports.BuildResult = function(args) {
   this.projectContext = null;
   this.buildOutput = null;
@@ -1257,12 +1350,12 @@ BuildResult.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.buildOutput = [];
-        var _rtmp341 = input.readListBegin();
-        var _size40 = _rtmp341.size || 0;
-        for (var _i42 = 0; _i42 < _size40; ++_i42) {
-          var elem43 = null;
-          elem43 = input.readString();
-          this.buildOutput.push(elem43);
+        var _rtmp346 = input.readListBegin();
+        var _size45 = _rtmp346.size || 0;
+        for (var _i47 = 0; _i47 < _size45; ++_i47) {
+          var elem48 = null;
+          elem48 = input.readString();
+          this.buildOutput.push(elem48);
         }
         input.readListEnd();
       } else {
@@ -1295,10 +1388,10 @@ BuildResult.prototype.write = function(output) {
   if (this.buildOutput !== null && this.buildOutput !== undefined) {
     output.writeFieldBegin('buildOutput', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRING, this.buildOutput.length);
-    for (var iter44 in this.buildOutput) {
-      if (this.buildOutput.hasOwnProperty(iter44)) {
-        iter44 = this.buildOutput[iter44];
-        output.writeString(iter44);
+    for (var iter49 in this.buildOutput) {
+      if (this.buildOutput.hasOwnProperty(iter49)) {
+        iter49 = this.buildOutput[iter49];
+        output.writeString(iter49);
       }
     }
     output.writeListEnd();

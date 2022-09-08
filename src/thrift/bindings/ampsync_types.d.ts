@@ -164,6 +164,8 @@ declare var MULTI_CORE_LOG_SERVICE: string;
 
 declare var SOFT_CTI_SERVICE: string;
 
+declare var CPU_STATUS_POLL_CONTROL_SERVICE: string;
+
 declare var DEBUGGER_STARTER_SERVICE: string;
 
 declare var PARTNER_REGISTRY_PARTNER_SET_EVENT: string;
@@ -217,6 +219,10 @@ declare var SOFT_CTI_STOP_ALL_EVENT: string;
 declare var SOFT_CTI_EVENT_CORE_KEY_PREFIX: string;
 
 declare var SOFT_CTI_EVENT_ID_KEY_PREFIX: string;
+
+declare var CPU_STATUS_POLL_CONTROL_DISABLE_EVENT: string;
+
+declare var CPU_STATUS_POLL_CONTROL_ENABLE_EVENT: string;
 
 declare var DEBUGGER_STARTER_TOOL_TO_START_KEY: string;
 

@@ -56,6 +56,18 @@ declare enum OptionType {
   CheckList = 5,
 }
 
+/**
+ * Enumeration describing different file sets
+ */
+declare enum FileCollectionType {
+  ProjFiles = 0,
+  ProjAndUserIncludeFiles = 1,
+  ProjAndAllIncludeFiles = 2,
+  WsFiles = 3,
+  WsAndUserIncludeFiles = 4,
+  WsAndAllIncludeFiles = 5,
+}
+
 declare class ProjectManagerError extends Thrift.TException {
   public description: string;
 
@@ -212,6 +224,15 @@ declare class BuildItem {
   public nodePaths: string[];
 
     constructor(args?: { projectContext: ProjectContext; configurationName: string; nodePaths: string[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class BatchBuildItem {
+  public name: string;
+  public buildItems: BuildItem[];
+
+    constructor(args?: { name: string; buildItems: BuildItem[]; });
   read(input: Object): void;
   write(input: Object): void;
 }
