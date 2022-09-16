@@ -51,7 +51,8 @@ export async function Setup() {
 export async function getTestPromise(testsRoot: string, localTimeout = 2000): Promise<void> {
     await Setup();
 
-    const junitFile: string = "/junit-vs-" + path.basename(testsRoot) + "[hash].xml";
+    const rootSuiteName = process.env["rootName"];
+    const junitFile = `/junit-vs-${path.basename(testsRoot)}-${rootSuiteName ?? ""}-[hash].xml`;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const options: any = {ui: "tdd", timeout: localTimeout};
@@ -62,7 +63,7 @@ export async function getTestPromise(testsRoot: string, localTimeout = 2000): Pr
             mochaFile: testsRoot + junitFile,
             jenkinsMode: true,
             useFullSuiteTitle: true,
-            rootSuiteTitle: process.env["rootName"]
+            rootSuiteTitle: rootSuiteName,
         };
     }
     const mocha = new Mocha(options);
