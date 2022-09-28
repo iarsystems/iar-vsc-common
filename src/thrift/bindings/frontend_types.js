@@ -44,4 +44,108 @@ ttypes.MsgResult = {
   '3' : 'kMsgResNo',
   'kMsgResNo' : 3
 };
+ttypes.FileDialogType = {
+  '0' : 'kOpen',
+  'kOpen' : 0,
+  '1' : 'kSaveAs',
+  'kSaveAs' : 1
+};
+ttypes.FileDialogReturnType = {
+  '0' : 'kAny',
+  'kAny' : 0,
+  '1' : 'kExistingFile',
+  'kExistingFile' : 1,
+  '2' : 'kDirectory',
+  'kDirectory' : 2,
+  '3' : 'kExistingFiles',
+  'kExistingFiles' : 3
+};
+ttypes.FileDialogOptions = {
+  '0' : 'kNoOverwritePrompt',
+  'kNoOverwritePrompt' : 0,
+  '1' : 'kFileMustExist',
+  'kFileMustExist' : 1,
+  '2' : 'kPathMustExist',
+  'kPathMustExist' : 2,
+  '3' : 'kAllowReturningReadOnlyFile',
+  'kAllowReturningReadOnlyFile' : 3
+};
+var FileDialogFilter = module.exports.FileDialogFilter = function(args) {
+  this.displayName = null;
+  this.filtering = null;
+  if (args) {
+    if (args.displayName !== undefined && args.displayName !== null) {
+      this.displayName = args.displayName;
+    }
+    if (args.filtering !== undefined && args.filtering !== null) {
+      this.filtering = Thrift.copyList(args.filtering, [null]);
+    }
+  }
+};
+FileDialogFilter.prototype = {};
+FileDialogFilter.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.displayName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        this.filtering = [];
+        var _rtmp31 = input.readListBegin();
+        var _size0 = _rtmp31.size || 0;
+        for (var _i2 = 0; _i2 < _size0; ++_i2) {
+          var elem3 = null;
+          elem3 = input.readString();
+          this.filtering.push(elem3);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+FileDialogFilter.prototype.write = function(output) {
+  output.writeStructBegin('FileDialogFilter');
+  if (this.displayName !== null && this.displayName !== undefined) {
+    output.writeFieldBegin('displayName', Thrift.Type.STRING, 1);
+    output.writeString(this.displayName);
+    output.writeFieldEnd();
+  }
+  if (this.filtering !== null && this.filtering !== undefined) {
+    output.writeFieldBegin('filtering', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRING, this.filtering.length);
+    for (var iter4 in this.filtering) {
+      if (this.filtering.hasOwnProperty(iter4)) {
+        iter4 = this.filtering[iter4];
+        output.writeString(iter4);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 ttypes.FRONTEND_SERVICE = 'frontend';

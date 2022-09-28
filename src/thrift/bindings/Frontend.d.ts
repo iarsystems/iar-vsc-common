@@ -16,7 +16,11 @@ import ttypes = require('./frontend_types');
 import MsgIcon = ttypes.MsgIcon
 import MsgKind = ttypes.MsgKind
 import MsgResult = ttypes.MsgResult
+import FileDialogType = ttypes.FileDialogType
+import FileDialogReturnType = ttypes.FileDialogReturnType
+import FileDialogOptions = ttypes.FileDialogOptions
 import FRONTEND_SERVICE = ttypes.FRONTEND_SERVICE
+import FileDialogFilter = ttypes.FileDialogFilter
 import HeartbeatService = require('./HeartbeatService');
 
 /**
@@ -85,6 +89,26 @@ declare class Client extends HeartbeatService.Client {
    * of strings is returned.
    */
   openFileDialog(title: string, startdir: string, filter: string, allowMultiple: boolean, existing: boolean, callback?: (error: void, response: string[])=>void): void;
+
+  /**
+   * Open a file dialog. If the user cancels the dialog, an empty list
+   * of strings is returned.
+   */
+  openIHostFileDialog(title: string, type: FileDialogType, returnType: FileDialogReturnType, filters: FileDialogFilter[], options: FileDialogOptions[], startdir: string, defaultName: string): Q.Promise<string[]>;
+
+  /**
+   * Open a file dialog. If the user cancels the dialog, an empty list
+   * of strings is returned.
+   */
+  openIHostFileDialog(title: string, type: FileDialogType, returnType: FileDialogReturnType, filters: FileDialogFilter[], options: FileDialogOptions[], startdir: string, defaultName: string, callback?: (error: void, response: string[])=>void): void;
+
+  showFileProperties(filePath: string): Q.Promise<void>;
+
+  showFileProperties(filePath: string, callback?: (error: void, response: void)=>void): void;
+
+  openFileExplorer(filePath: string): Q.Promise<void>;
+
+  openFileExplorer(filePath: string, callback?: (error: void, response: void)=>void): void;
 
   /**
    * Open a directory selection dialog. If the user cancels the dialog, an empty list
@@ -245,6 +269,9 @@ declare class Processor extends HeartbeatService.Processor {
   process_messageBox(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_messageBoxAsync(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_openFileDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_openIHostFileDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_showFileProperties(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_openFileExplorer(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_openDirectoryDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_openSaveDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_createProgressBar(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;

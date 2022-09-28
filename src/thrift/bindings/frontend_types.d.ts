@@ -41,4 +41,47 @@ declare enum MsgResult {
   kMsgResNo = 3,
 }
 
+/**
+ * The type of dialog to open
+ */
+declare enum FileDialogType {
+  kOpen = 0,
+  kSaveAs = 1,
+}
+
+/**
+ * The set of allowed return types. kExistingFiles
+ * allows returning multiple file
+ */
+declare enum FileDialogReturnType {
+  kAny = 0,
+  kExistingFile = 1,
+  kDirectory = 2,
+  kExistingFiles = 3,
+}
+
+/**
+ * The set of allowed options which the backend is expecting.
+ */
+declare enum FileDialogOptions {
+  kNoOverwritePrompt = 0,
+  kFileMustExist = 1,
+  kPathMustExist = 2,
+  kAllowReturningReadOnlyFile = 3,
+}
+
+/**
+ * Small helper struct for filters. The display name is
+ * the readable name of the filter and the files allowed
+ * are listed in the filtering vector.
+ */
+declare class FileDialogFilter {
+  public displayName: string;
+  public filtering: string[];
+
+    constructor(args?: { displayName: string; filtering: string[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
 declare var FRONTEND_SERVICE: string;

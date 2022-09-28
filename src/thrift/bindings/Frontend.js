@@ -433,12 +433,12 @@ Frontend_openFileDialog_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp31 = input.readListBegin();
-        var _size0 = _rtmp31.size || 0;
-        for (var _i2 = 0; _i2 < _size0; ++_i2) {
-          var elem3 = null;
-          elem3 = input.readString();
-          this.success.push(elem3);
+        var _rtmp36 = input.readListBegin();
+        var _size5 = _rtmp36.size || 0;
+        for (var _i7 = 0; _i7 < _size5; ++_i7) {
+          var elem8 = null;
+          elem8 = input.readString();
+          this.success.push(elem8);
         }
         input.readListEnd();
       } else {
@@ -462,15 +462,404 @@ Frontend_openFileDialog_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter4 in this.success) {
-      if (this.success.hasOwnProperty(iter4)) {
-        iter4 = this.success[iter4];
-        output.writeString(iter4);
+    for (var iter9 in this.success) {
+      if (this.success.hasOwnProperty(iter9)) {
+        iter9 = this.success[iter9];
+        output.writeString(iter9);
       }
     }
     output.writeListEnd();
     output.writeFieldEnd();
   }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_openIHostFileDialog_args = function(args) {
+  this.title = null;
+  this.type = null;
+  this.returnType = null;
+  this.filters = null;
+  this.options = null;
+  this.startdir = null;
+  this.defaultName = null;
+  if (args) {
+    if (args.title !== undefined && args.title !== null) {
+      this.title = args.title;
+    }
+    if (args.type !== undefined && args.type !== null) {
+      this.type = args.type;
+    }
+    if (args.returnType !== undefined && args.returnType !== null) {
+      this.returnType = args.returnType;
+    }
+    if (args.filters !== undefined && args.filters !== null) {
+      this.filters = Thrift.copyList(args.filters, [ttypes.FileDialogFilter]);
+    }
+    if (args.options !== undefined && args.options !== null) {
+      this.options = Thrift.copyList(args.options, [null]);
+    }
+    if (args.startdir !== undefined && args.startdir !== null) {
+      this.startdir = args.startdir;
+    }
+    if (args.defaultName !== undefined && args.defaultName !== null) {
+      this.defaultName = args.defaultName;
+    }
+  }
+};
+Frontend_openIHostFileDialog_args.prototype = {};
+Frontend_openIHostFileDialog_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.title = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.type = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I32) {
+        this.returnType = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.LIST) {
+        this.filters = [];
+        var _rtmp311 = input.readListBegin();
+        var _size10 = _rtmp311.size || 0;
+        for (var _i12 = 0; _i12 < _size10; ++_i12) {
+          var elem13 = null;
+          elem13 = new ttypes.FileDialogFilter();
+          elem13.read(input);
+          this.filters.push(elem13);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.LIST) {
+        this.options = [];
+        var _rtmp315 = input.readListBegin();
+        var _size14 = _rtmp315.size || 0;
+        for (var _i16 = 0; _i16 < _size14; ++_i16) {
+          var elem17 = null;
+          elem17 = input.readI32();
+          this.options.push(elem17);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.startdir = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.STRING) {
+        this.defaultName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_openIHostFileDialog_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_openIHostFileDialog_args');
+  if (this.title !== null && this.title !== undefined) {
+    output.writeFieldBegin('title', Thrift.Type.STRING, 1);
+    output.writeString(this.title);
+    output.writeFieldEnd();
+  }
+  if (this.type !== null && this.type !== undefined) {
+    output.writeFieldBegin('type', Thrift.Type.I32, 2);
+    output.writeI32(this.type);
+    output.writeFieldEnd();
+  }
+  if (this.returnType !== null && this.returnType !== undefined) {
+    output.writeFieldBegin('returnType', Thrift.Type.I32, 3);
+    output.writeI32(this.returnType);
+    output.writeFieldEnd();
+  }
+  if (this.filters !== null && this.filters !== undefined) {
+    output.writeFieldBegin('filters', Thrift.Type.LIST, 4);
+    output.writeListBegin(Thrift.Type.STRUCT, this.filters.length);
+    for (var iter18 in this.filters) {
+      if (this.filters.hasOwnProperty(iter18)) {
+        iter18 = this.filters[iter18];
+        iter18.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.options !== null && this.options !== undefined) {
+    output.writeFieldBegin('options', Thrift.Type.LIST, 5);
+    output.writeListBegin(Thrift.Type.I32, this.options.length);
+    for (var iter19 in this.options) {
+      if (this.options.hasOwnProperty(iter19)) {
+        iter19 = this.options[iter19];
+        output.writeI32(iter19);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.startdir !== null && this.startdir !== undefined) {
+    output.writeFieldBegin('startdir', Thrift.Type.STRING, 6);
+    output.writeString(this.startdir);
+    output.writeFieldEnd();
+  }
+  if (this.defaultName !== null && this.defaultName !== undefined) {
+    output.writeFieldBegin('defaultName', Thrift.Type.STRING, 7);
+    output.writeString(this.defaultName);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_openIHostFileDialog_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [null]);
+    }
+  }
+};
+Frontend_openIHostFileDialog_result.prototype = {};
+Frontend_openIHostFileDialog_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        this.success = [];
+        var _rtmp321 = input.readListBegin();
+        var _size20 = _rtmp321.size || 0;
+        for (var _i22 = 0; _i22 < _size20; ++_i22) {
+          var elem23 = null;
+          elem23 = input.readString();
+          this.success.push(elem23);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_openIHostFileDialog_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_openIHostFileDialog_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRING, this.success.length);
+    for (var iter24 in this.success) {
+      if (this.success.hasOwnProperty(iter24)) {
+        iter24 = this.success[iter24];
+        output.writeString(iter24);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_showFileProperties_args = function(args) {
+  this.filePath = null;
+  if (args) {
+    if (args.filePath !== undefined && args.filePath !== null) {
+      this.filePath = args.filePath;
+    }
+  }
+};
+Frontend_showFileProperties_args.prototype = {};
+Frontend_showFileProperties_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.filePath = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_showFileProperties_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_showFileProperties_args');
+  if (this.filePath !== null && this.filePath !== undefined) {
+    output.writeFieldBegin('filePath', Thrift.Type.STRING, 1);
+    output.writeString(this.filePath);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_showFileProperties_result = function(args) {
+};
+Frontend_showFileProperties_result.prototype = {};
+Frontend_showFileProperties_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_showFileProperties_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_showFileProperties_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_openFileExplorer_args = function(args) {
+  this.filePath = null;
+  if (args) {
+    if (args.filePath !== undefined && args.filePath !== null) {
+      this.filePath = args.filePath;
+    }
+  }
+};
+Frontend_openFileExplorer_args.prototype = {};
+Frontend_openFileExplorer_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.filePath = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_openFileExplorer_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_openFileExplorer_args');
+  if (this.filePath !== null && this.filePath !== undefined) {
+    output.writeFieldBegin('filePath', Thrift.Type.STRING, 1);
+    output.writeString(this.filePath);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_openFileExplorer_result = function(args) {
+};
+Frontend_openFileExplorer_result.prototype = {};
+Frontend_openFileExplorer_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_openFileExplorer_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_openFileExplorer_result');
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -577,12 +966,12 @@ Frontend_openDirectoryDialog_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp36 = input.readListBegin();
-        var _size5 = _rtmp36.size || 0;
-        for (var _i7 = 0; _i7 < _size5; ++_i7) {
-          var elem8 = null;
-          elem8 = input.readString();
-          this.success.push(elem8);
+        var _rtmp326 = input.readListBegin();
+        var _size25 = _rtmp326.size || 0;
+        for (var _i27 = 0; _i27 < _size25; ++_i27) {
+          var elem28 = null;
+          elem28 = input.readString();
+          this.success.push(elem28);
         }
         input.readListEnd();
       } else {
@@ -606,10 +995,10 @@ Frontend_openDirectoryDialog_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter9 in this.success) {
-      if (this.success.hasOwnProperty(iter9)) {
-        iter9 = this.success[iter9];
-        output.writeString(iter9);
+    for (var iter29 in this.success) {
+      if (this.success.hasOwnProperty(iter29)) {
+        iter29 = this.success[iter29];
+        output.writeString(iter29);
       }
     }
     output.writeListEnd();
@@ -753,12 +1142,12 @@ Frontend_openSaveDialog_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp311 = input.readListBegin();
-        var _size10 = _rtmp311.size || 0;
-        for (var _i12 = 0; _i12 < _size10; ++_i12) {
-          var elem13 = null;
-          elem13 = input.readString();
-          this.success.push(elem13);
+        var _rtmp331 = input.readListBegin();
+        var _size30 = _rtmp331.size || 0;
+        for (var _i32 = 0; _i32 < _size30; ++_i32) {
+          var elem33 = null;
+          elem33 = input.readString();
+          this.success.push(elem33);
         }
         input.readListEnd();
       } else {
@@ -782,10 +1171,10 @@ Frontend_openSaveDialog_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter14 in this.success) {
-      if (this.success.hasOwnProperty(iter14)) {
-        iter14 = this.success[iter14];
-        output.writeString(iter14);
+    for (var iter34 in this.success) {
+      if (this.success.hasOwnProperty(iter34)) {
+        iter34 = this.success[iter34];
+        output.writeString(iter34);
       }
     }
     output.writeListEnd();
@@ -1393,12 +1782,12 @@ Frontend_openElementSelectionDialog_args.prototype.read = function(input) {
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.elements = [];
-        var _rtmp316 = input.readListBegin();
-        var _size15 = _rtmp316.size || 0;
-        for (var _i17 = 0; _i17 < _size15; ++_i17) {
-          var elem18 = null;
-          elem18 = input.readString();
-          this.elements.push(elem18);
+        var _rtmp336 = input.readListBegin();
+        var _size35 = _rtmp336.size || 0;
+        for (var _i37 = 0; _i37 < _size35; ++_i37) {
+          var elem38 = null;
+          elem38 = input.readString();
+          this.elements.push(elem38);
         }
         input.readListEnd();
       } else {
@@ -1429,10 +1818,10 @@ Frontend_openElementSelectionDialog_args.prototype.write = function(output) {
   if (this.elements !== null && this.elements !== undefined) {
     output.writeFieldBegin('elements', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRING, this.elements.length);
-    for (var iter19 in this.elements) {
-      if (this.elements.hasOwnProperty(iter19)) {
-        iter19 = this.elements[iter19];
-        output.writeString(iter19);
+    for (var iter39 in this.elements) {
+      if (this.elements.hasOwnProperty(iter39)) {
+        iter39 = this.elements[iter39];
+        output.writeString(iter39);
       }
     }
     output.writeListEnd();
@@ -1537,12 +1926,12 @@ Frontend_openMultipleElementSelectionDialog_args.prototype.read = function(input
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.elements = [];
-        var _rtmp321 = input.readListBegin();
-        var _size20 = _rtmp321.size || 0;
-        for (var _i22 = 0; _i22 < _size20; ++_i22) {
-          var elem23 = null;
-          elem23 = input.readString();
-          this.elements.push(elem23);
+        var _rtmp341 = input.readListBegin();
+        var _size40 = _rtmp341.size || 0;
+        for (var _i42 = 0; _i42 < _size40; ++_i42) {
+          var elem43 = null;
+          elem43 = input.readString();
+          this.elements.push(elem43);
         }
         input.readListEnd();
       } else {
@@ -1573,10 +1962,10 @@ Frontend_openMultipleElementSelectionDialog_args.prototype.write = function(outp
   if (this.elements !== null && this.elements !== undefined) {
     output.writeFieldBegin('elements', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRING, this.elements.length);
-    for (var iter24 in this.elements) {
-      if (this.elements.hasOwnProperty(iter24)) {
-        iter24 = this.elements[iter24];
-        output.writeString(iter24);
+    for (var iter44 in this.elements) {
+      if (this.elements.hasOwnProperty(iter44)) {
+        iter44 = this.elements[iter44];
+        output.writeString(iter44);
       }
     }
     output.writeListEnd();
@@ -1609,12 +1998,12 @@ Frontend_openMultipleElementSelectionDialog_result.prototype.read = function(inp
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp326 = input.readListBegin();
-        var _size25 = _rtmp326.size || 0;
-        for (var _i27 = 0; _i27 < _size25; ++_i27) {
-          var elem28 = null;
-          elem28 = input.readI32();
-          this.success.push(elem28);
+        var _rtmp346 = input.readListBegin();
+        var _size45 = _rtmp346.size || 0;
+        for (var _i47 = 0; _i47 < _size45; ++_i47) {
+          var elem48 = null;
+          elem48 = input.readI32();
+          this.success.push(elem48);
         }
         input.readListEnd();
       } else {
@@ -1638,10 +2027,10 @@ Frontend_openMultipleElementSelectionDialog_result.prototype.write = function(ou
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.I32, this.success.length);
-    for (var iter29 in this.success) {
-      if (this.success.hasOwnProperty(iter29)) {
-        iter29 = this.success[iter29];
-        output.writeI32(iter29);
+    for (var iter49 in this.success) {
+      if (this.success.hasOwnProperty(iter49)) {
+        iter49 = this.success[iter49];
+        output.writeI32(iter49);
       }
     }
     output.writeListEnd();
@@ -2021,6 +2410,157 @@ FrontendClient.prototype.recv_openFileDialog = function(input,mtype,rseqid) {
     return callback(null, result.success);
   }
   return callback('openFileDialog failed: unknown result');
+};
+
+FrontendClient.prototype.openIHostFileDialog = function(title, type, returnType, filters, options, startdir, defaultName, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_openIHostFileDialog(title, type, returnType, filters, options, startdir, defaultName);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_openIHostFileDialog(title, type, returnType, filters, options, startdir, defaultName);
+  }
+};
+
+FrontendClient.prototype.send_openIHostFileDialog = function(title, type, returnType, filters, options, startdir, defaultName) {
+  var output = new this.pClass(this.output);
+  var params = {
+    title: title,
+    type: type,
+    returnType: returnType,
+    filters: filters,
+    options: options,
+    startdir: startdir,
+    defaultName: defaultName
+  };
+  var args = new Frontend_openIHostFileDialog_args(params);
+  try {
+    output.writeMessageBegin('openIHostFileDialog', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+FrontendClient.prototype.recv_openIHostFileDialog = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Frontend_openIHostFileDialog_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('openIHostFileDialog failed: unknown result');
+};
+
+FrontendClient.prototype.showFileProperties = function(filePath, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_showFileProperties(filePath);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_showFileProperties(filePath);
+  }
+};
+
+FrontendClient.prototype.send_showFileProperties = function(filePath) {
+  var output = new this.pClass(this.output);
+  var params = {
+    filePath: filePath
+  };
+  var args = new Frontend_showFileProperties_args(params);
+  try {
+    output.writeMessageBegin('showFileProperties', Thrift.MessageType.ONEWAY, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    this.output.flush();
+    var callback = this._reqs[this.seqid()] || function() {};
+    delete this._reqs[this.seqid()];
+    callback(null);
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+FrontendClient.prototype.openFileExplorer = function(filePath, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_openFileExplorer(filePath);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_openFileExplorer(filePath);
+  }
+};
+
+FrontendClient.prototype.send_openFileExplorer = function(filePath) {
+  var output = new this.pClass(this.output);
+  var params = {
+    filePath: filePath
+  };
+  var args = new Frontend_openFileExplorer_args(params);
+  try {
+    output.writeMessageBegin('openFileExplorer', Thrift.MessageType.ONEWAY, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    this.output.flush();
+    var callback = this._reqs[this.seqid()] || function() {};
+    delete this._reqs[this.seqid()];
+    callback(null);
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
 };
 
 FrontendClient.prototype.openDirectoryDialog = function(title, existing, startdir, callback) {
@@ -2785,6 +3325,61 @@ FrontendProcessor.prototype.process_openFileDialog = function(seqid, input, outp
       output.flush();
     });
   }
+};
+FrontendProcessor.prototype.process_openIHostFileDialog = function(seqid, input, output) {
+  var args = new Frontend_openIHostFileDialog_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.openIHostFileDialog.length === 7) {
+    Q.fcall(this._handler.openIHostFileDialog.bind(this._handler),
+      args.title,
+      args.type,
+      args.returnType,
+      args.filters,
+      args.options,
+      args.startdir,
+      args.defaultName
+    ).then(function(result) {
+      var result_obj = new Frontend_openIHostFileDialog_result({success: result});
+      output.writeMessageBegin("openIHostFileDialog", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("openIHostFileDialog", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.openIHostFileDialog(args.title, args.type, args.returnType, args.filters, args.options, args.startdir, args.defaultName, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Frontend_openIHostFileDialog_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("openIHostFileDialog", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("openIHostFileDialog", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+FrontendProcessor.prototype.process_showFileProperties = function(seqid, input, output) {
+  var args = new Frontend_showFileProperties_args();
+  args.read(input);
+  input.readMessageEnd();
+  this._handler.showFileProperties(args.filePath);
+};
+FrontendProcessor.prototype.process_openFileExplorer = function(seqid, input, output) {
+  var args = new Frontend_openFileExplorer_args();
+  args.read(input);
+  input.readMessageEnd();
+  this._handler.openFileExplorer(args.filePath);
 };
 FrontendProcessor.prototype.process_openDirectoryDialog = function(seqid, input, output) {
   var args = new Frontend_openDirectoryDialog_args();
