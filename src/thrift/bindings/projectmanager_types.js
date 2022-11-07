@@ -68,6 +68,18 @@ ttypes.FileCollectionType = {
   '5' : 'WsAndAllIncludeFiles',
   'WsAndAllIncludeFiles' : 5
 };
+ttypes.DesktopPathPlatform = {
+  '0' : 'Mfc',
+  'Mfc' : 0,
+  '1' : 'Qt',
+  'Qt' : 1
+};
+ttypes.DesktopPathSlavery = {
+  '0' : 'Master',
+  'Master' : 0,
+  '1' : 'Slave',
+  'Slave' : 1
+};
 var ProjectManagerError = module.exports.ProjectManagerError = function(args) {
   Thrift.TException.call(this, "ProjectManagerError");
   this.name = "ProjectManagerError";

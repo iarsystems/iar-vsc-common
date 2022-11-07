@@ -3548,6 +3548,244 @@ ProjectManager_SetCurrentConfiguration_result.prototype.write = function(output)
   return;
 };
 
+var ProjectManager_SetDesktopPathParameters_args = function(args) {
+  this.platform = null;
+  this.slavery = null;
+  if (args) {
+    if (args.platform !== undefined && args.platform !== null) {
+      this.platform = args.platform;
+    }
+    if (args.slavery !== undefined && args.slavery !== null) {
+      this.slavery = args.slavery;
+    }
+  }
+};
+ProjectManager_SetDesktopPathParameters_args.prototype = {};
+ProjectManager_SetDesktopPathParameters_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.platform = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.slavery = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_SetDesktopPathParameters_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_SetDesktopPathParameters_args');
+  if (this.platform !== null && this.platform !== undefined) {
+    output.writeFieldBegin('platform', Thrift.Type.I32, 1);
+    output.writeI32(this.platform);
+    output.writeFieldEnd();
+  }
+  if (this.slavery !== null && this.slavery !== undefined) {
+    output.writeFieldBegin('slavery', Thrift.Type.I32, 2);
+    output.writeI32(this.slavery);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_SetDesktopPathParameters_result = function(args) {
+};
+ProjectManager_SetDesktopPathParameters_result.prototype = {};
+ProjectManager_SetDesktopPathParameters_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_SetDesktopPathParameters_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_SetDesktopPathParameters_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_GetOfflineDesktopPath_args = function(args) {
+};
+ProjectManager_GetOfflineDesktopPath_args.prototype = {};
+ProjectManager_GetOfflineDesktopPath_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetOfflineDesktopPath_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetOfflineDesktopPath_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_GetOfflineDesktopPath_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+ProjectManager_GetOfflineDesktopPath_result.prototype = {};
+ProjectManager_GetOfflineDesktopPath_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetOfflineDesktopPath_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetOfflineDesktopPath_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_GetOnlineDesktopPath_args = function(args) {
+};
+ProjectManager_GetOnlineDesktopPath_args.prototype = {};
+ProjectManager_GetOnlineDesktopPath_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetOnlineDesktopPath_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetOnlineDesktopPath_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_GetOnlineDesktopPath_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+ProjectManager_GetOnlineDesktopPath_result.prototype = {};
+ProjectManager_GetOnlineDesktopPath_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetOnlineDesktopPath_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetOnlineDesktopPath_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var ProjectManager_GetRootNode_args = function(args) {
   this.ctx = null;
   if (args) {
@@ -10362,6 +10600,175 @@ ProjectManagerClient.prototype.recv_SetCurrentConfiguration = function(input,mty
   callback(null);
 };
 
+ProjectManagerClient.prototype.SetDesktopPathParameters = function(platform, slavery, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_SetDesktopPathParameters(platform, slavery);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_SetDesktopPathParameters(platform, slavery);
+  }
+};
+
+ProjectManagerClient.prototype.send_SetDesktopPathParameters = function(platform, slavery) {
+  var output = new this.pClass(this.output);
+  var params = {
+    platform: platform,
+    slavery: slavery
+  };
+  var args = new ProjectManager_SetDesktopPathParameters_args(params);
+  try {
+    output.writeMessageBegin('SetDesktopPathParameters', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_SetDesktopPathParameters = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_SetDesktopPathParameters_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  callback(null);
+};
+
+ProjectManagerClient.prototype.GetOfflineDesktopPath = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_GetOfflineDesktopPath();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_GetOfflineDesktopPath();
+  }
+};
+
+ProjectManagerClient.prototype.send_GetOfflineDesktopPath = function() {
+  var output = new this.pClass(this.output);
+  var args = new ProjectManager_GetOfflineDesktopPath_args();
+  try {
+    output.writeMessageBegin('GetOfflineDesktopPath', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_GetOfflineDesktopPath = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_GetOfflineDesktopPath_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('GetOfflineDesktopPath failed: unknown result');
+};
+
+ProjectManagerClient.prototype.GetOnlineDesktopPath = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_GetOnlineDesktopPath();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_GetOnlineDesktopPath();
+  }
+};
+
+ProjectManagerClient.prototype.send_GetOnlineDesktopPath = function() {
+  var output = new this.pClass(this.output);
+  var args = new ProjectManager_GetOnlineDesktopPath_args();
+  try {
+    output.writeMessageBegin('GetOnlineDesktopPath', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_GetOnlineDesktopPath = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_GetOnlineDesktopPath_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('GetOnlineDesktopPath failed: unknown result');
+};
+
 ProjectManagerClient.prototype.GetRootNode = function(ctx, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -13885,6 +14292,116 @@ ProjectManagerProcessor.prototype.process_SetCurrentConfiguration = function(seq
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("SetCurrentConfiguration", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_SetDesktopPathParameters = function(seqid, input, output) {
+  var args = new ProjectManager_SetDesktopPathParameters_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.SetDesktopPathParameters.length === 2) {
+    Q.fcall(this._handler.SetDesktopPathParameters.bind(this._handler),
+      args.platform,
+      args.slavery
+    ).then(function(result) {
+      var result_obj = new ProjectManager_SetDesktopPathParameters_result({success: result});
+      output.writeMessageBegin("SetDesktopPathParameters", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("SetDesktopPathParameters", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.SetDesktopPathParameters(args.platform, args.slavery, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_SetDesktopPathParameters_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("SetDesktopPathParameters", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("SetDesktopPathParameters", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_GetOfflineDesktopPath = function(seqid, input, output) {
+  var args = new ProjectManager_GetOfflineDesktopPath_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.GetOfflineDesktopPath.length === 0) {
+    Q.fcall(this._handler.GetOfflineDesktopPath.bind(this._handler)
+    ).then(function(result) {
+      var result_obj = new ProjectManager_GetOfflineDesktopPath_result({success: result});
+      output.writeMessageBegin("GetOfflineDesktopPath", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("GetOfflineDesktopPath", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.GetOfflineDesktopPath(function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_GetOfflineDesktopPath_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("GetOfflineDesktopPath", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("GetOfflineDesktopPath", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_GetOnlineDesktopPath = function(seqid, input, output) {
+  var args = new ProjectManager_GetOnlineDesktopPath_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.GetOnlineDesktopPath.length === 0) {
+    Q.fcall(this._handler.GetOnlineDesktopPath.bind(this._handler)
+    ).then(function(result) {
+      var result_obj = new ProjectManager_GetOnlineDesktopPath_result({success: result});
+      output.writeMessageBegin("GetOnlineDesktopPath", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("GetOnlineDesktopPath", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.GetOnlineDesktopPath(function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_GetOnlineDesktopPath_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("GetOnlineDesktopPath", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("GetOnlineDesktopPath", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

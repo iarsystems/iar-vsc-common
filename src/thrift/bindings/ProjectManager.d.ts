@@ -18,6 +18,8 @@ import InvocationType = ttypes.InvocationType
 import NodeType = ttypes.NodeType
 import OptionType = ttypes.OptionType
 import FileCollectionType = ttypes.FileCollectionType
+import DesktopPathPlatform = ttypes.DesktopPathPlatform
+import DesktopPathSlavery = ttypes.DesktopPathSlavery
 import PROJECTMANAGER_ID = ttypes.PROJECTMANAGER_ID
 import ProjectManagerError = ttypes.ProjectManagerError
 import ToolDefinition = ttypes.ToolDefinition
@@ -389,6 +391,36 @@ declare class Client extends HeartbeatService.Client {
    * This change is saved to the settings file.
    */
   SetCurrentConfiguration(project: ProjectContext, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Desktop path parameters
+   */
+  SetDesktopPathParameters(platform: DesktopPathPlatform, slavery: DesktopPathSlavery): Q.Promise<void>;
+
+  /**
+   * Desktop path parameters
+   */
+  SetDesktopPathParameters(platform: DesktopPathPlatform, slavery: DesktopPathSlavery, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Get the path to the off-line desktop settings file for the workspace *
+   */
+  GetOfflineDesktopPath(): Q.Promise<string>;
+
+  /**
+   * Get the path to the off-line desktop settings file for the workspace *
+   */
+  GetOfflineDesktopPath(callback?: (error: void, response: string)=>void): void;
+
+  /**
+   * Get the path to the on-line desktop settings file for the current project *
+   */
+  GetOnlineDesktopPath(): Q.Promise<string>;
+
+  /**
+   * Get the path to the on-line desktop settings file for the current project *
+   */
+  GetOnlineDesktopPath(callback?: (error: void, response: string)=>void): void;
 
   /**
    * Get the root of a project's file and group hierarchy tree, including all children
@@ -807,6 +839,9 @@ declare class Processor extends HeartbeatService.Processor {
   process_SetConfigurationsOrder(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetCurrentConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetCurrentConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetDesktopPathParameters(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetOfflineDesktopPath(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetOnlineDesktopPath(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetRootNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;

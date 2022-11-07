@@ -68,6 +68,19 @@ declare enum FileCollectionType {
   WsAndAllIncludeFiles = 5,
 }
 
+/**
+ * Desktop Path Platforms
+ */
+declare enum DesktopPathPlatform {
+  Mfc = 0,
+  Qt = 1,
+}
+
+declare enum DesktopPathSlavery {
+  Master = 0,
+  Slave = 1,
+}
+
 declare class ProjectManagerError extends Thrift.TException {
   public description: string;
 
