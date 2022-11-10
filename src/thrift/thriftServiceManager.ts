@@ -87,10 +87,10 @@ export class ThriftServiceManager {
 
         // Wait for service registry process to exit
         if (this.process.exitCode === null) {
-            await new Promise((resolve, reject) => {
+            await new Promise<void>(resolve => {
                 this.process.on("exit", resolve);
                 setTimeout(() => {
-                    reject(new Error("Service registry exit timed out"));
+                    resolve();
                     this.process.kill();
                 }, ThriftServiceManager.PROCESS_EXIT_TIMEOUT);
             });
