@@ -57,7 +57,7 @@ export class ThriftServiceManager {
             });
             process.on("exit", code => {
                 procMon?.exit(code);
-                reject(new Error("Service registry exited"));
+                reject(new Error("Service registry exited prematurely, code: " + code));
             });
             setTimeout(() => {
                 reject(new Error("Service registry launch timed out"));
@@ -65,10 +65,10 @@ export class ThriftServiceManager {
 
             // First we wait for the service registry to be ready (when the location file has been created),
             // then optionally wait for some service to be registered in the registry
-            resolve(locationPromise.then(async location => {
+            locationPromise.then(async location => {
                 if (serviceToAwait) await waitForServiceToBeOnline(location, serviceToAwait);
-                return new ThriftServiceManager(process, location, stopProcess);
-            }));
+                resolve(new ThriftServiceManager(process, location, stopProcess));
+            });
         });
     }
 
