@@ -32,7 +32,17 @@ export interface Workbench {
 
 export interface WorkbenchVersion { major: number, minor: number, patch: number }
 
-export enum WorkbenchType { IDE, BX }
+/**
+ * Describes the product type.
+ */
+export enum WorkbenchType {
+    /** An installation with only what's needed to build projects, and no debugger or thrift project manager. */
+    LEGACY_BX = 0,
+    /** An installation without any graphical components (i.e. the IDE). */
+    EXTENDED_BX = 1,
+    /** A full installation. */
+    IDE = 2,
+}
 
 export namespace Workbench {
     export const ideSubPath = "common/bin/IarIdePm.exe";
@@ -133,9 +143,14 @@ class WorkbenchImpl implements Workbench {
         // Checks whether a workbench has CspyServer. This might misclassify really old EW version, but that's ok since we don't support them anyway.
         if (Fs.existsSync(Path.join(this.path, "common/bin/CSpyServer" + IarOsUtils.executableExtension())) ||
             Fs.existsSync(Path.join(this.path, "common/bin/CSpyServer2" + IarOsUtils.executableExtension()))) {
-            return WorkbenchType.IDE;
+
+            if (Fs.existsSync(Path.join(this.path, "common/bin/IarIdePm" + IarOsUtils.executableExtension())) ||
+                Fs.existsSync(Path.join(this.path, "common/bin/IarIde" + IarOsUtils.executableExtension()))) {
+                return WorkbenchType.IDE;
+            }
+            return WorkbenchType.EXTENDED_BX;
         }
-        return WorkbenchType.BX;
+        return WorkbenchType.LEGACY_BX;
     }
 
 }
