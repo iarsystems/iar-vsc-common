@@ -60,6 +60,10 @@ export namespace WorkbenchFeatures {
      * Whether this workbench supports loading workspaces from the thrift project manager (e.g. to load .custom_argvars files). */
     export const PMWorkspaces: FeatureRequirement =
         { baseVersion: [9,1,1], minProductType: WorkbenchType.LEGACY_BX };
+    /**
+     * Whether this workbench supports leaving the target running */
+    export const LeaveTargetRunning: FeatureRequirement =
+        { baseVersion: [9,2,2], minProductType: WorkbenchType.EXTENDED_BX };
 
     /**
      * Checks whether a workbench version meets the given minimum version.
@@ -189,6 +193,7 @@ export namespace WorkbenchFeatures {
             products.push(new ProductRelease([8,0,4], false, "8.10.1"));
             products.push(new ProductRelease([9,0,11], false, "9.20.4"));
             products.push(new ProductRelease([9,1,1], false, "9.30.1"));
+            products.push(new ProductRelease([9,2,2], false, "9.40.1"));
         }
         if (target === "riscv") {
             products.push(new ProductRelease([8,3,2], false, "1.10"));
