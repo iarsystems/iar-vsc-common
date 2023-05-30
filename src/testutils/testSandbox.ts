@@ -32,14 +32,16 @@ export class TestSandbox {
             Fs.copyFileSync(toCopy, targetPath);
         } else {
             if (Fs.existsSync(targetPath)) {
-                // Remove old contents (e.g. from previous test runs).
-                // Removing the entire directory can break the .ewp file watcher,
-                // so this only removes each of the items *in* the directory.
+                // Remove old contents (e.g. from previous test runs). Removing
+                // the entire directory can break the file watchers, so this
+                // only removes each of the items *in* the directory.
                 //
-                // Also note that we don't remove .ewp files. The .ewp file watcher sometimes won't catch if we delete
-                // and then quickly recreate a .ewp file, so just leave them be; they will be overwritten when we do the
-                // copying anyway.
-                TestSandbox.removeRecursive(targetPath, path => !path.endsWith(".ewp"));
+                // Also note that we don't remove .ewp or .eww files. The file
+                // watchers sometimes won't catch if we delete and then quickly
+                // recreate a file, so just leave them be; they will be
+                // overwritten when we do the copying anyway.
+                TestSandbox.removeRecursive(targetPath,
+                    path => !path.endsWith(".ewp") && !path.endsWith(".eww"));
             }
             TestSandbox.copyDirectory(toCopy, targetPath);
         }
