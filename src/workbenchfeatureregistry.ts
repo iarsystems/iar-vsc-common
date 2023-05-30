@@ -33,7 +33,7 @@ export namespace WorkbenchFeatures {
             rh850: [9,2,0],
             rl78:  [9,1,7],
             avr:   [9,1,7],
-            riscv: [9,1,7],
+            riscv: [9,2,0],
         }
     };
     /**
