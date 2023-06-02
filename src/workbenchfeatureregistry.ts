@@ -22,6 +22,12 @@ export namespace WorkbenchFeatures {
      * We make no attempt to support versions below this; some things may still work... */
     export const VSCodeIntegration: FeatureRequirement =
         { baseVersion: [8,0,0], minProductType: WorkbenchType.LEGACY_BX };
+
+    /**
+     * Whether this workbench supports the iarbuild -jsondb mode */
+    export const JsonDb: FeatureRequirement =
+        { baseVersion: [9,0,0], minProductType: WorkbenchType.LEGACY_BX };
+
     /**
      * Whether this workbench can return project/configuration options via thrift.
      * Previous versions may fail to expand some argvars, see MAJ-156. */
