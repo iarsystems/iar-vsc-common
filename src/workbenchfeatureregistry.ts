@@ -70,6 +70,12 @@ export namespace WorkbenchFeatures {
      * Whether this workbench supports leaving the target running */
     export const LeaveTargetRunning: FeatureRequirement =
         { baseVersion: [9,2,2], minProductType: WorkbenchType.EXTENDED_BX };
+    /**
+     * Whether this workbench uses upper-case drive letters internally. Prior to
+     * IDE 9.2 we need to match the drive letter casing to the internal
+     * representation when calling iarbuild, see VSC-409. */
+    export const UpperCaseDriveLetters: FeatureRequirement =
+        { baseVersion: [9,1,2], minProductType: WorkbenchType.LEGACY_BX };
 
     /**
      * Checks whether a workbench version meets the given minimum version.
