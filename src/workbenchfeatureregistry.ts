@@ -24,6 +24,20 @@ export namespace WorkbenchFeatures {
         { baseVersion: [8,0,0], minProductType: WorkbenchType.LEGACY_BX };
 
     /**
+     * Whether this workbench supports debugging from VS Code (i.e. whether
+     * CSpyServer supports the socket transport, and drivers can run headless). */
+    export const Debugging: FeatureRequirement = {
+        baseVersion: [8,3,2],
+        minProductType: WorkbenchType.EXTENDED_BX,
+        targetOverrides: {
+            avr: [9,1,7],
+            rh850: [9,1,2],
+            riscv: [9,1,0],
+            rl78: [9,1,7],
+        }
+    };
+
+    /**
      * Whether this workbench supports the iarbuild -jsondb mode */
     export const JsonDb: FeatureRequirement =
         { baseVersion: [9,0,0], minProductType: WorkbenchType.LEGACY_BX };
@@ -215,14 +229,17 @@ export namespace WorkbenchFeatures {
         }
         if (target === "430") {
             products.push(new ProductRelease([8,0,4], false, "7.10.1"));
+            products.push(new ProductRelease([8,4,2], false, "7.20.1"));
             products.push(new ProductRelease([9,1,4], false, "8.10.1"));
         }
         if (target === "avr") {
             products.push(new ProductRelease([8,0,7], false, "7.10"));
+            products.push(new ProductRelease([8,4,6], false, "7.30"));
             products.push(new ProductRelease([9,1,7], false, "8.10"));
         }
         if (target === "rh850") {
             products.push(new ProductRelease([8,1,1], false, "2.10"));
+            products.push(new ProductRelease([8,4,4], false, "2.20"));
             products.push(new ProductRelease([9,1,2], false, "3.10"));
         }
         if (target === "rl78") {
