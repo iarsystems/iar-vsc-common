@@ -51,7 +51,17 @@ export namespace OsUtils {
      * Checks whether two paths point to the same object.
      */
     export function pathsEqual(a: string, b: string) {
-        return Path.relative(a, b) === "";
+        // realpath is necessary to resolve symlinks and (windows') mapped
+        // network drives
+        let realA = a;
+        let realB = b;
+        try {
+            realA = fs.realpathSync.native(a);
+        } catch {}
+        try {
+            realB = fs.realpathSync.native(b);
+        } catch {}
+        return Path.relative(realA, realB) === "";
     }
 
     /**

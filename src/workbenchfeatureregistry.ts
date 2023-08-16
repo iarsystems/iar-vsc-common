@@ -22,6 +22,26 @@ export namespace WorkbenchFeatures {
      * We make no attempt to support versions below this; some things may still work... */
     export const VSCodeIntegration: FeatureRequirement =
         { baseVersion: [8,0,0], minProductType: WorkbenchType.LEGACY_BX };
+
+    /**
+     * Whether this workbench supports debugging from VS Code (i.e. whether
+     * CSpyServer supports the socket transport, and drivers can run headless). */
+    export const Debugging: FeatureRequirement = {
+        baseVersion: [8,3,2],
+        minProductType: WorkbenchType.EXTENDED_BX,
+        targetOverrides: {
+            avr: [9,1,7],
+            rh850: [9,1,2],
+            riscv: [9,1,0],
+            rl78: [9,1,7],
+        }
+    };
+
+    /**
+     * Whether this workbench supports the iarbuild -jsondb mode */
+    export const JsonDb: FeatureRequirement =
+        { baseVersion: [9,0,0], minProductType: WorkbenchType.LEGACY_BX };
+
     /**
      * Whether this workbench can return project/configuration options via thrift.
      * Previous versions may fail to expand some argvars, see MAJ-156. */
@@ -33,7 +53,7 @@ export namespace WorkbenchFeatures {
             rh850: [9,2,0],
             rl78:  [9,1,7],
             avr:   [9,1,7],
-            riscv: [9,1,7],
+            riscv: [9,2,0],
         }
     };
     /**
@@ -64,6 +84,12 @@ export namespace WorkbenchFeatures {
      * Whether this workbench supports leaving the target running */
     export const LeaveTargetRunning: FeatureRequirement =
         { baseVersion: [9,2,2], minProductType: WorkbenchType.EXTENDED_BX };
+    /**
+     * Whether this workbench uses upper-case drive letters internally. Prior to
+     * IDE 9.2 we need to match the drive letter casing to the internal
+     * representation when calling iarbuild, see VSC-409. */
+    export const UpperCaseDriveLetters: FeatureRequirement =
+        { baseVersion: [9,1,2], minProductType: WorkbenchType.LEGACY_BX };
 
     /**
      * Checks whether a workbench version meets the given minimum version.
@@ -203,14 +229,17 @@ export namespace WorkbenchFeatures {
         }
         if (target === "430") {
             products.push(new ProductRelease([8,0,4], false, "7.10.1"));
+            products.push(new ProductRelease([8,4,2], false, "7.20.1"));
             products.push(new ProductRelease([9,1,4], false, "8.10.1"));
         }
         if (target === "avr") {
             products.push(new ProductRelease([8,0,7], false, "7.10"));
+            products.push(new ProductRelease([8,4,6], false, "7.30"));
             products.push(new ProductRelease([9,1,7], false, "8.10"));
         }
         if (target === "rh850") {
             products.push(new ProductRelease([8,1,1], false, "2.10"));
+            products.push(new ProductRelease([8,4,4], false, "2.20"));
             products.push(new ProductRelease([9,1,2], false, "3.10"));
         }
         if (target === "rl78") {
