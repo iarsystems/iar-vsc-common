@@ -219,6 +219,7 @@ export namespace WorkbenchFeatures {
         }
         if (target === "rx") {
             products.push(new ProductRelease([8,0,6], false, "3.10"));
+            products.push(new ProductRelease([9,2,3], false, "5.10"));
         }
         if (target === "stm8") {
             products.push(new ProductRelease([8,1,2], false, "5.10"));
