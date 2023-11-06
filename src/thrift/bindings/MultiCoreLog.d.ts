@@ -20,6 +20,7 @@ import CoreLowLevelResult = ttypes.CoreLowLevelResult
 import WhatNext = ttypes.WhatNext
 import CoreStatus = ttypes.CoreStatus
 import Tools = ttypes.Tools
+import AMP_VERSION = ttypes.AMP_VERSION
 import CORES_REGISTRY_SERVICE = ttypes.CORES_REGISTRY_SERVICE
 import PARTNER_REGISTRY_SERVICE = ttypes.PARTNER_REGISTRY_SERVICE
 import EVENT_BUS_SERVICE = ttypes.EVENT_BUS_SERVICE

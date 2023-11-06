@@ -10,6 +10,7 @@ import Thrift = thrift.Thrift;
 import Q = thrift.Q;
 import Int64 = require('node-int64');
 import shared_ttypes = require('./shared_types');
+import themes_ttypes = require('./themes_types');
 
 
 import ttypes = require('./frontend_types');
@@ -259,6 +260,16 @@ declare class Client extends HeartbeatService.Client {
    * specified alias id.
    */
   resolveAliasForFile(fileName: string, suggestedFile: string, callback?: (error: void, response: string)=>void): void;
+
+  /**
+   * Resolve the current theme that is used by the client.
+   */
+  getActiveTheme(): Q.Promise<{ [k: number /*themes_ttypes.ThriftDisplayElement*/]: themes_ttypes.ColorSchema; }>;
+
+  /**
+   * Resolve the current theme that is used by the client.
+   */
+  getActiveTheme(callback?: (error: void, response: { [k: number /*themes_ttypes.ThriftDisplayElement*/]: themes_ttypes.ColorSchema; })=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -283,4 +294,5 @@ declare class Processor extends HeartbeatService.Processor {
   process_openMultipleElementSelectionDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_editSourceLocation(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_resolveAliasForFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getActiveTheme(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

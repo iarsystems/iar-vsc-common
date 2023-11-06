@@ -21,6 +21,7 @@ import CoreLowLevelResult = ttypes.CoreLowLevelResult
 import WhatNext = ttypes.WhatNext
 import CoreStatus = ttypes.CoreStatus
 import Tools = ttypes.Tools
+import AMP_VERSION = ttypes.AMP_VERSION
 import CORES_REGISTRY_SERVICE = ttypes.CORES_REGISTRY_SERVICE
 import PARTNER_REGISTRY_SERVICE = ttypes.PARTNER_REGISTRY_SERVICE
 import EVENT_BUS_SERVICE = ttypes.EVENT_BUS_SERVICE
@@ -87,6 +88,10 @@ declare class Client extends HeartbeatService.Client {
 
   Fire(toBeFired: Event, callback?: (error: void, response: void)=>void): void;
 
+  RegisterWithVersion(clientLocation: ServiceRegistry_ttypes.ServiceLocation, myId: number, ampVersion: number): Q.Promise<void>;
+
+  RegisterWithVersion(clientLocation: ServiceRegistry_ttypes.ServiceLocation, myId: number, ampVersion: number, callback?: (error: ttypes.EventBusRegistrationFailed, response: void)=>void): void;
+
   Register(clientLocation: ServiceRegistry_ttypes.ServiceLocation, myId: number): Q.Promise<void>;
 
   Register(clientLocation: ServiceRegistry_ttypes.ServiceLocation, myId: number, callback?: (error: ttypes.EventBusRegistrationFailed, response: void)=>void): void;
@@ -98,5 +103,6 @@ declare class Processor extends HeartbeatService.Processor {
   constructor(handler: object);
   process(input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_Fire(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_RegisterWithVersion(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_Register(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

@@ -37,6 +37,7 @@ declare enum NodeType {
   Invalid = 0,
   Group = 1,
   File = 2,
+  ControlFile = 3,
 }
 
 /**
@@ -54,6 +55,7 @@ declare enum OptionType {
   List = 3,
   Radio = 4,
   CheckList = 5,
+  BuildActions = 6,
 }
 
 /**
@@ -119,8 +121,11 @@ declare class Toolchain {
   public id: string;
   public name: string;
   public tools: ToolDefinition[];
+  public toolkitDir: string;
+  public templatesDir: string;
+  public modifiable: boolean;
 
-    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; });
+    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; toolkitDir: string; templatesDir: string; modifiable: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -133,8 +138,9 @@ declare class Configuration {
   public name: string;
   public toolchainId: string;
   public isDebug: boolean;
+  public isControlFileManaged: boolean;
 
-    constructor(args?: { name: string; toolchainId: string; isDebug: boolean; });
+    constructor(args?: { name: string; toolchainId: string; isDebug: boolean; isControlFileManaged: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -259,6 +265,19 @@ declare class BuildResult {
   public succeded: boolean;
 
     constructor(args?: { projectContext: ProjectContext; buildOutput: string[]; succeded: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * A simple representation of the control file plugins to use in GUI:s
+ */
+declare class ControlFilePlugin {
+  public name: string;
+  public filefilter: string;
+  public isInternal: boolean;
+
+    constructor(args?: { name: string; filefilter: string; isInternal: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }

@@ -815,6 +815,7 @@ FailedToStartPartner.prototype.write = function(output) {
   return;
 };
 
+ttypes.AMP_VERSION = 1;
 ttypes.CORES_REGISTRY_SERVICE = 'com.iar.cspy.ampsync.cores_registry';
 ttypes.PARTNER_REGISTRY_SERVICE = 'com.iar.cspy.ampsync.partner_registry';
 ttypes.EVENT_BUS_SERVICE = 'com.iar.cspy.ampsync.eventbus';

@@ -97,6 +97,141 @@ EventBus_Fire_result.prototype.write = function(output) {
   return;
 };
 
+var EventBus_RegisterWithVersion_args = function(args) {
+  this.clientLocation = null;
+  this.myId = null;
+  this.ampVersion = null;
+  if (args) {
+    if (args.clientLocation !== undefined && args.clientLocation !== null) {
+      this.clientLocation = new ServiceRegistry_ttypes.ServiceLocation(args.clientLocation);
+    }
+    if (args.myId !== undefined && args.myId !== null) {
+      this.myId = args.myId;
+    }
+    if (args.ampVersion !== undefined && args.ampVersion !== null) {
+      this.ampVersion = args.ampVersion;
+    }
+  }
+};
+EventBus_RegisterWithVersion_args.prototype = {};
+EventBus_RegisterWithVersion_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.clientLocation = new ServiceRegistry_ttypes.ServiceLocation();
+        this.clientLocation.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.myId = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I32) {
+        this.ampVersion = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+EventBus_RegisterWithVersion_args.prototype.write = function(output) {
+  output.writeStructBegin('EventBus_RegisterWithVersion_args');
+  if (this.clientLocation !== null && this.clientLocation !== undefined) {
+    output.writeFieldBegin('clientLocation', Thrift.Type.STRUCT, 1);
+    this.clientLocation.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.myId !== null && this.myId !== undefined) {
+    output.writeFieldBegin('myId', Thrift.Type.I32, 2);
+    output.writeI32(this.myId);
+    output.writeFieldEnd();
+  }
+  if (this.ampVersion !== null && this.ampVersion !== undefined) {
+    output.writeFieldBegin('ampVersion', Thrift.Type.I32, 3);
+    output.writeI32(this.ampVersion);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var EventBus_RegisterWithVersion_result = function(args) {
+  this.regFaild = null;
+  if (args instanceof ttypes.EventBusRegistrationFailed) {
+    this.regFaild = args;
+    return;
+  }
+  if (args) {
+    if (args.regFaild !== undefined && args.regFaild !== null) {
+      this.regFaild = args.regFaild;
+    }
+  }
+};
+EventBus_RegisterWithVersion_result.prototype = {};
+EventBus_RegisterWithVersion_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.regFaild = new ttypes.EventBusRegistrationFailed();
+        this.regFaild.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+EventBus_RegisterWithVersion_result.prototype.write = function(output) {
+  output.writeStructBegin('EventBus_RegisterWithVersion_result');
+  if (this.regFaild !== null && this.regFaild !== undefined) {
+    output.writeFieldBegin('regFaild', Thrift.Type.STRUCT, 1);
+    this.regFaild.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var EventBus_Register_args = function(args) {
   this.clientLocation = null;
   this.myId = null;
@@ -269,6 +404,67 @@ EventBusClient.prototype.send_Fire = function(toBeFired) {
   }
 };
 
+EventBusClient.prototype.RegisterWithVersion = function(clientLocation, myId, ampVersion, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_RegisterWithVersion(clientLocation, myId, ampVersion);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_RegisterWithVersion(clientLocation, myId, ampVersion);
+  }
+};
+
+EventBusClient.prototype.send_RegisterWithVersion = function(clientLocation, myId, ampVersion) {
+  var output = new this.pClass(this.output);
+  var params = {
+    clientLocation: clientLocation,
+    myId: myId,
+    ampVersion: ampVersion
+  };
+  var args = new EventBus_RegisterWithVersion_args(params);
+  try {
+    output.writeMessageBegin('RegisterWithVersion', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+EventBusClient.prototype.recv_RegisterWithVersion = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new EventBus_RegisterWithVersion_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.regFaild) {
+    return callback(result.regFaild);
+  }
+  callback(null);
+};
+
 EventBusClient.prototype.Register = function(clientLocation, myId, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -351,6 +547,50 @@ EventBusProcessor.prototype.process_Fire = function(seqid, input, output) {
   args.read(input);
   input.readMessageEnd();
   this._handler.Fire(args.toBeFired);
+};
+EventBusProcessor.prototype.process_RegisterWithVersion = function(seqid, input, output) {
+  var args = new EventBus_RegisterWithVersion_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.RegisterWithVersion.length === 3) {
+    Q.fcall(this._handler.RegisterWithVersion.bind(this._handler),
+      args.clientLocation,
+      args.myId,
+      args.ampVersion
+    ).then(function(result) {
+      var result_obj = new EventBus_RegisterWithVersion_result({success: result});
+      output.writeMessageBegin("RegisterWithVersion", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      if (err instanceof ttypes.EventBusRegistrationFailed) {
+        result = new EventBus_RegisterWithVersion_result(err);
+        output.writeMessageBegin("RegisterWithVersion", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("RegisterWithVersion", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.RegisterWithVersion(args.clientLocation, args.myId, args.ampVersion, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined') || err instanceof ttypes.EventBusRegistrationFailed) {
+        result_obj = new EventBus_RegisterWithVersion_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("RegisterWithVersion", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("RegisterWithVersion", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
 };
 EventBusProcessor.prototype.process_Register = function(seqid, input, output) {
   var args = new EventBus_Register_args();

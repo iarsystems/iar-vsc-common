@@ -11,6 +11,7 @@ var Q = thrift.Q;
 var Int64 = require('node-int64');
 
 var shared_ttypes = require('./shared_types');
+var themes_ttypes = require('./themes_types');
 
 
 var ttypes = module.exports = {};

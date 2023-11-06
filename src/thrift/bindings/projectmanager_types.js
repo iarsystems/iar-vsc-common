@@ -38,7 +38,9 @@ ttypes.NodeType = {
   '1' : 'Group',
   'Group' : 1,
   '2' : 'File',
-  'File' : 2
+  'File' : 2,
+  '3' : 'ControlFile',
+  'ControlFile' : 3
 };
 ttypes.OptionType = {
   '0' : 'Check',
@@ -52,7 +54,9 @@ ttypes.OptionType = {
   '4' : 'Radio',
   'Radio' : 4,
   '5' : 'CheckList',
-  'CheckList' : 5
+  'CheckList' : 5,
+  '6' : 'BuildActions',
+  'BuildActions' : 6
 };
 ttypes.FileCollectionType = {
   '0' : 'ProjFiles',
@@ -341,6 +345,9 @@ var Toolchain = module.exports.Toolchain = function(args) {
   this.id = null;
   this.name = null;
   this.tools = null;
+  this.toolkitDir = null;
+  this.templatesDir = null;
+  this.modifiable = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -350,6 +357,15 @@ var Toolchain = module.exports.Toolchain = function(args) {
     }
     if (args.tools !== undefined && args.tools !== null) {
       this.tools = Thrift.copyList(args.tools, [ttypes.ToolDefinition]);
+    }
+    if (args.toolkitDir !== undefined && args.toolkitDir !== null) {
+      this.toolkitDir = args.toolkitDir;
+    }
+    if (args.templatesDir !== undefined && args.templatesDir !== null) {
+      this.templatesDir = args.templatesDir;
+    }
+    if (args.modifiable !== undefined && args.modifiable !== null) {
+      this.modifiable = args.modifiable;
     }
   }
 };
@@ -394,6 +410,27 @@ Toolchain.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.toolkitDir = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.templatesDir = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.BOOL) {
+        this.modifiable = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -427,6 +464,21 @@ Toolchain.prototype.write = function(output) {
     output.writeListEnd();
     output.writeFieldEnd();
   }
+  if (this.toolkitDir !== null && this.toolkitDir !== undefined) {
+    output.writeFieldBegin('toolkitDir', Thrift.Type.STRING, 4);
+    output.writeString(this.toolkitDir);
+    output.writeFieldEnd();
+  }
+  if (this.templatesDir !== null && this.templatesDir !== undefined) {
+    output.writeFieldBegin('templatesDir', Thrift.Type.STRING, 5);
+    output.writeString(this.templatesDir);
+    output.writeFieldEnd();
+  }
+  if (this.modifiable !== null && this.modifiable !== undefined) {
+    output.writeFieldBegin('modifiable', Thrift.Type.BOOL, 6);
+    output.writeBool(this.modifiable);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -436,6 +488,7 @@ var Configuration = module.exports.Configuration = function(args) {
   this.name = null;
   this.toolchainId = null;
   this.isDebug = null;
+  this.isControlFileManaged = null;
   if (args) {
     if (args.name !== undefined && args.name !== null) {
       this.name = args.name;
@@ -445,6 +498,9 @@ var Configuration = module.exports.Configuration = function(args) {
     }
     if (args.isDebug !== undefined && args.isDebug !== null) {
       this.isDebug = args.isDebug;
+    }
+    if (args.isControlFileManaged !== undefined && args.isControlFileManaged !== null) {
+      this.isControlFileManaged = args.isControlFileManaged;
     }
   }
 };
@@ -480,6 +536,13 @@ Configuration.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 4:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isControlFileManaged = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -504,6 +567,11 @@ Configuration.prototype.write = function(output) {
   if (this.isDebug !== null && this.isDebug !== undefined) {
     output.writeFieldBegin('isDebug', Thrift.Type.BOOL, 3);
     output.writeBool(this.isDebug);
+    output.writeFieldEnd();
+  }
+  if (this.isControlFileManaged !== null && this.isControlFileManaged !== undefined) {
+    output.writeFieldBegin('isControlFileManaged', Thrift.Type.BOOL, 4);
+    output.writeBool(this.isControlFileManaged);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1412,6 +1480,85 @@ BuildResult.prototype.write = function(output) {
   if (this.succeded !== null && this.succeded !== undefined) {
     output.writeFieldBegin('succeded', Thrift.Type.BOOL, 3);
     output.writeBool(this.succeded);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ControlFilePlugin = module.exports.ControlFilePlugin = function(args) {
+  this.name = null;
+  this.filefilter = null;
+  this.isInternal = null;
+  if (args) {
+    if (args.name !== undefined && args.name !== null) {
+      this.name = args.name;
+    }
+    if (args.filefilter !== undefined && args.filefilter !== null) {
+      this.filefilter = args.filefilter;
+    }
+    if (args.isInternal !== undefined && args.isInternal !== null) {
+      this.isInternal = args.isInternal;
+    }
+  }
+};
+ControlFilePlugin.prototype = {};
+ControlFilePlugin.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.name = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.filefilter = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isInternal = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ControlFilePlugin.prototype.write = function(output) {
+  output.writeStructBegin('ControlFilePlugin');
+  if (this.name !== null && this.name !== undefined) {
+    output.writeFieldBegin('name', Thrift.Type.STRING, 1);
+    output.writeString(this.name);
+    output.writeFieldEnd();
+  }
+  if (this.filefilter !== null && this.filefilter !== undefined) {
+    output.writeFieldBegin('filefilter', Thrift.Type.STRING, 2);
+    output.writeString(this.filefilter);
+    output.writeFieldEnd();
+  }
+  if (this.isInternal !== null && this.isInternal !== undefined) {
+    output.writeFieldBegin('isInternal', Thrift.Type.BOOL, 3);
+    output.writeBool(this.isInternal);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

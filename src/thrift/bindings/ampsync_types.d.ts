@@ -150,6 +150,8 @@ declare class FailedToStartPartner extends Thrift.TException {
   write(input: Object): void;
 }
 
+declare var AMP_VERSION: number;
+
 declare var CORES_REGISTRY_SERVICE: string;
 
 declare var PARTNER_REGISTRY_SERVICE: string;

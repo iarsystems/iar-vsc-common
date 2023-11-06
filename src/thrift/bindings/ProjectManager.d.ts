@@ -34,6 +34,7 @@ import OptionCategory = ttypes.OptionCategory
 import BuildItem = ttypes.BuildItem
 import BatchBuildItem = ttypes.BatchBuildItem
 import BuildResult = ttypes.BuildResult
+import ControlFilePlugin = ttypes.ControlFilePlugin
 import HeartbeatService = require('./HeartbeatService');
 
 /**
@@ -217,6 +218,16 @@ declare class Client extends HeartbeatService.Client {
    * Save project to file specified in the context
    */
   SaveEwpFile(project: ProjectContext, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Reload project that has for example been modified on disk.
+   */
+  ReloadProject(project: ProjectContext): Q.Promise<ProjectContext>;
+
+  /**
+   * Reload project that has for example been modified on disk.
+   */
+  ReloadProject(project: ProjectContext, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
 
   /**
    * Save a copy of the project to a new file.
@@ -653,22 +664,22 @@ declare class Client extends HeartbeatService.Client {
   /**
    * Get a list of options for the given node (file, group) in a project, within the given configuration .
    */
-  GetOptionsForNode(prj: ProjectContext, node: Node, configurationName: string): Q.Promise<OptionDescription[]>;
+  GetOptionsForNode(prj: ProjectContext, node: Node, configurationName: string, optionIds?: string[]): Q.Promise<OptionDescription[]>;
 
   /**
    * Get a list of options for the given node (file, group) in a project, within the given configuration .
    */
-  GetOptionsForNode(prj: ProjectContext, node: Node, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
+  GetOptionsForNode(prj: ProjectContext, node: Node, configurationName: string, optionIds?: string[], callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
 
   /**
    * Get a list of options for the given build configuration in a project.
    */
-  GetOptionsForConfiguration(prj: ProjectContext, configurationName: string): Q.Promise<OptionDescription[]>;
+  GetOptionsForConfiguration(prj: ProjectContext, configurationName: string, optionIds?: string[]): Q.Promise<OptionDescription[]>;
 
   /**
    * Get a list of options for the given build configuration in a project.
    */
-  GetOptionsForConfiguration(prj: ProjectContext, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
+  GetOptionsForConfiguration(prj: ProjectContext, configurationName: string, optionIds?: string[], callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
 
   /**
    * Set a list of options for the given node (file, group) in a project. Return a list of updated options.
@@ -799,6 +810,98 @@ declare class Client extends HeartbeatService.Client {
    * Supported locales: en_GB
    */
   GetPresentationForOptionsAsJson(locale: string, callback?: (error: ttypes.ProjectManagerError, response: string)=>void): void;
+
+  /**
+   * Update all project connections listed for the given project.
+   */
+  UpdateProjectConnections(prj: ProjectContext): Q.Promise<void>;
+
+  /**
+   * Update all project connections listed for the given project.
+   */
+  UpdateProjectConnections(prj: ProjectContext, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Run the update sequence for a specific file.
+   */
+  UpdateProjectConnection(prj: ProjectContext, file: string): Q.Promise<boolean>;
+
+  /**
+   * Run the update sequence for a specific file.
+   */
+  UpdateProjectConnection(prj: ProjectContext, file: string, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Remove all created monitors for a given project.
+   */
+  RemoveMonitors(prj: ProjectContext): Q.Promise<void>;
+
+  /**
+   * Remove all created monitors for a given project.
+   */
+  RemoveMonitors(prj: ProjectContext, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Enable/disable the usage of project connection files.
+   */
+  EnableProjectConnections(enable: boolean): Q.Promise<void>;
+
+  /**
+   * Enable/disable the usage of project connection files.
+   */
+  EnableProjectConnections(enable: boolean, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Add a control file for a specific plugin. Throws if:
+   * 1. The supplied plugin does not exist.
+   * 2. The supplied plugin does not accept the given file.
+   */
+  AddControlFile(prj: ProjectContext, file: string, pluginId: string): Q.Promise<void>;
+
+  /**
+   * Add a control file for a specific plugin. Throws if:
+   * 1. The supplied plugin does not exist.
+   * 2. The supplied plugin does not accept the given file.
+   */
+  AddControlFile(prj: ProjectContext, file: string, pluginId: string, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Check if the project has a control file node registered for a given plugin.
+   */
+  HasControlFileFor(prj: ProjectContext, pluginId: string): Q.Promise<boolean>;
+
+  /**
+   * Check if the project has a control file node registered for a given plugin.
+   */
+  HasControlFileFor(prj: ProjectContext, pluginId: string, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Check if project connection is enabled.
+   */
+  IsProjectConnectionsEnabled(): Q.Promise<boolean>;
+
+  /**
+   * Check if project connection is enabled.
+   */
+  IsProjectConnectionsEnabled(callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Get a list with information about the set of registered control files plugins.
+   */
+  GetControlFilePlugins(): Q.Promise<ControlFilePlugin[]>;
+
+  /**
+   * Get a list with information about the set of registered control files plugins.
+   */
+  GetControlFilePlugins(callback?: (error: void, response: ControlFilePlugin[])=>void): void;
+
+  GetOptionsForProject(prj: ProjectContext): Q.Promise<OptionDescription[]>;
+
+  GetOptionsForProject(prj: ProjectContext, callback?: (error: void, response: OptionDescription[])=>void): void;
+
+  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[]): Q.Promise<boolean>;
+
+  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[], callback?: (error: void, response: boolean)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -822,6 +925,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_CreateProjectFromTemplate(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_LoadEwpFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwpFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ReloadProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwpFileAs(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ImportProjectFiles(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -878,4 +982,14 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetToolArgumentsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ExpandArgVars(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetPresentationForOptionsAsJson(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_UpdateProjectConnections(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_UpdateProjectConnection(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_RemoveMonitors(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_EnableProjectConnections(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_AddControlFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_HasControlFileFor(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_IsProjectConnectionsEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetControlFilePlugins(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetOptionsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ApplyOptionsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }
