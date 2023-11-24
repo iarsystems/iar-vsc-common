@@ -81,6 +81,10 @@ export namespace WorkbenchFeatures {
     export const PMWorkspaces: FeatureRequirement =
         { baseVersion: [9,1,1], minProductType: WorkbenchType.LEGACY_BX };
     /**
+     * Whether this workbench supports the 'ReloadProject' thrift procedure. */
+    export const PMReloadProject: FeatureRequirement =
+        { baseVersion: [9,2,3], minProductType: WorkbenchType.LEGACY_BX };
+    /**
      * Whether this workbench supports leaving the target running */
     export const LeaveTargetRunning: FeatureRequirement =
         { baseVersion: [9,2,2], minProductType: WorkbenchType.EXTENDED_BX };
