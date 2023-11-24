@@ -87,22 +87,24 @@ export class TestSandbox {
         let anyItemsLeft = false;
         Fs.readdirSync(dir).forEach(subItem => {
             const subItemPath = Path.join(dir, subItem);
-            if (Fs.statSync(subItemPath).isDirectory()) {
-                if (!this.removeRecursive(subItemPath, predicate)) {
+            try {
+                if (Fs.statSync(subItemPath).isDirectory()) {
+                    if (!this.removeRecursive(subItemPath, predicate)) {
+                        try {
+                            Fs.rmSync(subItemPath, {recursive: true, force: true});
+                        } catch {}
+                    } else {
+                        anyItemsLeft = true;
+                    }
+                } else if (predicate(subItemPath)) {
+                    // Removing might fail if VS Code is using the file (e.g. for settings.json files), but we can tolerate that.
                     try {
-                        Fs.rmSync(subItemPath, {recursive: true, force: true});
-                    } catch (_) {}
+                        Fs.rmSync(subItemPath);
+                    } catch {}
                 } else {
                     anyItemsLeft = true;
                 }
-            } else if (predicate(subItemPath)) {
-                // Removing might fail if VS Code is using the file (e.g. for settings.json files), but we can tolerate that.
-                try {
-                    Fs.rmSync(subItemPath);
-                } catch (_) {}
-            } else {
-                anyItemsLeft = true;
-            }
+            } catch {}
         });
         return anyItemsLeft;
     }
