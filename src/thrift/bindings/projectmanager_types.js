@@ -690,6 +690,7 @@ var Node = module.exports.Node = function(args) {
   this.hasRelevantSettings = null;
   this.childrenHaveLocalSettings = null;
   this.isGenerated = null;
+  this.controlFilePlugins = null;
   if (args) {
     if (args.name !== undefined && args.name !== null) {
       this.name = args.name;
@@ -720,6 +721,9 @@ var Node = module.exports.Node = function(args) {
     }
     if (args.isGenerated !== undefined && args.isGenerated !== null) {
       this.isGenerated = args.isGenerated;
+    }
+    if (args.controlFilePlugins !== undefined && args.controlFilePlugins !== null) {
+      this.controlFilePlugins = Thrift.copyList(args.controlFilePlugins, [null]);
     }
   }
 };
@@ -813,6 +817,21 @@ Node.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 11:
+      if (ftype == Thrift.Type.LIST) {
+        this.controlFilePlugins = [];
+        var _rtmp325 = input.readListBegin();
+        var _size24 = _rtmp325.size || 0;
+        for (var _i26 = 0; _i26 < _size24; ++_i26) {
+          var elem27 = null;
+          elem27 = input.readString();
+          this.controlFilePlugins.push(elem27);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -832,10 +851,10 @@ Node.prototype.write = function(output) {
   if (this.children !== null && this.children !== undefined) {
     output.writeFieldBegin('children', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.children.length);
-    for (var iter24 in this.children) {
-      if (this.children.hasOwnProperty(iter24)) {
-        iter24 = this.children[iter24];
-        iter24.write(output);
+    for (var iter28 in this.children) {
+      if (this.children.hasOwnProperty(iter28)) {
+        iter28 = this.children[iter28];
+        iter28.write(output);
       }
     }
     output.writeListEnd();
@@ -879,6 +898,18 @@ Node.prototype.write = function(output) {
   if (this.isGenerated !== null && this.isGenerated !== undefined) {
     output.writeFieldBegin('isGenerated', Thrift.Type.BOOL, 10);
     output.writeBool(this.isGenerated);
+    output.writeFieldEnd();
+  }
+  if (this.controlFilePlugins !== null && this.controlFilePlugins !== undefined) {
+    output.writeFieldBegin('controlFilePlugins', Thrift.Type.LIST, 11);
+    output.writeListBegin(Thrift.Type.STRING, this.controlFilePlugins.length);
+    for (var iter29 in this.controlFilePlugins) {
+      if (this.controlFilePlugins.hasOwnProperty(iter29)) {
+        iter29 = this.controlFilePlugins[iter29];
+        output.writeString(iter29);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1048,13 +1079,13 @@ OptionDescription.prototype.read = function(input) {
       case 4:
       if (ftype == Thrift.Type.LIST) {
         this.elements = [];
-        var _rtmp326 = input.readListBegin();
-        var _size25 = _rtmp326.size || 0;
-        for (var _i27 = 0; _i27 < _size25; ++_i27) {
-          var elem28 = null;
-          elem28 = new ttypes.OptionElementDescription();
-          elem28.read(input);
-          this.elements.push(elem28);
+        var _rtmp331 = input.readListBegin();
+        var _size30 = _rtmp331.size || 0;
+        for (var _i32 = 0; _i32 < _size30; ++_i32) {
+          var elem33 = null;
+          elem33 = new ttypes.OptionElementDescription();
+          elem33.read(input);
+          this.elements.push(elem33);
         }
         input.readListEnd();
       } else {
@@ -1111,10 +1142,10 @@ OptionDescription.prototype.write = function(output) {
   if (this.elements !== null && this.elements !== undefined) {
     output.writeFieldBegin('elements', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.elements.length);
-    for (var iter29 in this.elements) {
-      if (this.elements.hasOwnProperty(iter29)) {
-        iter29 = this.elements[iter29];
-        iter29.write(output);
+    for (var iter34 in this.elements) {
+      if (this.elements.hasOwnProperty(iter34)) {
+        iter34 = this.elements[iter34];
+        iter34.write(output);
       }
     }
     output.writeListEnd();
@@ -1173,12 +1204,12 @@ OptionCategory.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.optionIds = [];
-        var _rtmp331 = input.readListBegin();
-        var _size30 = _rtmp331.size || 0;
-        for (var _i32 = 0; _i32 < _size30; ++_i32) {
-          var elem33 = null;
-          elem33 = input.readString();
-          this.optionIds.push(elem33);
+        var _rtmp336 = input.readListBegin();
+        var _size35 = _rtmp336.size || 0;
+        for (var _i37 = 0; _i37 < _size35; ++_i37) {
+          var elem38 = null;
+          elem38 = input.readString();
+          this.optionIds.push(elem38);
         }
         input.readListEnd();
       } else {
@@ -1204,10 +1235,10 @@ OptionCategory.prototype.write = function(output) {
   if (this.optionIds !== null && this.optionIds !== undefined) {
     output.writeFieldBegin('optionIds', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRING, this.optionIds.length);
-    for (var iter34 in this.optionIds) {
-      if (this.optionIds.hasOwnProperty(iter34)) {
-        iter34 = this.optionIds[iter34];
-        output.writeString(iter34);
+    for (var iter39 in this.optionIds) {
+      if (this.optionIds.hasOwnProperty(iter39)) {
+        iter39 = this.optionIds[iter39];
+        output.writeString(iter39);
       }
     }
     output.writeListEnd();
@@ -1263,12 +1294,12 @@ BuildItem.prototype.read = function(input) {
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.nodePaths = [];
-        var _rtmp336 = input.readListBegin();
-        var _size35 = _rtmp336.size || 0;
-        for (var _i37 = 0; _i37 < _size35; ++_i37) {
-          var elem38 = null;
-          elem38 = input.readString();
-          this.nodePaths.push(elem38);
+        var _rtmp341 = input.readListBegin();
+        var _size40 = _rtmp341.size || 0;
+        for (var _i42 = 0; _i42 < _size40; ++_i42) {
+          var elem43 = null;
+          elem43 = input.readString();
+          this.nodePaths.push(elem43);
         }
         input.readListEnd();
       } else {
@@ -1299,10 +1330,10 @@ BuildItem.prototype.write = function(output) {
   if (this.nodePaths !== null && this.nodePaths !== undefined) {
     output.writeFieldBegin('nodePaths', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRING, this.nodePaths.length);
-    for (var iter39 in this.nodePaths) {
-      if (this.nodePaths.hasOwnProperty(iter39)) {
-        iter39 = this.nodePaths[iter39];
-        output.writeString(iter39);
+    for (var iter44 in this.nodePaths) {
+      if (this.nodePaths.hasOwnProperty(iter44)) {
+        iter44 = this.nodePaths[iter44];
+        output.writeString(iter44);
       }
     }
     output.writeListEnd();
@@ -1346,13 +1377,13 @@ BatchBuildItem.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.buildItems = [];
-        var _rtmp341 = input.readListBegin();
-        var _size40 = _rtmp341.size || 0;
-        for (var _i42 = 0; _i42 < _size40; ++_i42) {
-          var elem43 = null;
-          elem43 = new ttypes.BuildItem();
-          elem43.read(input);
-          this.buildItems.push(elem43);
+        var _rtmp346 = input.readListBegin();
+        var _size45 = _rtmp346.size || 0;
+        for (var _i47 = 0; _i47 < _size45; ++_i47) {
+          var elem48 = null;
+          elem48 = new ttypes.BuildItem();
+          elem48.read(input);
+          this.buildItems.push(elem48);
         }
         input.readListEnd();
       } else {
@@ -1378,10 +1409,10 @@ BatchBuildItem.prototype.write = function(output) {
   if (this.buildItems !== null && this.buildItems !== undefined) {
     output.writeFieldBegin('buildItems', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.buildItems.length);
-    for (var iter44 in this.buildItems) {
-      if (this.buildItems.hasOwnProperty(iter44)) {
-        iter44 = this.buildItems[iter44];
-        iter44.write(output);
+    for (var iter49 in this.buildItems) {
+      if (this.buildItems.hasOwnProperty(iter49)) {
+        iter49 = this.buildItems[iter49];
+        iter49.write(output);
       }
     }
     output.writeListEnd();
@@ -1430,12 +1461,12 @@ BuildResult.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.buildOutput = [];
-        var _rtmp346 = input.readListBegin();
-        var _size45 = _rtmp346.size || 0;
-        for (var _i47 = 0; _i47 < _size45; ++_i47) {
-          var elem48 = null;
-          elem48 = input.readString();
-          this.buildOutput.push(elem48);
+        var _rtmp351 = input.readListBegin();
+        var _size50 = _rtmp351.size || 0;
+        for (var _i52 = 0; _i52 < _size50; ++_i52) {
+          var elem53 = null;
+          elem53 = input.readString();
+          this.buildOutput.push(elem53);
         }
         input.readListEnd();
       } else {
@@ -1468,10 +1499,10 @@ BuildResult.prototype.write = function(output) {
   if (this.buildOutput !== null && this.buildOutput !== undefined) {
     output.writeFieldBegin('buildOutput', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRING, this.buildOutput.length);
-    for (var iter49 in this.buildOutput) {
-      if (this.buildOutput.hasOwnProperty(iter49)) {
-        iter49 = this.buildOutput[iter49];
-        output.writeString(iter49);
+    for (var iter54 in this.buildOutput) {
+      if (this.buildOutput.hasOwnProperty(iter54)) {
+        iter54 = this.buildOutput[iter54];
+        output.writeString(iter54);
       }
     }
     output.writeListEnd();

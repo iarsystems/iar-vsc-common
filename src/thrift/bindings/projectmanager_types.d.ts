@@ -185,8 +185,9 @@ declare class Node {
   public hasRelevantSettings: boolean;
   public childrenHaveLocalSettings: boolean;
   public isGenerated: boolean;
+  public controlFilePlugins: string[];
 
-    constructor(args?: { name: string; children: Node[]; type: NodeType; path: string; isMfcEnabled: boolean; isExcludedFromBuild: boolean; hasLocalSettings: boolean; hasRelevantSettings: boolean; childrenHaveLocalSettings: boolean; isGenerated: boolean; });
+    constructor(args?: { name: string; children: Node[]; type: NodeType; path: string; isMfcEnabled: boolean; isExcludedFromBuild: boolean; hasLocalSettings: boolean; hasRelevantSettings: boolean; childrenHaveLocalSettings: boolean; isGenerated: boolean; controlFilePlugins: string[]; });
   read(input: Object): void;
   write(input: Object): void;
 }
