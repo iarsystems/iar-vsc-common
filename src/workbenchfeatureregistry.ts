@@ -73,6 +73,11 @@ export namespace WorkbenchFeatures {
     export const SetNodeCanRemoveNodes: FeatureRequirement
         = { baseVersion: [9,1,0], minProductType: WorkbenchType.LEGACY_BX };
     /**
+     * Whether this workbench supports the GetCurrentConfiguration and SetCurrentConfiguration
+     * thrift procedures. */
+    export const GetSetCurrentConfiguration: FeatureRequirement
+        = { baseVersion: [9,1,0], minProductType: WorkbenchType.LEGACY_BX };
+    /**
      * Whether this workbench supports the thrift project manager. */
     export const ThriftPM: FeatureRequirement =
         { baseVersion: [9,0,11], minProductType: WorkbenchType.EXTENDED_BX };
