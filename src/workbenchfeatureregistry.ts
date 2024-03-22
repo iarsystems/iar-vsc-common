@@ -104,6 +104,11 @@ export namespace WorkbenchFeatures {
      * representation when calling iarbuild, see VSC-409. */
     export const UpperCaseDriveLetters: FeatureRequirement =
         { baseVersion: [9,1,2], minProductType: WorkbenchType.LEGACY_BX };
+    /**
+     * Whether this workbench supports thrift procedures around 'external project'
+     * plugins (e.g. cmake/cmsis), such as configure/synchronize. */
+    export const ExternalProjectPlugins: FeatureRequirement =
+        { baseVersion: [9,3,3], minProductType: WorkbenchType.LEGACY_BX };
 
     /**
      * Checks whether a workbench version meets the given minimum version.
