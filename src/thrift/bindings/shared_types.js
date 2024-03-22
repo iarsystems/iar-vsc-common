@@ -186,6 +186,132 @@ CSpyException.prototype.write = function(output) {
   return;
 };
 
+var Id = module.exports.Id = function(args) {
+  this.value = null;
+  this.type = null;
+  if (args) {
+    if (args.value !== undefined && args.value !== null) {
+      this.value = args.value;
+    }
+    if (args.type !== undefined && args.type !== null) {
+      this.type = args.type;
+    }
+  }
+};
+Id.prototype = {};
+Id.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.value = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.type = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Id.prototype.write = function(output) {
+  output.writeStructBegin('Id');
+  if (this.value !== null && this.value !== undefined) {
+    output.writeFieldBegin('value', Thrift.Type.STRING, 1);
+    output.writeString(this.value);
+    output.writeFieldEnd();
+  }
+  if (this.type !== null && this.type !== undefined) {
+    output.writeFieldBegin('type', Thrift.Type.STRING, 2);
+    output.writeString(this.type);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Success = module.exports.Success = function(args) {
+  this.value = null;
+  this.failureMessage = null;
+  if (args) {
+    if (args.value !== undefined && args.value !== null) {
+      this.value = args.value;
+    }
+    if (args.failureMessage !== undefined && args.failureMessage !== null) {
+      this.failureMessage = args.failureMessage;
+    }
+  }
+};
+Success.prototype = {};
+Success.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.BOOL) {
+        this.value = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.failureMessage = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Success.prototype.write = function(output) {
+  output.writeStructBegin('Success');
+  if (this.value !== null && this.value !== undefined) {
+    output.writeFieldBegin('value', Thrift.Type.BOOL, 1);
+    output.writeBool(this.value);
+    output.writeFieldEnd();
+  }
+  if (this.failureMessage !== null && this.failureMessage !== undefined) {
+    output.writeFieldBegin('failureMessage', Thrift.Type.STRING, 2);
+    output.writeString(this.failureMessage);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var Zone = module.exports.Zone = function(args) {
   this.id = null;
   if (args) {

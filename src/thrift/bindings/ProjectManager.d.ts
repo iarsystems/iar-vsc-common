@@ -28,6 +28,7 @@ import Configuration = ttypes.Configuration
 import WorkspaceContext = ttypes.WorkspaceContext
 import ProjectContext = ttypes.ProjectContext
 import Node = ttypes.Node
+import BuildNode = ttypes.BuildNode
 import OptionElementDescription = ttypes.OptionElementDescription
 import OptionDescription = ttypes.OptionDescription
 import OptionCategory = ttypes.OptionCategory
@@ -140,12 +141,12 @@ declare class Client extends HeartbeatService.Client {
   GetLoadedProjects(callback?: (error: void, response: ProjectContext[])=>void): void;
 
   /**
-   * Get current project.
+   * If no project has been set as current the returned context will have an empty filename.
    */
   GetCurrentProject(): Q.Promise<ProjectContext>;
 
   /**
-   * Get current project.
+   * If no project has been set as current the returned context will have an empty filename.
    */
   GetCurrentProject(callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
 
@@ -536,8 +537,11 @@ declare class Client extends HeartbeatService.Client {
   /**
    * Get a list of available Toolchains.
    * 
-   * Note that as of now the retrieved toolchains cannot provide a list of tools, so those need to be
-   * known in advance by the client. A workaround is that the option categories ids usually match
+   * Note that as of now the retrieved toolchains cannot provide a complete list of tools.
+   * Prior to IDE 9.3, the tools list is empty. In later versions, it contains only a
+   * compiler and assembler (if available), and the definitions for those tools only
+   * populate the 'toolType' and 'id' fields.
+   * A workaround is that the option categories ids usually match
    * the tool IDs, so they can be used as such in e.g. GetToolCommandLineForConfiguration(). See MAJ-114
    */
   GetToolchains(): Q.Promise<Toolchain[]>;
@@ -545,8 +549,11 @@ declare class Client extends HeartbeatService.Client {
   /**
    * Get a list of available Toolchains.
    * 
-   * Note that as of now the retrieved toolchains cannot provide a list of tools, so those need to be
-   * known in advance by the client. A workaround is that the option categories ids usually match
+   * Note that as of now the retrieved toolchains cannot provide a complete list of tools.
+   * Prior to IDE 9.3, the tools list is empty. In later versions, it contains only a
+   * compiler and assembler (if available), and the definitions for those tools only
+   * populate the 'toolType' and 'id' fields.
+   * A workaround is that the option categories ids usually match
    * the tool IDs, so they can be used as such in e.g. GetToolCommandLineForConfiguration(). See MAJ-114
    */
   GetToolchains(callback?: (error: ttypes.ProjectManagerError, response: Toolchain[])=>void): void;
@@ -660,6 +667,16 @@ declare class Client extends HeartbeatService.Client {
    * Stop an ongoing static code analysis.
    */
   TerminateAnalysis(callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Get a list of all build nodes describing how to build the given project configuration.
+   */
+  GetBuildNodes(prj: ProjectContext, configurationName: string, toolIdentifier: string): Q.Promise<BuildNode[]>;
+
+  /**
+   * Get a list of all build nodes describing how to build the given project configuration.
+   */
+  GetBuildNodes(prj: ProjectContext, configurationName: string, toolIdentifier: string, callback?: (error: void, response: BuildNode[])=>void): void;
 
   /**
    * Get a list of options for the given node (file, group) in a project, within the given configuration .
@@ -851,6 +868,18 @@ declare class Client extends HeartbeatService.Client {
    */
   EnableProjectConnections(enable: boolean, callback?: (error: void, response: void)=>void): void;
 
+  IsExternalProjectUpToDate(prj: ProjectContext): Q.Promise<boolean>;
+
+  IsExternalProjectUpToDate(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+
+  SynchonizeExternalProject(prj: ProjectContext): Q.Promise<boolean>;
+
+  SynchonizeExternalProject(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+
+  ConfigureExternalProject(prj: ProjectContext, force: boolean): Q.Promise<boolean>;
+
+  ConfigureExternalProject(prj: ProjectContext, force: boolean, callback?: (error: void, response: boolean)=>void): void;
+
   /**
    * Add a control file for a specific plugin. Throws if:
    * 1. The supplied plugin does not exist.
@@ -968,6 +997,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_CleanAsync(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CancelBuild(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_TerminateAnalysis(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetBuildNodes(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOptionsForNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOptionsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ApplyOptionsForNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -986,6 +1016,9 @@ declare class Processor extends HeartbeatService.Processor {
   process_UpdateProjectConnection(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_RemoveMonitors(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_EnableProjectConnections(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_IsExternalProjectUpToDate(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SynchonizeExternalProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ConfigureExternalProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddControlFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_HasControlFileFor(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsProjectConnectionsEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;

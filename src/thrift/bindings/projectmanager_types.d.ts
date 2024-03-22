@@ -193,6 +193,22 @@ declare class Node {
 }
 
 /**
+ * A build step, i.e. a command line that takes some input file(s) and produces
+ * some output file(s).
+ */
+declare class BuildNode {
+  public input: string[];
+  public output: string[];
+  public arguments: string[];
+  public directory: string;
+  public toolName: string;
+
+    constructor(args?: { input: string[]; output: string[]; arguments: string[]; directory: string; toolName: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
  * Properties of an option's element (e.g. list item, radio button, a checkbox in a check list)
  */
 declare class OptionElementDescription {

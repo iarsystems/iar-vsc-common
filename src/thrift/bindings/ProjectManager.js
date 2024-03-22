@@ -614,13 +614,13 @@ ProjectManager_GetProjects_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp356 = input.readListBegin();
-        var _size55 = _rtmp356.size || 0;
-        for (var _i57 = 0; _i57 < _size55; ++_i57) {
-          var elem58 = null;
-          elem58 = new ttypes.ProjectContext();
-          elem58.read(input);
-          this.success.push(elem58);
+        var _rtmp371 = input.readListBegin();
+        var _size70 = _rtmp371.size || 0;
+        for (var _i72 = 0; _i72 < _size70; ++_i72) {
+          var elem73 = null;
+          elem73 = new ttypes.ProjectContext();
+          elem73.read(input);
+          this.success.push(elem73);
         }
         input.readListEnd();
       } else {
@@ -644,10 +644,10 @@ ProjectManager_GetProjects_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter59 in this.success) {
-      if (this.success.hasOwnProperty(iter59)) {
-        iter59 = this.success[iter59];
-        iter59.write(output);
+    for (var iter74 in this.success) {
+      if (this.success.hasOwnProperty(iter74)) {
+        iter74 = this.success[iter74];
+        iter74.write(output);
       }
     }
     output.writeListEnd();
@@ -705,13 +705,13 @@ ProjectManager_GetLoadedProjects_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp361 = input.readListBegin();
-        var _size60 = _rtmp361.size || 0;
-        for (var _i62 = 0; _i62 < _size60; ++_i62) {
-          var elem63 = null;
-          elem63 = new ttypes.ProjectContext();
-          elem63.read(input);
-          this.success.push(elem63);
+        var _rtmp376 = input.readListBegin();
+        var _size75 = _rtmp376.size || 0;
+        for (var _i77 = 0; _i77 < _size75; ++_i77) {
+          var elem78 = null;
+          elem78 = new ttypes.ProjectContext();
+          elem78.read(input);
+          this.success.push(elem78);
         }
         input.readListEnd();
       } else {
@@ -735,10 +735,10 @@ ProjectManager_GetLoadedProjects_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter64 in this.success) {
-      if (this.success.hasOwnProperty(iter64)) {
-        iter64 = this.success[iter64];
-        iter64.write(output);
+    for (var iter79 in this.success) {
+      if (this.success.hasOwnProperty(iter79)) {
+        iter79 = this.success[iter79];
+        iter79.write(output);
       }
     }
     output.writeListEnd();
@@ -2281,12 +2281,12 @@ ProjectManager_FindMatchingHeaderOrSourceFile_result.prototype.read = function(i
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp366 = input.readListBegin();
-        var _size65 = _rtmp366.size || 0;
-        for (var _i67 = 0; _i67 < _size65; ++_i67) {
-          var elem68 = null;
-          elem68 = input.readString();
-          this.success.push(elem68);
+        var _rtmp381 = input.readListBegin();
+        var _size80 = _rtmp381.size || 0;
+        for (var _i82 = 0; _i82 < _size80; ++_i82) {
+          var elem83 = null;
+          elem83 = input.readString();
+          this.success.push(elem83);
         }
         input.readListEnd();
       } else {
@@ -2310,10 +2310,10 @@ ProjectManager_FindMatchingHeaderOrSourceFile_result.prototype.write = function(
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter69 in this.success) {
-      if (this.success.hasOwnProperty(iter69)) {
-        iter69 = this.success[iter69];
-        output.writeString(iter69);
+    for (var iter84 in this.success) {
+      if (this.success.hasOwnProperty(iter84)) {
+        iter84 = this.success[iter84];
+        output.writeString(iter84);
       }
     }
     output.writeListEnd();
@@ -2765,12 +2765,12 @@ ProjectManager_GetFiles_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp371 = input.readListBegin();
-        var _size70 = _rtmp371.size || 0;
-        for (var _i72 = 0; _i72 < _size70; ++_i72) {
-          var elem73 = null;
-          elem73 = input.readString();
-          this.success.push(elem73);
+        var _rtmp386 = input.readListBegin();
+        var _size85 = _rtmp386.size || 0;
+        for (var _i87 = 0; _i87 < _size85; ++_i87) {
+          var elem88 = null;
+          elem88 = input.readString();
+          this.success.push(elem88);
         }
         input.readListEnd();
       } else {
@@ -2799,10 +2799,10 @@ ProjectManager_GetFiles_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter74 in this.success) {
-      if (this.success.hasOwnProperty(iter74)) {
-        iter74 = this.success[iter74];
-        output.writeString(iter74);
+    for (var iter89 in this.success) {
+      if (this.success.hasOwnProperty(iter89)) {
+        iter89 = this.success[iter89];
+        output.writeString(iter89);
       }
     }
     output.writeListEnd();
@@ -3281,13 +3281,13 @@ ProjectManager_GetConfigurations_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp376 = input.readListBegin();
-        var _size75 = _rtmp376.size || 0;
-        for (var _i77 = 0; _i77 < _size75; ++_i77) {
-          var elem78 = null;
-          elem78 = new ttypes.Configuration();
-          elem78.read(input);
-          this.success.push(elem78);
+        var _rtmp391 = input.readListBegin();
+        var _size90 = _rtmp391.size || 0;
+        for (var _i92 = 0; _i92 < _size90; ++_i92) {
+          var elem93 = null;
+          elem93 = new ttypes.Configuration();
+          elem93.read(input);
+          this.success.push(elem93);
         }
         input.readListEnd();
       } else {
@@ -3311,10 +3311,10 @@ ProjectManager_GetConfigurations_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter79 in this.success) {
-      if (this.success.hasOwnProperty(iter79)) {
-        iter79 = this.success[iter79];
-        iter79.write(output);
+    for (var iter94 in this.success) {
+      if (this.success.hasOwnProperty(iter94)) {
+        iter94 = this.success[iter94];
+        iter94.write(output);
       }
     }
     output.writeListEnd();
@@ -3359,12 +3359,12 @@ ProjectManager_SetConfigurationsOrder_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.configNames = [];
-        var _rtmp381 = input.readListBegin();
-        var _size80 = _rtmp381.size || 0;
-        for (var _i82 = 0; _i82 < _size80; ++_i82) {
-          var elem83 = null;
-          elem83 = input.readString();
-          this.configNames.push(elem83);
+        var _rtmp396 = input.readListBegin();
+        var _size95 = _rtmp396.size || 0;
+        for (var _i97 = 0; _i97 < _size95; ++_i97) {
+          var elem98 = null;
+          elem98 = input.readString();
+          this.configNames.push(elem98);
         }
         input.readListEnd();
       } else {
@@ -3390,10 +3390,10 @@ ProjectManager_SetConfigurationsOrder_args.prototype.write = function(output) {
   if (this.configNames !== null && this.configNames !== undefined) {
     output.writeFieldBegin('configNames', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRING, this.configNames.length);
-    for (var iter84 in this.configNames) {
-      if (this.configNames.hasOwnProperty(iter84)) {
-        iter84 = this.configNames[iter84];
-        output.writeString(iter84);
+    for (var iter99 in this.configNames) {
+      if (this.configNames.hasOwnProperty(iter99)) {
+        iter99 = this.configNames[iter99];
+        output.writeString(iter99);
       }
     }
     output.writeListEnd();
@@ -4132,12 +4132,12 @@ ProjectManager_GetNodeByIndex_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.nodeIndexPath = [];
-        var _rtmp386 = input.readListBegin();
-        var _size85 = _rtmp386.size || 0;
-        for (var _i87 = 0; _i87 < _size85; ++_i87) {
-          var elem88 = null;
-          elem88 = input.readI64();
-          this.nodeIndexPath.push(elem88);
+        var _rtmp3101 = input.readListBegin();
+        var _size100 = _rtmp3101.size || 0;
+        for (var _i102 = 0; _i102 < _size100; ++_i102) {
+          var elem103 = null;
+          elem103 = input.readI64();
+          this.nodeIndexPath.push(elem103);
         }
         input.readListEnd();
       } else {
@@ -4163,10 +4163,10 @@ ProjectManager_GetNodeByIndex_args.prototype.write = function(output) {
   if (this.nodeIndexPath !== null && this.nodeIndexPath !== undefined) {
     output.writeFieldBegin('nodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.nodeIndexPath.length);
-    for (var iter89 in this.nodeIndexPath) {
-      if (this.nodeIndexPath.hasOwnProperty(iter89)) {
-        iter89 = this.nodeIndexPath[iter89];
-        output.writeI64(iter89);
+    for (var iter104 in this.nodeIndexPath) {
+      if (this.nodeIndexPath.hasOwnProperty(iter104)) {
+        iter104 = this.nodeIndexPath[iter104];
+        output.writeI64(iter104);
       }
     }
     output.writeListEnd();
@@ -4270,12 +4270,12 @@ ProjectManager_SetNodeByIndex_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.nodeIndexPath = [];
-        var _rtmp391 = input.readListBegin();
-        var _size90 = _rtmp391.size || 0;
-        for (var _i92 = 0; _i92 < _size90; ++_i92) {
-          var elem93 = null;
-          elem93 = input.readI64();
-          this.nodeIndexPath.push(elem93);
+        var _rtmp3106 = input.readListBegin();
+        var _size105 = _rtmp3106.size || 0;
+        for (var _i107 = 0; _i107 < _size105; ++_i107) {
+          var elem108 = null;
+          elem108 = input.readI64();
+          this.nodeIndexPath.push(elem108);
         }
         input.readListEnd();
       } else {
@@ -4316,10 +4316,10 @@ ProjectManager_SetNodeByIndex_args.prototype.write = function(output) {
   if (this.nodeIndexPath !== null && this.nodeIndexPath !== undefined) {
     output.writeFieldBegin('nodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.nodeIndexPath.length);
-    for (var iter94 in this.nodeIndexPath) {
-      if (this.nodeIndexPath.hasOwnProperty(iter94)) {
-        iter94 = this.nodeIndexPath[iter94];
-        output.writeI64(iter94);
+    for (var iter109 in this.nodeIndexPath) {
+      if (this.nodeIndexPath.hasOwnProperty(iter109)) {
+        iter109 = this.nodeIndexPath[iter109];
+        output.writeI64(iter109);
       }
     }
     output.writeListEnd();
@@ -4437,12 +4437,12 @@ ProjectManager_AddNodeByIndex_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.nodeIndexPath = [];
-        var _rtmp396 = input.readListBegin();
-        var _size95 = _rtmp396.size || 0;
-        for (var _i97 = 0; _i97 < _size95; ++_i97) {
-          var elem98 = null;
-          elem98 = input.readI64();
-          this.nodeIndexPath.push(elem98);
+        var _rtmp3111 = input.readListBegin();
+        var _size110 = _rtmp3111.size || 0;
+        for (var _i112 = 0; _i112 < _size110; ++_i112) {
+          var elem113 = null;
+          elem113 = input.readI64();
+          this.nodeIndexPath.push(elem113);
         }
         input.readListEnd();
       } else {
@@ -4483,10 +4483,10 @@ ProjectManager_AddNodeByIndex_args.prototype.write = function(output) {
   if (this.nodeIndexPath !== null && this.nodeIndexPath !== undefined) {
     output.writeFieldBegin('nodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.nodeIndexPath.length);
-    for (var iter99 in this.nodeIndexPath) {
-      if (this.nodeIndexPath.hasOwnProperty(iter99)) {
-        iter99 = this.nodeIndexPath[iter99];
-        output.writeI64(iter99);
+    for (var iter114 in this.nodeIndexPath) {
+      if (this.nodeIndexPath.hasOwnProperty(iter114)) {
+        iter114 = this.nodeIndexPath[iter114];
+        output.writeI64(iter114);
       }
     }
     output.writeListEnd();
@@ -4600,12 +4600,12 @@ ProjectManager_RemoveNodeByIndex_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.nodeIndexPath = [];
-        var _rtmp3101 = input.readListBegin();
-        var _size100 = _rtmp3101.size || 0;
-        for (var _i102 = 0; _i102 < _size100; ++_i102) {
-          var elem103 = null;
-          elem103 = input.readI64();
-          this.nodeIndexPath.push(elem103);
+        var _rtmp3116 = input.readListBegin();
+        var _size115 = _rtmp3116.size || 0;
+        for (var _i117 = 0; _i117 < _size115; ++_i117) {
+          var elem118 = null;
+          elem118 = input.readI64();
+          this.nodeIndexPath.push(elem118);
         }
         input.readListEnd();
       } else {
@@ -4638,10 +4638,10 @@ ProjectManager_RemoveNodeByIndex_args.prototype.write = function(output) {
   if (this.nodeIndexPath !== null && this.nodeIndexPath !== undefined) {
     output.writeFieldBegin('nodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.nodeIndexPath.length);
-    for (var iter104 in this.nodeIndexPath) {
-      if (this.nodeIndexPath.hasOwnProperty(iter104)) {
-        iter104 = this.nodeIndexPath[iter104];
-        output.writeI64(iter104);
+    for (var iter119 in this.nodeIndexPath) {
+      if (this.nodeIndexPath.hasOwnProperty(iter119)) {
+        iter119 = this.nodeIndexPath[iter119];
+        output.writeI64(iter119);
       }
     }
     output.writeListEnd();
@@ -4754,12 +4754,12 @@ ProjectManager_UpdateNodeByIndex_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.nodeIndexPath = [];
-        var _rtmp3106 = input.readListBegin();
-        var _size105 = _rtmp3106.size || 0;
-        for (var _i107 = 0; _i107 < _size105; ++_i107) {
-          var elem108 = null;
-          elem108 = input.readI64();
-          this.nodeIndexPath.push(elem108);
+        var _rtmp3121 = input.readListBegin();
+        var _size120 = _rtmp3121.size || 0;
+        for (var _i122 = 0; _i122 < _size120; ++_i122) {
+          var elem123 = null;
+          elem123 = input.readI64();
+          this.nodeIndexPath.push(elem123);
         }
         input.readListEnd();
       } else {
@@ -4800,10 +4800,10 @@ ProjectManager_UpdateNodeByIndex_args.prototype.write = function(output) {
   if (this.nodeIndexPath !== null && this.nodeIndexPath !== undefined) {
     output.writeFieldBegin('nodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.nodeIndexPath.length);
-    for (var iter109 in this.nodeIndexPath) {
-      if (this.nodeIndexPath.hasOwnProperty(iter109)) {
-        iter109 = this.nodeIndexPath[iter109];
-        output.writeI64(iter109);
+    for (var iter124 in this.nodeIndexPath) {
+      if (this.nodeIndexPath.hasOwnProperty(iter124)) {
+        iter124 = this.nodeIndexPath[iter124];
+        output.writeI64(iter124);
       }
     }
     output.writeListEnd();
@@ -4917,12 +4917,12 @@ ProjectManager_CanMoveNode_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.srcNodeIndexPath = [];
-        var _rtmp3111 = input.readListBegin();
-        var _size110 = _rtmp3111.size || 0;
-        for (var _i112 = 0; _i112 < _size110; ++_i112) {
-          var elem113 = null;
-          elem113 = input.readI64();
-          this.srcNodeIndexPath.push(elem113);
+        var _rtmp3126 = input.readListBegin();
+        var _size125 = _rtmp3126.size || 0;
+        for (var _i127 = 0; _i127 < _size125; ++_i127) {
+          var elem128 = null;
+          elem128 = input.readI64();
+          this.srcNodeIndexPath.push(elem128);
         }
         input.readListEnd();
       } else {
@@ -4932,12 +4932,12 @@ ProjectManager_CanMoveNode_args.prototype.read = function(input) {
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.dstNodeIndexPath = [];
-        var _rtmp3115 = input.readListBegin();
-        var _size114 = _rtmp3115.size || 0;
-        for (var _i116 = 0; _i116 < _size114; ++_i116) {
-          var elem117 = null;
-          elem117 = input.readI64();
-          this.dstNodeIndexPath.push(elem117);
+        var _rtmp3130 = input.readListBegin();
+        var _size129 = _rtmp3130.size || 0;
+        for (var _i131 = 0; _i131 < _size129; ++_i131) {
+          var elem132 = null;
+          elem132 = input.readI64();
+          this.dstNodeIndexPath.push(elem132);
         }
         input.readListEnd();
       } else {
@@ -4963,10 +4963,10 @@ ProjectManager_CanMoveNode_args.prototype.write = function(output) {
   if (this.srcNodeIndexPath !== null && this.srcNodeIndexPath !== undefined) {
     output.writeFieldBegin('srcNodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.srcNodeIndexPath.length);
-    for (var iter118 in this.srcNodeIndexPath) {
-      if (this.srcNodeIndexPath.hasOwnProperty(iter118)) {
-        iter118 = this.srcNodeIndexPath[iter118];
-        output.writeI64(iter118);
+    for (var iter133 in this.srcNodeIndexPath) {
+      if (this.srcNodeIndexPath.hasOwnProperty(iter133)) {
+        iter133 = this.srcNodeIndexPath[iter133];
+        output.writeI64(iter133);
       }
     }
     output.writeListEnd();
@@ -4975,10 +4975,10 @@ ProjectManager_CanMoveNode_args.prototype.write = function(output) {
   if (this.dstNodeIndexPath !== null && this.dstNodeIndexPath !== undefined) {
     output.writeFieldBegin('dstNodeIndexPath', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I64, this.dstNodeIndexPath.length);
-    for (var iter119 in this.dstNodeIndexPath) {
-      if (this.dstNodeIndexPath.hasOwnProperty(iter119)) {
-        iter119 = this.dstNodeIndexPath[iter119];
-        output.writeI64(iter119);
+    for (var iter134 in this.dstNodeIndexPath) {
+      if (this.dstNodeIndexPath.hasOwnProperty(iter134)) {
+        iter134 = this.dstNodeIndexPath[iter134];
+        output.writeI64(iter134);
       }
     }
     output.writeListEnd();
@@ -5095,12 +5095,12 @@ ProjectManager_MoveNode_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.srcNodeIndexPath = [];
-        var _rtmp3121 = input.readListBegin();
-        var _size120 = _rtmp3121.size || 0;
-        for (var _i122 = 0; _i122 < _size120; ++_i122) {
-          var elem123 = null;
-          elem123 = input.readI64();
-          this.srcNodeIndexPath.push(elem123);
+        var _rtmp3136 = input.readListBegin();
+        var _size135 = _rtmp3136.size || 0;
+        for (var _i137 = 0; _i137 < _size135; ++_i137) {
+          var elem138 = null;
+          elem138 = input.readI64();
+          this.srcNodeIndexPath.push(elem138);
         }
         input.readListEnd();
       } else {
@@ -5110,12 +5110,12 @@ ProjectManager_MoveNode_args.prototype.read = function(input) {
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.dstNodeIndexPath = [];
-        var _rtmp3125 = input.readListBegin();
-        var _size124 = _rtmp3125.size || 0;
-        for (var _i126 = 0; _i126 < _size124; ++_i126) {
-          var elem127 = null;
-          elem127 = input.readI64();
-          this.dstNodeIndexPath.push(elem127);
+        var _rtmp3140 = input.readListBegin();
+        var _size139 = _rtmp3140.size || 0;
+        for (var _i141 = 0; _i141 < _size139; ++_i141) {
+          var elem142 = null;
+          elem142 = input.readI64();
+          this.dstNodeIndexPath.push(elem142);
         }
         input.readListEnd();
       } else {
@@ -5141,10 +5141,10 @@ ProjectManager_MoveNode_args.prototype.write = function(output) {
   if (this.srcNodeIndexPath !== null && this.srcNodeIndexPath !== undefined) {
     output.writeFieldBegin('srcNodeIndexPath', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.I64, this.srcNodeIndexPath.length);
-    for (var iter128 in this.srcNodeIndexPath) {
-      if (this.srcNodeIndexPath.hasOwnProperty(iter128)) {
-        iter128 = this.srcNodeIndexPath[iter128];
-        output.writeI64(iter128);
+    for (var iter143 in this.srcNodeIndexPath) {
+      if (this.srcNodeIndexPath.hasOwnProperty(iter143)) {
+        iter143 = this.srcNodeIndexPath[iter143];
+        output.writeI64(iter143);
       }
     }
     output.writeListEnd();
@@ -5153,10 +5153,10 @@ ProjectManager_MoveNode_args.prototype.write = function(output) {
   if (this.dstNodeIndexPath !== null && this.dstNodeIndexPath !== undefined) {
     output.writeFieldBegin('dstNodeIndexPath', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I64, this.dstNodeIndexPath.length);
-    for (var iter129 in this.dstNodeIndexPath) {
-      if (this.dstNodeIndexPath.hasOwnProperty(iter129)) {
-        iter129 = this.dstNodeIndexPath[iter129];
-        output.writeI64(iter129);
+    for (var iter144 in this.dstNodeIndexPath) {
+      if (this.dstNodeIndexPath.hasOwnProperty(iter144)) {
+        iter144 = this.dstNodeIndexPath[iter144];
+        output.writeI64(iter144);
       }
     }
     output.writeListEnd();
@@ -5308,12 +5308,12 @@ ProjectManager_GetToolChainExtensions_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3131 = input.readListBegin();
-        var _size130 = _rtmp3131.size || 0;
-        for (var _i132 = 0; _i132 < _size130; ++_i132) {
-          var elem133 = null;
-          elem133 = input.readString();
-          this.success.push(elem133);
+        var _rtmp3146 = input.readListBegin();
+        var _size145 = _rtmp3146.size || 0;
+        for (var _i147 = 0; _i147 < _size145; ++_i147) {
+          var elem148 = null;
+          elem148 = input.readString();
+          this.success.push(elem148);
         }
         input.readListEnd();
       } else {
@@ -5337,10 +5337,10 @@ ProjectManager_GetToolChainExtensions_result.prototype.write = function(output) 
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter134 in this.success) {
-      if (this.success.hasOwnProperty(iter134)) {
-        iter134 = this.success[iter134];
-        output.writeString(iter134);
+    for (var iter149 in this.success) {
+      if (this.success.hasOwnProperty(iter149)) {
+        iter149 = this.success[iter149];
+        output.writeString(iter149);
       }
     }
     output.writeListEnd();
@@ -5406,13 +5406,13 @@ ProjectManager_GetToolchains_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3136 = input.readListBegin();
-        var _size135 = _rtmp3136.size || 0;
-        for (var _i137 = 0; _i137 < _size135; ++_i137) {
-          var elem138 = null;
-          elem138 = new ttypes.Toolchain();
-          elem138.read(input);
-          this.success.push(elem138);
+        var _rtmp3151 = input.readListBegin();
+        var _size150 = _rtmp3151.size || 0;
+        for (var _i152 = 0; _i152 < _size150; ++_i152) {
+          var elem153 = null;
+          elem153 = new ttypes.Toolchain();
+          elem153.read(input);
+          this.success.push(elem153);
         }
         input.readListEnd();
       } else {
@@ -5441,10 +5441,10 @@ ProjectManager_GetToolchains_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter139 in this.success) {
-      if (this.success.hasOwnProperty(iter139)) {
-        iter139 = this.success[iter139];
-        iter139.write(output);
+    for (var iter154 in this.success) {
+      if (this.success.hasOwnProperty(iter154)) {
+        iter154 = this.success[iter154];
+        iter154.write(output);
       }
     }
     output.writeListEnd();
@@ -5621,13 +5621,13 @@ ProjectManager_GetBatchBuildItems_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3141 = input.readListBegin();
-        var _size140 = _rtmp3141.size || 0;
-        for (var _i142 = 0; _i142 < _size140; ++_i142) {
-          var elem143 = null;
-          elem143 = new ttypes.BatchBuildItem();
-          elem143.read(input);
-          this.success.push(elem143);
+        var _rtmp3156 = input.readListBegin();
+        var _size155 = _rtmp3156.size || 0;
+        for (var _i157 = 0; _i157 < _size155; ++_i157) {
+          var elem158 = null;
+          elem158 = new ttypes.BatchBuildItem();
+          elem158.read(input);
+          this.success.push(elem158);
         }
         input.readListEnd();
       } else {
@@ -5656,10 +5656,10 @@ ProjectManager_GetBatchBuildItems_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter144 in this.success) {
-      if (this.success.hasOwnProperty(iter144)) {
-        iter144 = this.success[iter144];
-        iter144.write(output);
+    for (var iter159 in this.success) {
+      if (this.success.hasOwnProperty(iter159)) {
+        iter159 = this.success[iter159];
+        iter159.write(output);
       }
     }
     output.writeListEnd();
@@ -5697,13 +5697,13 @@ ProjectManager_SetBatchBuildItems_args.prototype.read = function(input) {
       case 1:
       if (ftype == Thrift.Type.LIST) {
         this.batchBuildItems = [];
-        var _rtmp3146 = input.readListBegin();
-        var _size145 = _rtmp3146.size || 0;
-        for (var _i147 = 0; _i147 < _size145; ++_i147) {
-          var elem148 = null;
-          elem148 = new ttypes.BatchBuildItem();
-          elem148.read(input);
-          this.batchBuildItems.push(elem148);
+        var _rtmp3161 = input.readListBegin();
+        var _size160 = _rtmp3161.size || 0;
+        for (var _i162 = 0; _i162 < _size160; ++_i162) {
+          var elem163 = null;
+          elem163 = new ttypes.BatchBuildItem();
+          elem163.read(input);
+          this.batchBuildItems.push(elem163);
         }
         input.readListEnd();
       } else {
@@ -5727,10 +5727,10 @@ ProjectManager_SetBatchBuildItems_args.prototype.write = function(output) {
   if (this.batchBuildItems !== null && this.batchBuildItems !== undefined) {
     output.writeFieldBegin('batchBuildItems', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.batchBuildItems.length);
-    for (var iter149 in this.batchBuildItems) {
-      if (this.batchBuildItems.hasOwnProperty(iter149)) {
-        iter149 = this.batchBuildItems[iter149];
-        iter149.write(output);
+    for (var iter164 in this.batchBuildItems) {
+      if (this.batchBuildItems.hasOwnProperty(iter164)) {
+        iter164 = this.batchBuildItems[iter164];
+        iter164.write(output);
       }
     }
     output.writeListEnd();
@@ -5955,13 +5955,13 @@ ProjectManager_RebuildAllAsync_args.prototype.read = function(input) {
       case 1:
       if (ftype == Thrift.Type.LIST) {
         this.buildItems = [];
-        var _rtmp3151 = input.readListBegin();
-        var _size150 = _rtmp3151.size || 0;
-        for (var _i152 = 0; _i152 < _size150; ++_i152) {
-          var elem153 = null;
-          elem153 = new ttypes.BuildItem();
-          elem153.read(input);
-          this.buildItems.push(elem153);
+        var _rtmp3166 = input.readListBegin();
+        var _size165 = _rtmp3166.size || 0;
+        for (var _i167 = 0; _i167 < _size165; ++_i167) {
+          var elem168 = null;
+          elem168 = new ttypes.BuildItem();
+          elem168.read(input);
+          this.buildItems.push(elem168);
         }
         input.readListEnd();
       } else {
@@ -5989,10 +5989,10 @@ ProjectManager_RebuildAllAsync_args.prototype.write = function(output) {
   if (this.buildItems !== null && this.buildItems !== undefined) {
     output.writeFieldBegin('buildItems', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.buildItems.length);
-    for (var iter154 in this.buildItems) {
-      if (this.buildItems.hasOwnProperty(iter154)) {
-        iter154 = this.buildItems[iter154];
-        iter154.write(output);
+    for (var iter169 in this.buildItems) {
+      if (this.buildItems.hasOwnProperty(iter169)) {
+        iter169 = this.buildItems[iter169];
+        iter169.write(output);
       }
     }
     output.writeListEnd();
@@ -6314,13 +6314,13 @@ ProjectManager_BuildAsync_args.prototype.read = function(input) {
       case 1:
       if (ftype == Thrift.Type.LIST) {
         this.buildItems = [];
-        var _rtmp3156 = input.readListBegin();
-        var _size155 = _rtmp3156.size || 0;
-        for (var _i157 = 0; _i157 < _size155; ++_i157) {
-          var elem158 = null;
-          elem158 = new ttypes.BuildItem();
-          elem158.read(input);
-          this.buildItems.push(elem158);
+        var _rtmp3171 = input.readListBegin();
+        var _size170 = _rtmp3171.size || 0;
+        for (var _i172 = 0; _i172 < _size170; ++_i172) {
+          var elem173 = null;
+          elem173 = new ttypes.BuildItem();
+          elem173.read(input);
+          this.buildItems.push(elem173);
         }
         input.readListEnd();
       } else {
@@ -6348,10 +6348,10 @@ ProjectManager_BuildAsync_args.prototype.write = function(output) {
   if (this.buildItems !== null && this.buildItems !== undefined) {
     output.writeFieldBegin('buildItems', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.buildItems.length);
-    for (var iter159 in this.buildItems) {
-      if (this.buildItems.hasOwnProperty(iter159)) {
-        iter159 = this.buildItems[iter159];
-        iter159.write(output);
+    for (var iter174 in this.buildItems) {
+      if (this.buildItems.hasOwnProperty(iter174)) {
+        iter174 = this.buildItems[iter174];
+        iter174.write(output);
       }
     }
     output.writeListEnd();
@@ -6444,13 +6444,13 @@ ProjectManager_CleanAsync_args.prototype.read = function(input) {
       case 1:
       if (ftype == Thrift.Type.LIST) {
         this.buildItems = [];
-        var _rtmp3161 = input.readListBegin();
-        var _size160 = _rtmp3161.size || 0;
-        for (var _i162 = 0; _i162 < _size160; ++_i162) {
-          var elem163 = null;
-          elem163 = new ttypes.BuildItem();
-          elem163.read(input);
-          this.buildItems.push(elem163);
+        var _rtmp3176 = input.readListBegin();
+        var _size175 = _rtmp3176.size || 0;
+        for (var _i177 = 0; _i177 < _size175; ++_i177) {
+          var elem178 = null;
+          elem178 = new ttypes.BuildItem();
+          elem178.read(input);
+          this.buildItems.push(elem178);
         }
         input.readListEnd();
       } else {
@@ -6474,10 +6474,10 @@ ProjectManager_CleanAsync_args.prototype.write = function(output) {
   if (this.buildItems !== null && this.buildItems !== undefined) {
     output.writeFieldBegin('buildItems', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.buildItems.length);
-    for (var iter164 in this.buildItems) {
-      if (this.buildItems.hasOwnProperty(iter164)) {
-        iter164 = this.buildItems[iter164];
-        iter164.write(output);
+    for (var iter179 in this.buildItems) {
+      if (this.buildItems.hasOwnProperty(iter179)) {
+        iter179 = this.buildItems[iter179];
+        iter179.write(output);
       }
     }
     output.writeListEnd();
@@ -6643,6 +6643,152 @@ ProjectManager_TerminateAnalysis_result.prototype.write = function(output) {
   return;
 };
 
+var ProjectManager_GetBuildNodes_args = function(args) {
+  this.prj = null;
+  this.configurationName = null;
+  this.toolIdentifier = null;
+  if (args) {
+    if (args.prj !== undefined && args.prj !== null) {
+      this.prj = new ttypes.ProjectContext(args.prj);
+    }
+    if (args.configurationName !== undefined && args.configurationName !== null) {
+      this.configurationName = args.configurationName;
+    }
+    if (args.toolIdentifier !== undefined && args.toolIdentifier !== null) {
+      this.toolIdentifier = args.toolIdentifier;
+    }
+  }
+};
+ProjectManager_GetBuildNodes_args.prototype = {};
+ProjectManager_GetBuildNodes_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.prj = new ttypes.ProjectContext();
+        this.prj.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.configurationName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.toolIdentifier = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetBuildNodes_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetBuildNodes_args');
+  if (this.prj !== null && this.prj !== undefined) {
+    output.writeFieldBegin('prj', Thrift.Type.STRUCT, 1);
+    this.prj.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.configurationName !== null && this.configurationName !== undefined) {
+    output.writeFieldBegin('configurationName', Thrift.Type.STRING, 2);
+    output.writeString(this.configurationName);
+    output.writeFieldEnd();
+  }
+  if (this.toolIdentifier !== null && this.toolIdentifier !== undefined) {
+    output.writeFieldBegin('toolIdentifier', Thrift.Type.STRING, 3);
+    output.writeString(this.toolIdentifier);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_GetBuildNodes_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [ttypes.BuildNode]);
+    }
+  }
+};
+ProjectManager_GetBuildNodes_result.prototype = {};
+ProjectManager_GetBuildNodes_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        this.success = [];
+        var _rtmp3181 = input.readListBegin();
+        var _size180 = _rtmp3181.size || 0;
+        for (var _i182 = 0; _i182 < _size180; ++_i182) {
+          var elem183 = null;
+          elem183 = new ttypes.BuildNode();
+          elem183.read(input);
+          this.success.push(elem183);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_GetBuildNodes_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_GetBuildNodes_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter184 in this.success) {
+      if (this.success.hasOwnProperty(iter184)) {
+        iter184 = this.success[iter184];
+        iter184.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var ProjectManager_GetOptionsForNode_args = function(args) {
   this.prj = null;
   this.node = null;
@@ -6700,12 +6846,12 @@ ProjectManager_GetOptionsForNode_args.prototype.read = function(input) {
       case 4:
       if (ftype == Thrift.Type.LIST) {
         this.optionIds = [];
-        var _rtmp3166 = input.readListBegin();
-        var _size165 = _rtmp3166.size || 0;
-        for (var _i167 = 0; _i167 < _size165; ++_i167) {
-          var elem168 = null;
-          elem168 = input.readString();
-          this.optionIds.push(elem168);
+        var _rtmp3186 = input.readListBegin();
+        var _size185 = _rtmp3186.size || 0;
+        for (var _i187 = 0; _i187 < _size185; ++_i187) {
+          var elem188 = null;
+          elem188 = input.readString();
+          this.optionIds.push(elem188);
         }
         input.readListEnd();
       } else {
@@ -6741,10 +6887,10 @@ ProjectManager_GetOptionsForNode_args.prototype.write = function(output) {
   if (this.optionIds !== null && this.optionIds !== undefined) {
     output.writeFieldBegin('optionIds', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRING, this.optionIds.length);
-    for (var iter169 in this.optionIds) {
-      if (this.optionIds.hasOwnProperty(iter169)) {
-        iter169 = this.optionIds[iter169];
-        output.writeString(iter169);
+    for (var iter189 in this.optionIds) {
+      if (this.optionIds.hasOwnProperty(iter189)) {
+        iter189 = this.optionIds[iter189];
+        output.writeString(iter189);
       }
     }
     output.writeListEnd();
@@ -6785,13 +6931,13 @@ ProjectManager_GetOptionsForNode_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3171 = input.readListBegin();
-        var _size170 = _rtmp3171.size || 0;
-        for (var _i172 = 0; _i172 < _size170; ++_i172) {
-          var elem173 = null;
-          elem173 = new ttypes.OptionDescription();
-          elem173.read(input);
-          this.success.push(elem173);
+        var _rtmp3191 = input.readListBegin();
+        var _size190 = _rtmp3191.size || 0;
+        for (var _i192 = 0; _i192 < _size190; ++_i192) {
+          var elem193 = null;
+          elem193 = new ttypes.OptionDescription();
+          elem193.read(input);
+          this.success.push(elem193);
         }
         input.readListEnd();
       } else {
@@ -6820,10 +6966,10 @@ ProjectManager_GetOptionsForNode_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter174 in this.success) {
-      if (this.success.hasOwnProperty(iter174)) {
-        iter174 = this.success[iter174];
-        iter174.write(output);
+    for (var iter194 in this.success) {
+      if (this.success.hasOwnProperty(iter194)) {
+        iter194 = this.success[iter194];
+        iter194.write(output);
       }
     }
     output.writeListEnd();
@@ -6884,12 +7030,12 @@ ProjectManager_GetOptionsForConfiguration_args.prototype.read = function(input) 
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.optionIds = [];
-        var _rtmp3176 = input.readListBegin();
-        var _size175 = _rtmp3176.size || 0;
-        for (var _i177 = 0; _i177 < _size175; ++_i177) {
-          var elem178 = null;
-          elem178 = input.readString();
-          this.optionIds.push(elem178);
+        var _rtmp3196 = input.readListBegin();
+        var _size195 = _rtmp3196.size || 0;
+        for (var _i197 = 0; _i197 < _size195; ++_i197) {
+          var elem198 = null;
+          elem198 = input.readString();
+          this.optionIds.push(elem198);
         }
         input.readListEnd();
       } else {
@@ -6920,10 +7066,10 @@ ProjectManager_GetOptionsForConfiguration_args.prototype.write = function(output
   if (this.optionIds !== null && this.optionIds !== undefined) {
     output.writeFieldBegin('optionIds', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRING, this.optionIds.length);
-    for (var iter179 in this.optionIds) {
-      if (this.optionIds.hasOwnProperty(iter179)) {
-        iter179 = this.optionIds[iter179];
-        output.writeString(iter179);
+    for (var iter199 in this.optionIds) {
+      if (this.optionIds.hasOwnProperty(iter199)) {
+        iter199 = this.optionIds[iter199];
+        output.writeString(iter199);
       }
     }
     output.writeListEnd();
@@ -6964,13 +7110,13 @@ ProjectManager_GetOptionsForConfiguration_result.prototype.read = function(input
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3181 = input.readListBegin();
-        var _size180 = _rtmp3181.size || 0;
-        for (var _i182 = 0; _i182 < _size180; ++_i182) {
-          var elem183 = null;
-          elem183 = new ttypes.OptionDescription();
-          elem183.read(input);
-          this.success.push(elem183);
+        var _rtmp3201 = input.readListBegin();
+        var _size200 = _rtmp3201.size || 0;
+        for (var _i202 = 0; _i202 < _size200; ++_i202) {
+          var elem203 = null;
+          elem203 = new ttypes.OptionDescription();
+          elem203.read(input);
+          this.success.push(elem203);
         }
         input.readListEnd();
       } else {
@@ -6999,10 +7145,10 @@ ProjectManager_GetOptionsForConfiguration_result.prototype.write = function(outp
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter184 in this.success) {
-      if (this.success.hasOwnProperty(iter184)) {
-        iter184 = this.success[iter184];
-        iter184.write(output);
+    for (var iter204 in this.success) {
+      if (this.success.hasOwnProperty(iter204)) {
+        iter204 = this.success[iter204];
+        iter204.write(output);
       }
     }
     output.writeListEnd();
@@ -7075,13 +7221,13 @@ ProjectManager_ApplyOptionsForNode_args.prototype.read = function(input) {
       case 4:
       if (ftype == Thrift.Type.LIST) {
         this.optionsToSet = [];
-        var _rtmp3186 = input.readListBegin();
-        var _size185 = _rtmp3186.size || 0;
-        for (var _i187 = 0; _i187 < _size185; ++_i187) {
-          var elem188 = null;
-          elem188 = new ttypes.OptionDescription();
-          elem188.read(input);
-          this.optionsToSet.push(elem188);
+        var _rtmp3206 = input.readListBegin();
+        var _size205 = _rtmp3206.size || 0;
+        for (var _i207 = 0; _i207 < _size205; ++_i207) {
+          var elem208 = null;
+          elem208 = new ttypes.OptionDescription();
+          elem208.read(input);
+          this.optionsToSet.push(elem208);
         }
         input.readListEnd();
       } else {
@@ -7117,10 +7263,10 @@ ProjectManager_ApplyOptionsForNode_args.prototype.write = function(output) {
   if (this.optionsToSet !== null && this.optionsToSet !== undefined) {
     output.writeFieldBegin('optionsToSet', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.optionsToSet.length);
-    for (var iter189 in this.optionsToSet) {
-      if (this.optionsToSet.hasOwnProperty(iter189)) {
-        iter189 = this.optionsToSet[iter189];
-        iter189.write(output);
+    for (var iter209 in this.optionsToSet) {
+      if (this.optionsToSet.hasOwnProperty(iter209)) {
+        iter209 = this.optionsToSet[iter209];
+        iter209.write(output);
       }
     }
     output.writeListEnd();
@@ -7161,13 +7307,13 @@ ProjectManager_ApplyOptionsForNode_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3191 = input.readListBegin();
-        var _size190 = _rtmp3191.size || 0;
-        for (var _i192 = 0; _i192 < _size190; ++_i192) {
-          var elem193 = null;
-          elem193 = new ttypes.OptionDescription();
-          elem193.read(input);
-          this.success.push(elem193);
+        var _rtmp3211 = input.readListBegin();
+        var _size210 = _rtmp3211.size || 0;
+        for (var _i212 = 0; _i212 < _size210; ++_i212) {
+          var elem213 = null;
+          elem213 = new ttypes.OptionDescription();
+          elem213.read(input);
+          this.success.push(elem213);
         }
         input.readListEnd();
       } else {
@@ -7196,10 +7342,10 @@ ProjectManager_ApplyOptionsForNode_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter194 in this.success) {
-      if (this.success.hasOwnProperty(iter194)) {
-        iter194 = this.success[iter194];
-        iter194.write(output);
+    for (var iter214 in this.success) {
+      if (this.success.hasOwnProperty(iter214)) {
+        iter214 = this.success[iter214];
+        iter214.write(output);
       }
     }
     output.writeListEnd();
@@ -7272,13 +7418,13 @@ ProjectManager_VerifyOptionsForNode_args.prototype.read = function(input) {
       case 4:
       if (ftype == Thrift.Type.LIST) {
         this.optionsToSet = [];
-        var _rtmp3196 = input.readListBegin();
-        var _size195 = _rtmp3196.size || 0;
-        for (var _i197 = 0; _i197 < _size195; ++_i197) {
-          var elem198 = null;
-          elem198 = new ttypes.OptionDescription();
-          elem198.read(input);
-          this.optionsToSet.push(elem198);
+        var _rtmp3216 = input.readListBegin();
+        var _size215 = _rtmp3216.size || 0;
+        for (var _i217 = 0; _i217 < _size215; ++_i217) {
+          var elem218 = null;
+          elem218 = new ttypes.OptionDescription();
+          elem218.read(input);
+          this.optionsToSet.push(elem218);
         }
         input.readListEnd();
       } else {
@@ -7314,10 +7460,10 @@ ProjectManager_VerifyOptionsForNode_args.prototype.write = function(output) {
   if (this.optionsToSet !== null && this.optionsToSet !== undefined) {
     output.writeFieldBegin('optionsToSet', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.optionsToSet.length);
-    for (var iter199 in this.optionsToSet) {
-      if (this.optionsToSet.hasOwnProperty(iter199)) {
-        iter199 = this.optionsToSet[iter199];
-        iter199.write(output);
+    for (var iter219 in this.optionsToSet) {
+      if (this.optionsToSet.hasOwnProperty(iter219)) {
+        iter219 = this.optionsToSet[iter219];
+        iter219.write(output);
       }
     }
     output.writeListEnd();
@@ -7358,13 +7504,13 @@ ProjectManager_VerifyOptionsForNode_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3201 = input.readListBegin();
-        var _size200 = _rtmp3201.size || 0;
-        for (var _i202 = 0; _i202 < _size200; ++_i202) {
-          var elem203 = null;
-          elem203 = new ttypes.OptionDescription();
-          elem203.read(input);
-          this.success.push(elem203);
+        var _rtmp3221 = input.readListBegin();
+        var _size220 = _rtmp3221.size || 0;
+        for (var _i222 = 0; _i222 < _size220; ++_i222) {
+          var elem223 = null;
+          elem223 = new ttypes.OptionDescription();
+          elem223.read(input);
+          this.success.push(elem223);
         }
         input.readListEnd();
       } else {
@@ -7393,10 +7539,10 @@ ProjectManager_VerifyOptionsForNode_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter204 in this.success) {
-      if (this.success.hasOwnProperty(iter204)) {
-        iter204 = this.success[iter204];
-        iter204.write(output);
+    for (var iter224 in this.success) {
+      if (this.success.hasOwnProperty(iter224)) {
+        iter224 = this.success[iter224];
+        iter224.write(output);
       }
     }
     output.writeListEnd();
@@ -7457,13 +7603,13 @@ ProjectManager_ApplyOptionsForConfiguration_args.prototype.read = function(input
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.optionsToSet = [];
-        var _rtmp3206 = input.readListBegin();
-        var _size205 = _rtmp3206.size || 0;
-        for (var _i207 = 0; _i207 < _size205; ++_i207) {
-          var elem208 = null;
-          elem208 = new ttypes.OptionDescription();
-          elem208.read(input);
-          this.optionsToSet.push(elem208);
+        var _rtmp3226 = input.readListBegin();
+        var _size225 = _rtmp3226.size || 0;
+        for (var _i227 = 0; _i227 < _size225; ++_i227) {
+          var elem228 = null;
+          elem228 = new ttypes.OptionDescription();
+          elem228.read(input);
+          this.optionsToSet.push(elem228);
         }
         input.readListEnd();
       } else {
@@ -7494,10 +7640,10 @@ ProjectManager_ApplyOptionsForConfiguration_args.prototype.write = function(outp
   if (this.optionsToSet !== null && this.optionsToSet !== undefined) {
     output.writeFieldBegin('optionsToSet', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.optionsToSet.length);
-    for (var iter209 in this.optionsToSet) {
-      if (this.optionsToSet.hasOwnProperty(iter209)) {
-        iter209 = this.optionsToSet[iter209];
-        iter209.write(output);
+    for (var iter229 in this.optionsToSet) {
+      if (this.optionsToSet.hasOwnProperty(iter229)) {
+        iter229 = this.optionsToSet[iter229];
+        iter229.write(output);
       }
     }
     output.writeListEnd();
@@ -7538,13 +7684,13 @@ ProjectManager_ApplyOptionsForConfiguration_result.prototype.read = function(inp
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3211 = input.readListBegin();
-        var _size210 = _rtmp3211.size || 0;
-        for (var _i212 = 0; _i212 < _size210; ++_i212) {
-          var elem213 = null;
-          elem213 = new ttypes.OptionDescription();
-          elem213.read(input);
-          this.success.push(elem213);
+        var _rtmp3231 = input.readListBegin();
+        var _size230 = _rtmp3231.size || 0;
+        for (var _i232 = 0; _i232 < _size230; ++_i232) {
+          var elem233 = null;
+          elem233 = new ttypes.OptionDescription();
+          elem233.read(input);
+          this.success.push(elem233);
         }
         input.readListEnd();
       } else {
@@ -7573,10 +7719,10 @@ ProjectManager_ApplyOptionsForConfiguration_result.prototype.write = function(ou
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter214 in this.success) {
-      if (this.success.hasOwnProperty(iter214)) {
-        iter214 = this.success[iter214];
-        iter214.write(output);
+    for (var iter234 in this.success) {
+      if (this.success.hasOwnProperty(iter234)) {
+        iter234 = this.success[iter234];
+        iter234.write(output);
       }
     }
     output.writeListEnd();
@@ -7637,13 +7783,13 @@ ProjectManager_VerifyOptionsForConfiguration_args.prototype.read = function(inpu
       case 3:
       if (ftype == Thrift.Type.LIST) {
         this.optionsToSet = [];
-        var _rtmp3216 = input.readListBegin();
-        var _size215 = _rtmp3216.size || 0;
-        for (var _i217 = 0; _i217 < _size215; ++_i217) {
-          var elem218 = null;
-          elem218 = new ttypes.OptionDescription();
-          elem218.read(input);
-          this.optionsToSet.push(elem218);
+        var _rtmp3236 = input.readListBegin();
+        var _size235 = _rtmp3236.size || 0;
+        for (var _i237 = 0; _i237 < _size235; ++_i237) {
+          var elem238 = null;
+          elem238 = new ttypes.OptionDescription();
+          elem238.read(input);
+          this.optionsToSet.push(elem238);
         }
         input.readListEnd();
       } else {
@@ -7674,10 +7820,10 @@ ProjectManager_VerifyOptionsForConfiguration_args.prototype.write = function(out
   if (this.optionsToSet !== null && this.optionsToSet !== undefined) {
     output.writeFieldBegin('optionsToSet', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.optionsToSet.length);
-    for (var iter219 in this.optionsToSet) {
-      if (this.optionsToSet.hasOwnProperty(iter219)) {
-        iter219 = this.optionsToSet[iter219];
-        iter219.write(output);
+    for (var iter239 in this.optionsToSet) {
+      if (this.optionsToSet.hasOwnProperty(iter239)) {
+        iter239 = this.optionsToSet[iter239];
+        iter239.write(output);
       }
     }
     output.writeListEnd();
@@ -7718,13 +7864,13 @@ ProjectManager_VerifyOptionsForConfiguration_result.prototype.read = function(in
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3221 = input.readListBegin();
-        var _size220 = _rtmp3221.size || 0;
-        for (var _i222 = 0; _i222 < _size220; ++_i222) {
-          var elem223 = null;
-          elem223 = new ttypes.OptionDescription();
-          elem223.read(input);
-          this.success.push(elem223);
+        var _rtmp3241 = input.readListBegin();
+        var _size240 = _rtmp3241.size || 0;
+        for (var _i242 = 0; _i242 < _size240; ++_i242) {
+          var elem243 = null;
+          elem243 = new ttypes.OptionDescription();
+          elem243.read(input);
+          this.success.push(elem243);
         }
         input.readListEnd();
       } else {
@@ -7753,10 +7899,10 @@ ProjectManager_VerifyOptionsForConfiguration_result.prototype.write = function(o
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter224 in this.success) {
-      if (this.success.hasOwnProperty(iter224)) {
-        iter224 = this.success[iter224];
-        iter224.write(output);
+    for (var iter244 in this.success) {
+      if (this.success.hasOwnProperty(iter244)) {
+        iter244 = this.success[iter244];
+        iter244.write(output);
       }
     }
     output.writeListEnd();
@@ -7858,13 +8004,13 @@ ProjectManager_GetOptionCategories_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3226 = input.readListBegin();
-        var _size225 = _rtmp3226.size || 0;
-        for (var _i227 = 0; _i227 < _size225; ++_i227) {
-          var elem228 = null;
-          elem228 = new ttypes.OptionCategory();
-          elem228.read(input);
-          this.success.push(elem228);
+        var _rtmp3246 = input.readListBegin();
+        var _size245 = _rtmp3246.size || 0;
+        for (var _i247 = 0; _i247 < _size245; ++_i247) {
+          var elem248 = null;
+          elem248 = new ttypes.OptionCategory();
+          elem248.read(input);
+          this.success.push(elem248);
         }
         input.readListEnd();
       } else {
@@ -7888,10 +8034,10 @@ ProjectManager_GetOptionCategories_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter229 in this.success) {
-      if (this.success.hasOwnProperty(iter229)) {
-        iter229 = this.success[iter229];
-        iter229.write(output);
+    for (var iter249 in this.success) {
+      if (this.success.hasOwnProperty(iter249)) {
+        iter249 = this.success[iter249];
+        iter249.write(output);
       }
     }
     output.writeListEnd();
@@ -8510,12 +8656,12 @@ ProjectManager_GetToolArgumentsForConfiguration_result.prototype.read = function
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3231 = input.readListBegin();
-        var _size230 = _rtmp3231.size || 0;
-        for (var _i232 = 0; _i232 < _size230; ++_i232) {
-          var elem233 = null;
-          elem233 = input.readString();
-          this.success.push(elem233);
+        var _rtmp3251 = input.readListBegin();
+        var _size250 = _rtmp3251.size || 0;
+        for (var _i252 = 0; _i252 < _size250; ++_i252) {
+          var elem253 = null;
+          elem253 = input.readString();
+          this.success.push(elem253);
         }
         input.readListEnd();
       } else {
@@ -8539,10 +8685,10 @@ ProjectManager_GetToolArgumentsForConfiguration_result.prototype.write = functio
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter234 in this.success) {
-      if (this.success.hasOwnProperty(iter234)) {
-        iter234 = this.success[iter234];
-        output.writeString(iter234);
+    for (var iter254 in this.success) {
+      if (this.success.hasOwnProperty(iter254)) {
+        iter254 = this.success[iter254];
+        output.writeString(iter254);
       }
     }
     output.writeListEnd();
@@ -9158,6 +9304,322 @@ ProjectManager_EnableProjectConnections_result.prototype.write = function(output
   return;
 };
 
+var ProjectManager_IsExternalProjectUpToDate_args = function(args) {
+  this.prj = null;
+  if (args) {
+    if (args.prj !== undefined && args.prj !== null) {
+      this.prj = new ttypes.ProjectContext(args.prj);
+    }
+  }
+};
+ProjectManager_IsExternalProjectUpToDate_args.prototype = {};
+ProjectManager_IsExternalProjectUpToDate_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.prj = new ttypes.ProjectContext();
+        this.prj.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_IsExternalProjectUpToDate_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_IsExternalProjectUpToDate_args');
+  if (this.prj !== null && this.prj !== undefined) {
+    output.writeFieldBegin('prj', Thrift.Type.STRUCT, 1);
+    this.prj.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_IsExternalProjectUpToDate_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+ProjectManager_IsExternalProjectUpToDate_result.prototype = {};
+ProjectManager_IsExternalProjectUpToDate_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.BOOL) {
+        this.success = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_IsExternalProjectUpToDate_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_IsExternalProjectUpToDate_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.BOOL, 0);
+    output.writeBool(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_SynchonizeExternalProject_args = function(args) {
+  this.prj = null;
+  if (args) {
+    if (args.prj !== undefined && args.prj !== null) {
+      this.prj = new ttypes.ProjectContext(args.prj);
+    }
+  }
+};
+ProjectManager_SynchonizeExternalProject_args.prototype = {};
+ProjectManager_SynchonizeExternalProject_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.prj = new ttypes.ProjectContext();
+        this.prj.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_SynchonizeExternalProject_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_SynchonizeExternalProject_args');
+  if (this.prj !== null && this.prj !== undefined) {
+    output.writeFieldBegin('prj', Thrift.Type.STRUCT, 1);
+    this.prj.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_SynchonizeExternalProject_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+ProjectManager_SynchonizeExternalProject_result.prototype = {};
+ProjectManager_SynchonizeExternalProject_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.BOOL) {
+        this.success = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_SynchonizeExternalProject_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_SynchonizeExternalProject_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.BOOL, 0);
+    output.writeBool(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_ConfigureExternalProject_args = function(args) {
+  this.prj = null;
+  this.force = null;
+  if (args) {
+    if (args.prj !== undefined && args.prj !== null) {
+      this.prj = new ttypes.ProjectContext(args.prj);
+    }
+    if (args.force !== undefined && args.force !== null) {
+      this.force = args.force;
+    }
+  }
+};
+ProjectManager_ConfigureExternalProject_args.prototype = {};
+ProjectManager_ConfigureExternalProject_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.prj = new ttypes.ProjectContext();
+        this.prj.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.BOOL) {
+        this.force = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_ConfigureExternalProject_args.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_ConfigureExternalProject_args');
+  if (this.prj !== null && this.prj !== undefined) {
+    output.writeFieldBegin('prj', Thrift.Type.STRUCT, 1);
+    this.prj.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.force !== null && this.force !== undefined) {
+    output.writeFieldBegin('force', Thrift.Type.BOOL, 2);
+    output.writeBool(this.force);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ProjectManager_ConfigureExternalProject_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+ProjectManager_ConfigureExternalProject_result.prototype = {};
+ProjectManager_ConfigureExternalProject_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.BOOL) {
+        this.success = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ProjectManager_ConfigureExternalProject_result.prototype.write = function(output) {
+  output.writeStructBegin('ProjectManager_ConfigureExternalProject_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.BOOL, 0);
+    output.writeBool(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var ProjectManager_AddControlFile_args = function(args) {
   this.prj = null;
   this.file = null;
@@ -9499,13 +9961,13 @@ ProjectManager_GetControlFilePlugins_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3236 = input.readListBegin();
-        var _size235 = _rtmp3236.size || 0;
-        for (var _i237 = 0; _i237 < _size235; ++_i237) {
-          var elem238 = null;
-          elem238 = new ttypes.ControlFilePlugin();
-          elem238.read(input);
-          this.success.push(elem238);
+        var _rtmp3256 = input.readListBegin();
+        var _size255 = _rtmp3256.size || 0;
+        for (var _i257 = 0; _i257 < _size255; ++_i257) {
+          var elem258 = null;
+          elem258 = new ttypes.ControlFilePlugin();
+          elem258.read(input);
+          this.success.push(elem258);
         }
         input.readListEnd();
       } else {
@@ -9529,10 +9991,10 @@ ProjectManager_GetControlFilePlugins_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter239 in this.success) {
-      if (this.success.hasOwnProperty(iter239)) {
-        iter239 = this.success[iter239];
-        iter239.write(output);
+    for (var iter259 in this.success) {
+      if (this.success.hasOwnProperty(iter259)) {
+        iter259 = this.success[iter259];
+        iter259.write(output);
       }
     }
     output.writeListEnd();
@@ -9616,13 +10078,13 @@ ProjectManager_GetOptionsForProject_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.LIST) {
         this.success = [];
-        var _rtmp3241 = input.readListBegin();
-        var _size240 = _rtmp3241.size || 0;
-        for (var _i242 = 0; _i242 < _size240; ++_i242) {
-          var elem243 = null;
-          elem243 = new ttypes.OptionDescription();
-          elem243.read(input);
-          this.success.push(elem243);
+        var _rtmp3261 = input.readListBegin();
+        var _size260 = _rtmp3261.size || 0;
+        for (var _i262 = 0; _i262 < _size260; ++_i262) {
+          var elem263 = null;
+          elem263 = new ttypes.OptionDescription();
+          elem263.read(input);
+          this.success.push(elem263);
         }
         input.readListEnd();
       } else {
@@ -9646,10 +10108,10 @@ ProjectManager_GetOptionsForProject_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter244 in this.success) {
-      if (this.success.hasOwnProperty(iter244)) {
-        iter244 = this.success[iter244];
-        iter244.write(output);
+    for (var iter264 in this.success) {
+      if (this.success.hasOwnProperty(iter264)) {
+        iter264 = this.success[iter264];
+        iter264.write(output);
       }
     }
     output.writeListEnd();
@@ -9694,13 +10156,13 @@ ProjectManager_ApplyOptionsForProject_args.prototype.read = function(input) {
       case 2:
       if (ftype == Thrift.Type.LIST) {
         this.options = [];
-        var _rtmp3246 = input.readListBegin();
-        var _size245 = _rtmp3246.size || 0;
-        for (var _i247 = 0; _i247 < _size245; ++_i247) {
-          var elem248 = null;
-          elem248 = new ttypes.OptionDescription();
-          elem248.read(input);
-          this.options.push(elem248);
+        var _rtmp3266 = input.readListBegin();
+        var _size265 = _rtmp3266.size || 0;
+        for (var _i267 = 0; _i267 < _size265; ++_i267) {
+          var elem268 = null;
+          elem268 = new ttypes.OptionDescription();
+          elem268.read(input);
+          this.options.push(elem268);
         }
         input.readListEnd();
       } else {
@@ -9726,10 +10188,10 @@ ProjectManager_ApplyOptionsForProject_args.prototype.write = function(output) {
   if (this.options !== null && this.options !== undefined) {
     output.writeFieldBegin('options', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.options.length);
-    for (var iter249 in this.options) {
-      if (this.options.hasOwnProperty(iter249)) {
-        iter249 = this.options[iter249];
-        iter249.write(output);
+    for (var iter269 in this.options) {
+      if (this.options.hasOwnProperty(iter269)) {
+        iter269 = this.options[iter269];
+        iter269.write(output);
       }
     }
     output.writeListEnd();
@@ -13301,6 +13763,67 @@ ProjectManagerClient.prototype.recv_TerminateAnalysis = function(input,mtype,rse
   callback(null);
 };
 
+ProjectManagerClient.prototype.GetBuildNodes = function(prj, configurationName, toolIdentifier, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_GetBuildNodes(prj, configurationName, toolIdentifier);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_GetBuildNodes(prj, configurationName, toolIdentifier);
+  }
+};
+
+ProjectManagerClient.prototype.send_GetBuildNodes = function(prj, configurationName, toolIdentifier) {
+  var output = new this.pClass(this.output);
+  var params = {
+    prj: prj,
+    configurationName: configurationName,
+    toolIdentifier: toolIdentifier
+  };
+  var args = new ProjectManager_GetBuildNodes_args(params);
+  try {
+    output.writeMessageBegin('GetBuildNodes', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_GetBuildNodes = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_GetBuildNodes_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('GetBuildNodes failed: unknown result');
+};
+
 ProjectManagerClient.prototype.GetOptionsForNode = function(prj, node, configurationName, optionIds, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -14399,6 +14922,184 @@ ProjectManagerClient.prototype.recv_EnableProjectConnections = function(input,mt
   input.readMessageEnd();
 
   callback(null);
+};
+
+ProjectManagerClient.prototype.IsExternalProjectUpToDate = function(prj, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_IsExternalProjectUpToDate(prj);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_IsExternalProjectUpToDate(prj);
+  }
+};
+
+ProjectManagerClient.prototype.send_IsExternalProjectUpToDate = function(prj) {
+  var output = new this.pClass(this.output);
+  var params = {
+    prj: prj
+  };
+  var args = new ProjectManager_IsExternalProjectUpToDate_args(params);
+  try {
+    output.writeMessageBegin('IsExternalProjectUpToDate', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_IsExternalProjectUpToDate = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_IsExternalProjectUpToDate_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('IsExternalProjectUpToDate failed: unknown result');
+};
+
+ProjectManagerClient.prototype.SynchonizeExternalProject = function(prj, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_SynchonizeExternalProject(prj);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_SynchonizeExternalProject(prj);
+  }
+};
+
+ProjectManagerClient.prototype.send_SynchonizeExternalProject = function(prj) {
+  var output = new this.pClass(this.output);
+  var params = {
+    prj: prj
+  };
+  var args = new ProjectManager_SynchonizeExternalProject_args(params);
+  try {
+    output.writeMessageBegin('SynchonizeExternalProject', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_SynchonizeExternalProject = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_SynchonizeExternalProject_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('SynchonizeExternalProject failed: unknown result');
+};
+
+ProjectManagerClient.prototype.ConfigureExternalProject = function(prj, force, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_ConfigureExternalProject(prj, force);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_ConfigureExternalProject(prj, force);
+  }
+};
+
+ProjectManagerClient.prototype.send_ConfigureExternalProject = function(prj, force) {
+  var output = new this.pClass(this.output);
+  var params = {
+    prj: prj,
+    force: force
+  };
+  var args = new ProjectManager_ConfigureExternalProject_args(params);
+  try {
+    output.writeMessageBegin('ConfigureExternalProject', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+ProjectManagerClient.prototype.recv_ConfigureExternalProject = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new ProjectManager_ConfigureExternalProject_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('ConfigureExternalProject failed: unknown result');
 };
 
 ProjectManagerClient.prototype.AddControlFile = function(prj, file, pluginId, callback) {
@@ -17157,6 +17858,45 @@ ProjectManagerProcessor.prototype.process_TerminateAnalysis = function(seqid, in
     });
   }
 };
+ProjectManagerProcessor.prototype.process_GetBuildNodes = function(seqid, input, output) {
+  var args = new ProjectManager_GetBuildNodes_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.GetBuildNodes.length === 3) {
+    Q.fcall(this._handler.GetBuildNodes.bind(this._handler),
+      args.prj,
+      args.configurationName,
+      args.toolIdentifier
+    ).then(function(result) {
+      var result_obj = new ProjectManager_GetBuildNodes_result({success: result});
+      output.writeMessageBegin("GetBuildNodes", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("GetBuildNodes", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.GetBuildNodes(args.prj, args.configurationName, args.toolIdentifier, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_GetBuildNodes_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("GetBuildNodes", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("GetBuildNodes", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
 ProjectManagerProcessor.prototype.process_GetOptionsForNode = function(seqid, input, output) {
   var args = new ProjectManager_GetOptionsForNode_args();
   args.read(input);
@@ -17883,6 +18623,118 @@ ProjectManagerProcessor.prototype.process_EnableProjectConnections = function(se
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("EnableProjectConnections", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_IsExternalProjectUpToDate = function(seqid, input, output) {
+  var args = new ProjectManager_IsExternalProjectUpToDate_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.IsExternalProjectUpToDate.length === 1) {
+    Q.fcall(this._handler.IsExternalProjectUpToDate.bind(this._handler),
+      args.prj
+    ).then(function(result) {
+      var result_obj = new ProjectManager_IsExternalProjectUpToDate_result({success: result});
+      output.writeMessageBegin("IsExternalProjectUpToDate", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("IsExternalProjectUpToDate", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.IsExternalProjectUpToDate(args.prj, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_IsExternalProjectUpToDate_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("IsExternalProjectUpToDate", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("IsExternalProjectUpToDate", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_SynchonizeExternalProject = function(seqid, input, output) {
+  var args = new ProjectManager_SynchonizeExternalProject_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.SynchonizeExternalProject.length === 1) {
+    Q.fcall(this._handler.SynchonizeExternalProject.bind(this._handler),
+      args.prj
+    ).then(function(result) {
+      var result_obj = new ProjectManager_SynchonizeExternalProject_result({success: result});
+      output.writeMessageBegin("SynchonizeExternalProject", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("SynchonizeExternalProject", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.SynchonizeExternalProject(args.prj, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_SynchonizeExternalProject_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("SynchonizeExternalProject", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("SynchonizeExternalProject", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+ProjectManagerProcessor.prototype.process_ConfigureExternalProject = function(seqid, input, output) {
+  var args = new ProjectManager_ConfigureExternalProject_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.ConfigureExternalProject.length === 2) {
+    Q.fcall(this._handler.ConfigureExternalProject.bind(this._handler),
+      args.prj,
+      args.force
+    ).then(function(result) {
+      var result_obj = new ProjectManager_ConfigureExternalProject_result({success: result});
+      output.writeMessageBegin("ConfigureExternalProject", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("ConfigureExternalProject", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.ConfigureExternalProject(args.prj, args.force, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new ProjectManager_ConfigureExternalProject_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("ConfigureExternalProject", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("ConfigureExternalProject", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

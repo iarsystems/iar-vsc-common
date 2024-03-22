@@ -75,6 +75,24 @@ declare class CSpyException extends Thrift.TException {
   write(input: Object): void;
 }
 
+declare class Id {
+  public value: string;
+  public type: string;
+
+    constructor(args?: { value: string; type: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class Success {
+  public value: boolean;
+  public failureMessage: string;
+
+    constructor(args?: { value: boolean; failureMessage: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
 declare class Zone {
   public id: number;
 
