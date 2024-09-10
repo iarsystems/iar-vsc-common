@@ -20,6 +20,7 @@ import ScrollOperation = ttypes.ScrollOperation
 import SelectionFlags = ttypes.SelectionFlags
 import Target = ttypes.Target
 import What = ttypes.What
+import ToolbarWhat = ttypes.ToolbarWhat
 import SLIDING_POS_NONE = ttypes.SLIDING_POS_NONE
 import Range = ttypes.Range
 import Color = ttypes.Color
@@ -35,6 +36,8 @@ import Tooltip = ttypes.Tooltip
 import Drag = ttypes.Drag
 import HelpTag = ttypes.HelpTag
 import Note = ttypes.Note
+import ToolbarNote = ttypes.ToolbarNote
+import ToolbarItemState = ttypes.ToolbarItemState
 import ChunkInfo = ttypes.ChunkInfo
 import AddRowsResult = ttypes.AddRowsResult
 import NavigateResult = ttypes.NavigateResult
@@ -56,6 +59,10 @@ declare class Client {
   notify(note: Note): Q.Promise<void>;
 
   notify(note: Note, callback?: (error: void, response: void)=>void): void;
+
+  notifyToolbar(note: ToolbarNote): Q.Promise<void>;
+
+  notifyToolbar(note: ToolbarNote, callback?: (error: void, response: void)=>void): void;
 }
 
 declare class Processor {
@@ -64,4 +71,5 @@ declare class Processor {
   constructor(handler: object);
   process(input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_notify(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_notifyToolbar(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

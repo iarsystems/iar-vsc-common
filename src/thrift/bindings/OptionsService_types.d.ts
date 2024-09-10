@@ -11,11 +11,72 @@ import shared_ttypes = require('./shared_types');
 
 
 
+declare class OptionsServiceError extends Thrift.TException {
+  public description: string;
+
+    constructor(args?: { description: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class CreateSessionRequest {
+  public projectPath: string;
+  public configurationName: string;
+
+    constructor(args?: { projectPath: string; configurationName: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
 declare class CreateSessionResponse {
   public sessionId: shared_ttypes.Id;
   public success: shared_ttypes.Success;
 
     constructor(args?: { sessionId: shared_ttypes.Id; success: shared_ttypes.Success; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Defines the data needed for a constructed mock test session
+ * 
+ * This data is used for the Mock used for testing and it will build data based on the
+ * given categories xml string, and the list of xml strings for pages.
+ * 
+ */
+declare class CreateSessionWithDataRequest {
+  public categories: string;
+  public pages: { [k: string]: string; };
+
+    constructor(args?: { categories: string; pages: { [k: string]: string; }; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Defines the data needed for updating one specific option value
+ * 
+ * This data is used for updating one option to a given value, if possible.
+ */
+declare class UpdateOptionValueRequest {
+  public sessionId: shared_ttypes.Id;
+  public optionId: string;
+  public newValue: string;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; optionId: string; newValue: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Defines the response for setting an option value
+ */
+declare class UpdateOptionValueResponse {
+  public sessionId: shared_ttypes.Id;
+  public result: shared_ttypes.Success;
+  public optionId: string;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; result: shared_ttypes.Success; optionId: string; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -46,7 +107,25 @@ declare class Tree {
   write(input: Object): void;
 }
 
-declare class GetTreeRequest {
+declare class GetCategoryTreeRequest {
+  public sessionId: shared_ttypes.Id;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class GetCategoryTreeResponse {
+  public sessionId: shared_ttypes.Id;
+  public tree: Tree;
+  public success: shared_ttypes.Success;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; tree: Tree; success: shared_ttypes.Success; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class GetOptionTreeRequest {
   public sessionId: shared_ttypes.Id;
   public treeId: shared_ttypes.Id;
 
@@ -55,12 +134,67 @@ declare class GetTreeRequest {
   write(input: Object): void;
 }
 
-declare class GetTreeResponse {
+declare class GetOptionTreeResponse {
   public sessionId: shared_ttypes.Id;
   public tree: Tree;
   public success: shared_ttypes.Success;
 
     constructor(args?: { sessionId: shared_ttypes.Id; tree: Tree; success: shared_ttypes.Success; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class OptionValue {
+  public optionDefinitionId: string;
+  public data: string;
+
+    constructor(args?: { optionDefinitionId: string; data: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class VerificationError {
+  public optionDefinitionId: string;
+  public errorMessage: string;
+
+    constructor(args?: { optionDefinitionId: string; errorMessage: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class VerifyOptionStateRequest {
+  public sessionId: shared_ttypes.Id;
+  public optionValues: OptionValue[];
+
+    constructor(args?: { sessionId: shared_ttypes.Id; optionValues: OptionValue[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class VerifyOptionStateResponse {
+  public sessionId: shared_ttypes.Id;
+  public tree: Tree;
+  public success: shared_ttypes.Success;
+  public verificationErrors: VerificationError[];
+
+    constructor(args?: { sessionId: shared_ttypes.Id; tree: Tree; success: shared_ttypes.Success; verificationErrors: VerificationError[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class CommitOptionStateRequest {
+  public sessionId: shared_ttypes.Id;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class CommitOptionStateResponse {
+  public sessionId: shared_ttypes.Id;
+  public success: shared_ttypes.Success;
+
+    constructor(args?: { sessionId: shared_ttypes.Id; success: shared_ttypes.Success; });
   read(input: Object): void;
   write(input: Object): void;
 }

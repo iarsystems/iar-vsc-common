@@ -83,6 +83,14 @@ declare enum DesktopPathSlavery {
   Slave = 1,
 }
 
+/**
+ * Possible categories of user arg var settings
+ */
+declare enum UserArgVarCategory {
+  kWorkspace = 0,
+  kGlobal = 1,
+}
+
 declare class ProjectManagerError extends Thrift.TException {
   public description: string;
 
@@ -107,8 +115,9 @@ declare class ToolDefinition {
   public hiddenOutputExtensions: string[];
   public toolType: ToolType;
   public invocationType: InvocationType;
+  public extensionOverrides: string;
 
-    constructor(args?: { id: string; name: string; executableName: string; inputExtensions: string[]; outputExtensions: string[]; hiddenOutputExtensions: string[]; toolType: ToolType; invocationType: InvocationType; });
+    constructor(args?: { id: string; name: string; executableName: string; inputExtensions: string[]; outputExtensions: string[]; hiddenOutputExtensions: string[]; toolType: ToolType; invocationType: InvocationType; extensionOverrides: string; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -295,6 +304,66 @@ declare class ControlFilePlugin {
   public isInternal: boolean;
 
     constructor(args?: { name: string; filefilter: string; isInternal: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Settings for user arg vars. Replaces PmUserArgVarModifier
+ */
+declare class UserArgVarInfo {
+  public name: string;
+  public value: string;
+  public id: number;
+
+    constructor(args?: { name: string; value: string; id: number; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Settings for user arg var groups
+ */
+declare class UserArgVarGroupInfo {
+  public name: string;
+  public active: boolean;
+  public readOnly: boolean;
+  public inherited: boolean;
+  public category: UserArgVarCategory;
+  public id: number;
+  public variables: UserArgVarInfo[];
+
+    constructor(args?: { name: string; active: boolean; readOnly: boolean; inherited: boolean; category: UserArgVarCategory; id: number; variables: UserArgVarInfo[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * A build tool provided to the project manager by a client
+ */
+declare class ExternalTool {
+  public name: string;
+  public path: string;
+  public arguments: string;
+  public positionRegexp: string;
+  public warningRegexp: string;
+  public errorRegexp: string;
+
+    constructor(args?: { name: string; path: string; arguments: string; positionRegexp: string; warningRegexp: string; errorRegexp: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * Abstract description of the wizards available
+ */
+declare class WizardPlugin {
+  public toolchainName: string;
+  public displayName: string;
+  public description: string;
+  public requireSave: boolean;
+
+    constructor(args?: { toolchainName: string; displayName: string; description: string; requireSave: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }

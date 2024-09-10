@@ -74,6 +74,12 @@ declare enum What {
   kThaw = 6,
 }
 
+declare enum ToolbarWhat {
+  kNormalUpdate = 0,
+  kFullUpdate = 1,
+  kFocusOn = 2,
+}
+
 declare class Range {
   public first: Int64;
   public last: Int64;
@@ -221,6 +227,27 @@ declare class Note {
   public anonPos: string;
 
     constructor(args?: { what: What; seq: Int64; ensureVisible: Int64; row: Int64; anonPos: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class ToolbarNote {
+  public what: ToolbarWhat;
+  public focusOn: number;
+
+    constructor(args?: { what: ToolbarWhat; focusOn: number; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class ToolbarItemState {
+  public enabled: boolean;
+  public visible: boolean;
+  public on: boolean;
+  public detail: Int64;
+  public str: string;
+
+    constructor(args?: { enabled: boolean; visible: boolean; on: boolean; detail: Int64; str: string; });
   read(input: Object): void;
   write(input: Object): void;
 }

@@ -20,6 +20,7 @@ import OptionType = ttypes.OptionType
 import FileCollectionType = ttypes.FileCollectionType
 import DesktopPathPlatform = ttypes.DesktopPathPlatform
 import DesktopPathSlavery = ttypes.DesktopPathSlavery
+import UserArgVarCategory = ttypes.UserArgVarCategory
 import PROJECTMANAGER_ID = ttypes.PROJECTMANAGER_ID
 import ProjectManagerError = ttypes.ProjectManagerError
 import ToolDefinition = ttypes.ToolDefinition
@@ -36,6 +37,10 @@ import BuildItem = ttypes.BuildItem
 import BatchBuildItem = ttypes.BatchBuildItem
 import BuildResult = ttypes.BuildResult
 import ControlFilePlugin = ttypes.ControlFilePlugin
+import UserArgVarInfo = ttypes.UserArgVarInfo
+import UserArgVarGroupInfo = ttypes.UserArgVarGroupInfo
+import ExternalTool = ttypes.ExternalTool
+import WizardPlugin = ttypes.WizardPlugin
 import HeartbeatService = require('./HeartbeatService');
 
 /**
@@ -569,6 +574,16 @@ declare class Client extends HeartbeatService.Client {
   AddToolchain(toolchain: Toolchain, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
+   * Update the definition for a tool
+   */
+  UpdateTool(toolchainId: string, tool: ToolDefinition): Q.Promise<boolean>;
+
+  /**
+   * Update the definition for a tool
+   */
+  UpdateTool(toolchainId: string, tool: ToolDefinition, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
    * Get batch build item list.
    */
   GetBatchBuildItems(): Q.Promise<BatchBuildItem[]>;
@@ -591,22 +606,22 @@ declare class Client extends HeartbeatService.Client {
   /**
    * Build a project configuration synchronously, and return its result
    */
-  BuildProject(prj: ProjectContext, configurationName: string): Q.Promise<BuildResult>;
+  BuildProject(prj: ProjectContext, configurationName: string, numParallelBuilds: number): Q.Promise<BuildResult>;
 
   /**
    * Build a project configuration synchronously, and return its result
    */
-  BuildProject(prj: ProjectContext, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: BuildResult)=>void): void;
+  BuildProject(prj: ProjectContext, configurationName: string, numParallelBuilds: number, callback?: (error: ttypes.ProjectManagerError, response: BuildResult)=>void): void;
 
   /**
    * Rebuilds project configurations asynchronously
    */
-  RebuildAllAsync(buildItems: BuildItem[], stopAtError: boolean): Q.Promise<void>;
+  RebuildAllAsync(buildItems: BuildItem[], stopAtError: boolean, numParallelBuilds: number): Q.Promise<void>;
 
   /**
    * Rebuilds project configurations asynchronously
    */
-  RebuildAllAsync(buildItems: BuildItem[], stopAtError: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+  RebuildAllAsync(buildItems: BuildItem[], stopAtError: boolean, numParallelBuilds: number, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
    * Rebuilds project configurations asynchronously
@@ -621,22 +636,22 @@ declare class Client extends HeartbeatService.Client {
   /**
    * Compile a set of files asynchronously
    */
-  CompileAsync(buildItem: BuildItem): Q.Promise<void>;
+  CompileAsync(buildItem: BuildItem, numParallelBuilds: number): Q.Promise<void>;
 
   /**
    * Compile a set of files asynchronously
    */
-  CompileAsync(buildItem: BuildItem, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+  CompileAsync(buildItem: BuildItem, numParallelBuilds: number, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
    * Builds project configurations asynchronously
    */
-  BuildAsync(buildItems: BuildItem[], stopAtError: boolean): Q.Promise<void>;
+  BuildAsync(buildItems: BuildItem[], stopAtError: boolean, numParallelBuilds: number): Q.Promise<void>;
 
   /**
    * Builds project configurations asynchronously
    */
-  BuildAsync(buildItems: BuildItem[], stopAtError: boolean, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+  BuildAsync(buildItems: BuildItem[], stopAtError: boolean, numParallelBuilds: number, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
    * Clean project configurations asynchronously
@@ -931,6 +946,98 @@ declare class Client extends HeartbeatService.Client {
   ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[]): Q.Promise<boolean>;
 
   ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[], callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Get the current settings for user-defined argument variables
+   */
+  GetUserArgVarInfo(category: UserArgVarCategory): Q.Promise<UserArgVarGroupInfo[]>;
+
+  /**
+   * Get the current settings for user-defined argument variables
+   */
+  GetUserArgVarInfo(category: UserArgVarCategory, callback?: (error: void, response: UserArgVarGroupInfo[])=>void): void;
+
+  /**
+   * Set the current settings for user-defined argument variables
+   */
+  SetUserArgVarInfo(info: UserArgVarGroupInfo[]): Q.Promise<void>;
+
+  /**
+   * Set the current settings for user-defined argument variables
+   */
+  SetUserArgVarInfo(info: UserArgVarGroupInfo[], callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Load the current settings for user-defined argument variables from a file
+   */
+  ImportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string): Q.Promise<void>;
+
+  /**
+   * Load the current settings for user-defined argument variables from a file
+   */
+  ImportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Save the current settings for user-defined argument variables to a file
+   */
+  ExportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string): Q.Promise<void>;
+
+  /**
+   * Save the current settings for user-defined argument variables to a file
+   */
+  ExportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Get the current external tools
+   */
+  GetExternalTools(): Q.Promise<ExternalTool[]>;
+
+  /**
+   * Get the current external tools
+   */
+  GetExternalTools(callback?: (error: void, response: ExternalTool[])=>void): void;
+
+  /**
+   * Set the external tools to use
+   */
+  SetExternalTools(tools: ExternalTool[]): Q.Promise<void>;
+
+  /**
+   * Set the external tools to use
+   */
+  SetExternalTools(tools: ExternalTool[], callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Get the list of available plugins
+   */
+  GetWizards(toolchainId: string): Q.Promise<WizardPlugin[]>;
+
+  /**
+   * Get the list of available plugins
+   */
+  GetWizards(toolchainId: string, callback?: (error: void, response: WizardPlugin[])=>void): void;
+
+  /**
+   * Run a wizard
+   */
+  RunWizard(wizard: WizardPlugin): Q.Promise<ProjectContext>;
+
+  /**
+   * Run a wizard
+   */
+  RunWizard(wizard: WizardPlugin, callback?: (error: void, response: ProjectContext)=>void): void;
+
+  GetGlobalOptions(): Q.Promise<OptionDescription[]>;
+
+  GetGlobalOptions(callback?: (error: void, response: OptionDescription[])=>void): void;
+
+  GetGlobalOption(id: string): Q.Promise<OptionDescription[]>;
+
+  GetGlobalOption(id: string, callback?: (error: void, response: OptionDescription[])=>void): void;
+
+  ApplyGlobalOptions(options: OptionDescription[]): Q.Promise<OptionDescription[]>;
+
+  ApplyGlobalOptions(options: OptionDescription[], callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -987,6 +1094,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetToolChainExtensions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetToolchains(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddToolchain(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_UpdateTool(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetBatchBuildItems(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetBatchBuildItems(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_BuildProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1025,4 +1133,15 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetControlFilePlugins(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOptionsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ApplyOptionsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetUserArgVarInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetUserArgVarInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ImportUserArgVarInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ExportUserArgVarInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetExternalTools(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetExternalTools(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetWizards(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_RunWizard(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetGlobalOptions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetGlobalOption(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ApplyGlobalOptions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

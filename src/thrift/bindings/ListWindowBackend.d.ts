@@ -21,6 +21,7 @@ import ScrollOperation = ttypes.ScrollOperation
 import SelectionFlags = ttypes.SelectionFlags
 import Target = ttypes.Target
 import What = ttypes.What
+import ToolbarWhat = ttypes.ToolbarWhat
 import SLIDING_POS_NONE = ttypes.SLIDING_POS_NONE
 import Range = ttypes.Range
 import Color = ttypes.Color
@@ -36,6 +37,8 @@ import Tooltip = ttypes.Tooltip
 import Drag = ttypes.Drag
 import HelpTag = ttypes.HelpTag
 import Note = ttypes.Note
+import ToolbarNote = ttypes.ToolbarNote
+import ToolbarItemState = ttypes.ToolbarItemState
 import ChunkInfo = ttypes.ChunkInfo
 import AddRowsResult = ttypes.AddRowsResult
 import NavigateResult = ttypes.NavigateResult
@@ -214,6 +217,26 @@ declare class Client extends HeartbeatService.Client {
   keyNav(op: KeyNavOperation, repeat: number, rowsInPage: number): Q.Promise<number>;
 
   keyNav(op: KeyNavOperation, repeat: number, rowsInPage: number, callback?: (error: void, response: number)=>void): void;
+
+  getToolbarDefinition(): Q.Promise<string>;
+
+  getToolbarDefinition(callback?: (error: void, response: string)=>void): void;
+
+  setToolbarItemValue(id: string, property: string): Q.Promise<boolean>;
+
+  setToolbarItemValue(id: string, property: string, callback?: (error: void, response: boolean)=>void): void;
+
+  getToolbarItemValue(id: string): Q.Promise<string>;
+
+  getToolbarItemValue(id: string, callback?: (error: void, response: string)=>void): void;
+
+  getToolbarItemState(id: string): Q.Promise<ToolbarItemState>;
+
+  getToolbarItemState(id: string, callback?: (error: void, response: ToolbarItemState)=>void): void;
+
+  getToolbarItemTooltip(id: string): Q.Promise<string>;
+
+  getToolbarItemTooltip(id: string, callback?: (error: void, response: string)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -261,4 +284,9 @@ declare class Processor extends HeartbeatService.Processor {
   process_getSel(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_setSel(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_keyNav(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getToolbarDefinition(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_setToolbarItemValue(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getToolbarItemValue(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getToolbarItemState(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getToolbarItemTooltip(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

@@ -93,6 +93,82 @@ ListWindowFrontend_notify_result.prototype.write = function(output) {
   return;
 };
 
+var ListWindowFrontend_notifyToolbar_args = function(args) {
+  this.note = null;
+  if (args) {
+    if (args.note !== undefined && args.note !== null) {
+      this.note = new ttypes.ToolbarNote(args.note);
+    }
+  }
+};
+ListWindowFrontend_notifyToolbar_args.prototype = {};
+ListWindowFrontend_notifyToolbar_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.note = new ttypes.ToolbarNote();
+        this.note.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ListWindowFrontend_notifyToolbar_args.prototype.write = function(output) {
+  output.writeStructBegin('ListWindowFrontend_notifyToolbar_args');
+  if (this.note !== null && this.note !== undefined) {
+    output.writeFieldBegin('note', Thrift.Type.STRUCT, 1);
+    this.note.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ListWindowFrontend_notifyToolbar_result = function(args) {
+};
+ListWindowFrontend_notifyToolbar_result.prototype = {};
+ListWindowFrontend_notifyToolbar_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ListWindowFrontend_notifyToolbar_result.prototype.write = function(output) {
+  output.writeStructBegin('ListWindowFrontend_notifyToolbar_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var ListWindowFrontendClient = exports.Client = function(output, pClass) {
   this.output = output;
   this.pClass = pClass;
@@ -145,6 +221,49 @@ ListWindowFrontendClient.prototype.send_notify = function(note) {
     throw e;
   }
 };
+
+ListWindowFrontendClient.prototype.notifyToolbar = function(note, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_notifyToolbar(note);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_notifyToolbar(note);
+  }
+};
+
+ListWindowFrontendClient.prototype.send_notifyToolbar = function(note) {
+  var output = new this.pClass(this.output);
+  var params = {
+    note: note
+  };
+  var args = new ListWindowFrontend_notifyToolbar_args(params);
+  try {
+    output.writeMessageBegin('notifyToolbar', Thrift.MessageType.ONEWAY, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    this.output.flush();
+    var callback = this._reqs[this.seqid()] || function() {};
+    delete this._reqs[this.seqid()];
+    callback(null);
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
 var ListWindowFrontendProcessor = exports.Processor = function(handler) {
   this._handler = handler;
 };
@@ -167,4 +286,10 @@ ListWindowFrontendProcessor.prototype.process_notify = function(seqid, input, ou
   args.read(input);
   input.readMessageEnd();
   this._handler.notify(args.note);
+};
+ListWindowFrontendProcessor.prototype.process_notifyToolbar = function(seqid, input, output) {
+  var args = new ListWindowFrontend_notifyToolbar_args();
+  args.read(input);
+  input.readMessageEnd();
+  this._handler.notifyToolbar(args.note);
 };

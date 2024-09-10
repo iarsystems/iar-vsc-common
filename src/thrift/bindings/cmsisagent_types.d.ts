@@ -32,22 +32,6 @@ declare enum FileCategory {
   kOther = 12,
 }
 
-declare class DeviceInfo {
-  public id: string;
-  public name: string;
-  public packId: string;
-  public family: string;
-  public vendor: string;
-  public subFamily: string;
-  public variant: string;
-  public compile: CompileInfo[];
-  public processor: ProcessorInfo[];
-
-    constructor(args?: { id: string; name: string; packId: string; family: string; vendor: string; subFamily: string; variant: string; compile: CompileInfo[]; processor: ProcessorInfo[]; });
-  read(input: Object): void;
-  write(input: Object): void;
-}
-
 declare class FileInfo {
   public name: string;
   public attr: string;
@@ -100,6 +84,22 @@ declare class ProcessorInfo {
   public DcoreVersion: string;
 
     constructor(args?: { Pname: string; Dvendor: string; Dcore: string; Dfpu: string; Dmpu: string; Dendian: string; Dclock: string; DcoreVersion: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class DeviceInfo {
+  public id: string;
+  public name: string;
+  public packId: string;
+  public family: string;
+  public vendor: string;
+  public subFamily: string;
+  public variant: string;
+  public compile: CompileInfo[];
+  public processor: ProcessorInfo[];
+
+    constructor(args?: { id: string; name: string; packId: string; family: string; vendor: string; subFamily: string; variant: string; compile: CompileInfo[]; processor: ProcessorInfo[]; });
   read(input: Object): void;
   write(input: Object): void;
 }
