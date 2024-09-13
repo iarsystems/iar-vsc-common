@@ -111,6 +111,13 @@ export namespace WorkbenchFeatures {
         { baseVersion: [9,3,3], minProductType: WorkbenchType.LEGACY_BX };
 
     /**
+     * Whether this workbench supports thrift procedures for around toolbars
+     * in listwindows.
+     */
+    export const GenericToolbars: FeatureRequirement =
+    { baseVersion: [9,4,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
      * Checks whether a workbench version meets the given minimum version.
      */
     export function supportsFeature(workbench: Workbench, requirement: FeatureRequirement, target?: string) {
@@ -239,6 +246,7 @@ export namespace WorkbenchFeatures {
             products.push(new ProductRelease([9,0,11], false, "9.20.4"));
             products.push(new ProductRelease([9,1,1], false, "9.30.1"));
             products.push(new ProductRelease([9,2,2], false, "9.40.1"));
+            products.push(new ProductRelease([9,4,0], false, "9.70.1"));
         }
         if (target === "riscv") {
             products.push(new ProductRelease([8,3,2], false, "1.10"));
