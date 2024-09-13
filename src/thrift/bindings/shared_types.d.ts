@@ -224,3 +224,13 @@ declare class Breakpoint {
   read(input: Object): void;
   write(input: Object): void;
 }
+
+declare class PropertyTreeItem {
+  public key: string;
+  public value: string;
+  public children: PropertyTreeItem[];
+
+    constructor(args?: { key: string; value: string; children: PropertyTreeItem[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}

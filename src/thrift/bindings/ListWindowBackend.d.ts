@@ -218,13 +218,13 @@ declare class Client extends HeartbeatService.Client {
 
   keyNav(op: KeyNavOperation, repeat: number, rowsInPage: number, callback?: (error: void, response: number)=>void): void;
 
-  getToolbarDefinition(): Q.Promise<string>;
+  getToolbarDefinition(): Q.Promise<shared_ttypes.PropertyTreeItem>;
 
-  getToolbarDefinition(callback?: (error: void, response: string)=>void): void;
+  getToolbarDefinition(callback?: (error: void, response: shared_ttypes.PropertyTreeItem)=>void): void;
 
-  setToolbarItemValue(id: string, property: string): Q.Promise<boolean>;
+  setToolbarItemValue(id: string, tree: shared_ttypes.PropertyTreeItem): Q.Promise<boolean>;
 
-  setToolbarItemValue(id: string, property: string, callback?: (error: void, response: boolean)=>void): void;
+  setToolbarItemValue(id: string, tree: shared_ttypes.PropertyTreeItem, callback?: (error: void, response: boolean)=>void): void;
 
   getToolbarItemValue(id: string): Q.Promise<string>;
 

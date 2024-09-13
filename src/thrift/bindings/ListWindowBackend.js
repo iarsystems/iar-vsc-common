@@ -3973,7 +3973,7 @@ var ListWindowBackend_getToolbarDefinition_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
+      this.success = new shared_ttypes.PropertyTreeItem(args.success);
     }
   }
 };
@@ -3989,8 +3989,9 @@ ListWindowBackend_getToolbarDefinition_result.prototype.read = function(input) {
     }
     switch (fid) {
       case 0:
-      if (ftype == Thrift.Type.STRING) {
-        this.success = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new shared_ttypes.PropertyTreeItem();
+        this.success.read(input);
       } else {
         input.skip(ftype);
       }
@@ -4010,8 +4011,8 @@ ListWindowBackend_getToolbarDefinition_result.prototype.read = function(input) {
 ListWindowBackend_getToolbarDefinition_result.prototype.write = function(output) {
   output.writeStructBegin('ListWindowBackend_getToolbarDefinition_result');
   if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
-    output.writeString(this.success);
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -4021,13 +4022,13 @@ ListWindowBackend_getToolbarDefinition_result.prototype.write = function(output)
 
 var ListWindowBackend_setToolbarItemValue_args = function(args) {
   this.id = null;
-  this.property = null;
+  this.tree = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
     }
-    if (args.property !== undefined && args.property !== null) {
-      this.property = args.property;
+    if (args.tree !== undefined && args.tree !== null) {
+      this.tree = new shared_ttypes.PropertyTreeItem(args.tree);
     }
   }
 };
@@ -4050,8 +4051,9 @@ ListWindowBackend_setToolbarItemValue_args.prototype.read = function(input) {
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.property = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.tree = new shared_ttypes.PropertyTreeItem();
+        this.tree.read(input);
       } else {
         input.skip(ftype);
       }
@@ -4072,9 +4074,9 @@ ListWindowBackend_setToolbarItemValue_args.prototype.write = function(output) {
     output.writeString(this.id);
     output.writeFieldEnd();
   }
-  if (this.property !== null && this.property !== undefined) {
-    output.writeFieldBegin('property', Thrift.Type.STRING, 2);
-    output.writeString(this.property);
+  if (this.tree !== null && this.tree !== undefined) {
+    output.writeFieldBegin('tree', Thrift.Type.STRUCT, 2);
+    this.tree.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -6792,7 +6794,7 @@ ListWindowBackendClient.prototype.recv_getToolbarDefinition = function(input,mty
   return callback('getToolbarDefinition failed: unknown result');
 };
 
-ListWindowBackendClient.prototype.setToolbarItemValue = function(id, property, callback) {
+ListWindowBackendClient.prototype.setToolbarItemValue = function(id, tree, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -6803,19 +6805,19 @@ ListWindowBackendClient.prototype.setToolbarItemValue = function(id, property, c
         _defer.resolve(result);
       }
     };
-    this.send_setToolbarItemValue(id, property);
+    this.send_setToolbarItemValue(id, tree);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_setToolbarItemValue(id, property);
+    this.send_setToolbarItemValue(id, tree);
   }
 };
 
-ListWindowBackendClient.prototype.send_setToolbarItemValue = function(id, property) {
+ListWindowBackendClient.prototype.send_setToolbarItemValue = function(id, tree) {
   var output = new this.pClass(this.output);
   var params = {
     id: id,
-    property: property
+    tree: tree
   };
   var args = new ListWindowBackend_setToolbarItemValue_args(params);
   try {
@@ -8530,7 +8532,7 @@ ListWindowBackendProcessor.prototype.process_setToolbarItemValue = function(seqi
   if (this._handler.setToolbarItemValue.length === 2) {
     Q.fcall(this._handler.setToolbarItemValue.bind(this._handler),
       args.id,
-      args.property
+      args.tree
     ).then(function(result) {
       var result_obj = new ListWindowBackend_setToolbarItemValue_result({success: result});
       output.writeMessageBegin("setToolbarItemValue", Thrift.MessageType.REPLY, seqid);
@@ -8546,7 +8548,7 @@ ListWindowBackendProcessor.prototype.process_setToolbarItemValue = function(seqi
       output.flush();
     });
   } else {
-    this._handler.setToolbarItemValue(args.id, args.property, function (err, result) {
+    this._handler.setToolbarItemValue(args.id, args.tree, function (err, result) {
       var result_obj;
       if ((err === null || typeof err === 'undefined')) {
         result_obj = new ListWindowBackend_setToolbarItemValue_result((err !== null || typeof err === 'undefined') ? err : {success: result});
