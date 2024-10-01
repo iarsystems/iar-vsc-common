@@ -302,6 +302,7 @@ var Format = module.exports.Format = function(args) {
   this.textColor = null;
   this.bgColor = null;
   this.barColor = null;
+  this.barFraction = null;
   if (args) {
     if (args.align !== undefined && args.align !== null) {
       this.align = args.align;
@@ -326,6 +327,9 @@ var Format = module.exports.Format = function(args) {
     }
     if (args.barColor !== undefined && args.barColor !== null) {
       this.barColor = new ttypes.Color(args.barColor);
+    }
+    if (args.barFraction !== undefined && args.barFraction !== null) {
+      this.barFraction = args.barFraction;
     }
   }
 };
@@ -408,6 +412,13 @@ Format.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 9:
+      if (ftype == Thrift.Type.DOUBLE) {
+        this.barFraction = input.readDouble();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -464,6 +475,11 @@ Format.prototype.write = function(output) {
   if (this.barColor !== null && this.barColor !== undefined) {
     output.writeFieldBegin('barColor', Thrift.Type.STRUCT, 8);
     this.barColor.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.barFraction !== null && this.barFraction !== undefined) {
+    output.writeFieldBegin('barFraction', Thrift.Type.DOUBLE, 9);
+    output.writeDouble(this.barFraction);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

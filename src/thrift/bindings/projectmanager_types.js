@@ -40,7 +40,9 @@ ttypes.NodeType = {
   '2' : 'File',
   'File' : 2,
   '3' : 'ControlFile',
-  'ControlFile' : 3
+  'ControlFile' : 3,
+  '4' : 'ExternBinary',
+  'ExternBinary' : 4
 };
 ttypes.OptionType = {
   '0' : 'Check',
@@ -56,7 +58,11 @@ ttypes.OptionType = {
   '5' : 'CheckList',
   'CheckList' : 5,
   '6' : 'BuildActions',
-  'BuildActions' : 6
+  'BuildActions' : 6,
+  '7' : 'DeviceSelection',
+  'DeviceSelection' : 7,
+  '8' : 'CMSISDevice',
+  'CMSISDevice' : 8
 };
 ttypes.FileCollectionType = {
   '0' : 'ProjFiles',
