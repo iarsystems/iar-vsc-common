@@ -20,8 +20,10 @@ import MsgResult = ttypes.MsgResult
 import FileDialogType = ttypes.FileDialogType
 import FileDialogReturnType = ttypes.FileDialogReturnType
 import FileDialogOptions = ttypes.FileDialogOptions
+import GenericDialogReturnType = ttypes.GenericDialogReturnType
 import FRONTEND_SERVICE = ttypes.FRONTEND_SERVICE
 import FileDialogFilter = ttypes.FileDialogFilter
+import GenericDialogResults = ttypes.GenericDialogResults
 import HeartbeatService = require('./HeartbeatService');
 
 /**
@@ -238,14 +240,18 @@ declare class Client extends HeartbeatService.Client {
   openMultipleElementSelectionDialog(title: string, message: string, elements: string[], callback?: (error: void, response: number[])=>void): void;
 
   /**
-   * Opens the given file in the eclipse editor
+   * Opens the given file in the eclipse/vscode editor
+   * @param loc The location to open
+   * @param focus If true, also shift focus to the editor
    */
-  editSourceLocation(loc: shared_ttypes.SourceLocation): Q.Promise<void>;
+  editSourceLocation(loc: shared_ttypes.SourceLocation, focus?: boolean): Q.Promise<void>;
 
   /**
-   * Opens the given file in the eclipse editor
+   * Opens the given file in the eclipse/vscode editor
+   * @param loc The location to open
+   * @param focus If true, also shift focus to the editor
    */
-  editSourceLocation(loc: shared_ttypes.SourceLocation, callback?: (error: void, response: void)=>void): void;
+  editSourceLocation(loc: shared_ttypes.SourceLocation, focus?: boolean, callback?: (error: void, response: void)=>void): void;
 
   /**
    * Resolves the alias for a specified string. The name of the file to be resolved is sent as
@@ -270,6 +276,16 @@ declare class Client extends HeartbeatService.Client {
    * Resolve the current theme that is used by the client.
    */
   getActiveTheme(callback?: (error: void, response: { [k: number /*themes_ttypes.ThriftDisplayElement*/]: themes_ttypes.ColorSchema; })=>void): void;
+
+  /**
+   * Invoke a generic dialog.
+   */
+  invokeDialog(id: string, title: string, entries: shared_ttypes.PropertyTreeItem): Q.Promise<GenericDialogResults>;
+
+  /**
+   * Invoke a generic dialog.
+   */
+  invokeDialog(id: string, title: string, entries: shared_ttypes.PropertyTreeItem, callback?: (error: void, response: GenericDialogResults)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -295,4 +311,5 @@ declare class Processor extends HeartbeatService.Processor {
   process_editSourceLocation(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_resolveAliasForFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_getActiveTheme(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_invokeDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

@@ -2044,9 +2044,13 @@ Frontend_openMultipleElementSelectionDialog_result.prototype.write = function(ou
 
 var Frontend_editSourceLocation_args = function(args) {
   this.loc = null;
+  this.focus = true;
   if (args) {
     if (args.loc !== undefined && args.loc !== null) {
       this.loc = new shared_ttypes.SourceLocation(args.loc);
+    }
+    if (args.focus !== undefined && args.focus !== null) {
+      this.focus = args.focus;
     }
   }
 };
@@ -2069,9 +2073,13 @@ Frontend_editSourceLocation_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 2:
+      if (ftype == Thrift.Type.BOOL) {
+        this.focus = input.readBool();
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -2086,6 +2094,11 @@ Frontend_editSourceLocation_args.prototype.write = function(output) {
   if (this.loc !== null && this.loc !== undefined) {
     output.writeFieldBegin('loc', Thrift.Type.STRUCT, 1);
     this.loc.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.focus !== null && this.focus !== undefined) {
+    output.writeFieldBegin('focus', Thrift.Type.BOOL, 2);
+    output.writeBool(this.focus);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -2318,6 +2331,137 @@ Frontend_getActiveTheme_result.prototype.write = function(output) {
       }
     }
     output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_invokeDialog_args = function(args) {
+  this.id = null;
+  this.title = null;
+  this.entries = null;
+  if (args) {
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
+    }
+    if (args.title !== undefined && args.title !== null) {
+      this.title = args.title;
+    }
+    if (args.entries !== undefined && args.entries !== null) {
+      this.entries = new shared_ttypes.PropertyTreeItem(args.entries);
+    }
+  }
+};
+Frontend_invokeDialog_args.prototype = {};
+Frontend_invokeDialog_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.id = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.title = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.entries = new shared_ttypes.PropertyTreeItem();
+        this.entries.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_invokeDialog_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_invokeDialog_args');
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.STRING, 1);
+    output.writeString(this.id);
+    output.writeFieldEnd();
+  }
+  if (this.title !== null && this.title !== undefined) {
+    output.writeFieldBegin('title', Thrift.Type.STRING, 2);
+    output.writeString(this.title);
+    output.writeFieldEnd();
+  }
+  if (this.entries !== null && this.entries !== undefined) {
+    output.writeFieldBegin('entries', Thrift.Type.STRUCT, 3);
+    this.entries.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_invokeDialog_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.GenericDialogResults(args.success);
+    }
+  }
+};
+Frontend_invokeDialog_result.prototype = {};
+Frontend_invokeDialog_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.GenericDialogResults();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_invokeDialog_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_invokeDialog_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -3200,7 +3344,7 @@ FrontendClient.prototype.recv_openMultipleElementSelectionDialog = function(inpu
   return callback('openMultipleElementSelectionDialog failed: unknown result');
 };
 
-FrontendClient.prototype.editSourceLocation = function(loc, callback) {
+FrontendClient.prototype.editSourceLocation = function(loc, focus, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -3211,18 +3355,19 @@ FrontendClient.prototype.editSourceLocation = function(loc, callback) {
         _defer.resolve(result);
       }
     };
-    this.send_editSourceLocation(loc);
+    this.send_editSourceLocation(loc, focus);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_editSourceLocation(loc);
+    this.send_editSourceLocation(loc, focus);
   }
 };
 
-FrontendClient.prototype.send_editSourceLocation = function(loc) {
+FrontendClient.prototype.send_editSourceLocation = function(loc, focus) {
   var output = new this.pClass(this.output);
   var params = {
-    loc: loc
+    loc: loc,
+    focus: focus
   };
   var args = new Frontend_editSourceLocation_args(params);
   try {
@@ -3370,6 +3515,67 @@ FrontendClient.prototype.recv_getActiveTheme = function(input,mtype,rseqid) {
     return callback(null, result.success);
   }
   return callback('getActiveTheme failed: unknown result');
+};
+
+FrontendClient.prototype.invokeDialog = function(id, title, entries, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_invokeDialog(id, title, entries);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_invokeDialog(id, title, entries);
+  }
+};
+
+FrontendClient.prototype.send_invokeDialog = function(id, title, entries) {
+  var output = new this.pClass(this.output);
+  var params = {
+    id: id,
+    title: title,
+    entries: entries
+  };
+  var args = new Frontend_invokeDialog_args(params);
+  try {
+    output.writeMessageBegin('invokeDialog', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+FrontendClient.prototype.recv_invokeDialog = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Frontend_invokeDialog_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('invokeDialog failed: unknown result');
 };
 var FrontendProcessor = exports.Processor = function(handler) {
   this._handler = handler;
@@ -3886,9 +4092,10 @@ FrontendProcessor.prototype.process_editSourceLocation = function(seqid, input, 
   var args = new Frontend_editSourceLocation_args();
   args.read(input);
   input.readMessageEnd();
-  if (this._handler.editSourceLocation.length === 1) {
+  if (this._handler.editSourceLocation.length === 2) {
     Q.fcall(this._handler.editSourceLocation.bind(this._handler),
-      args.loc
+      args.loc,
+      args.focus
     ).then(function(result) {
       var result_obj = new Frontend_editSourceLocation_result({success: result});
       output.writeMessageBegin("editSourceLocation", Thrift.MessageType.REPLY, seqid);
@@ -3904,7 +4111,7 @@ FrontendProcessor.prototype.process_editSourceLocation = function(seqid, input, 
       output.flush();
     });
   } else {
-    this._handler.editSourceLocation(args.loc, function (err, result) {
+    this._handler.editSourceLocation(args.loc, args.focus, function (err, result) {
       var result_obj;
       if ((err === null || typeof err === 'undefined')) {
         result_obj = new Frontend_editSourceLocation_result((err !== null || typeof err === 'undefined') ? err : {success: result});
@@ -3986,6 +4193,45 @@ FrontendProcessor.prototype.process_getActiveTheme = function(seqid, input, outp
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("getActiveTheme", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+FrontendProcessor.prototype.process_invokeDialog = function(seqid, input, output) {
+  var args = new Frontend_invokeDialog_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.invokeDialog.length === 3) {
+    Q.fcall(this._handler.invokeDialog.bind(this._handler),
+      args.id,
+      args.title,
+      args.entries
+    ).then(function(result) {
+      var result_obj = new Frontend_invokeDialog_result({success: result});
+      output.writeMessageBegin("invokeDialog", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("invokeDialog", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.invokeDialog(args.id, args.title, args.entries, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Frontend_invokeDialog_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("invokeDialog", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("invokeDialog", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

@@ -71,6 +71,12 @@ declare enum FileDialogOptions {
   kAllowReturningReadOnlyFile = 3,
 }
 
+declare enum GenericDialogReturnType {
+  kOk = 0,
+  kCancel = 1,
+  kUnknown = 2,
+}
+
 /**
  * Small helper struct for filters. The display name is
  * the readable name of the filter and the files allowed
@@ -81,6 +87,15 @@ declare class FileDialogFilter {
   public filtering: string[];
 
     constructor(args?: { displayName: string; filtering: string[]; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class GenericDialogResults {
+  public type: GenericDialogReturnType;
+  public items: shared_ttypes.PropertyTreeItem;
+
+    constructor(args?: { type: GenericDialogReturnType; items: shared_ttypes.PropertyTreeItem; });
   read(input: Object): void;
   write(input: Object): void;
 }
