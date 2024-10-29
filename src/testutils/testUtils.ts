@@ -64,6 +64,13 @@ export async function getTestPromise(testsRoot: string, localTimeout = 2000): Pr
             rootSuiteTitle: rootSuiteName,
         };
     }
+
+    const onlyRunTestsIncluding = process.env["mocha-fgrep"];
+    if (onlyRunTestsIncluding) {
+        options.fgrep = onlyRunTestsIncluding;
+        console.log(`Filtering for ${onlyRunTestsIncluding}`);
+    }
+
     const mocha = new Mocha(options);
 
     return new Promise((c, e) => {
