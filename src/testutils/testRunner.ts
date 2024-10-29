@@ -40,8 +40,8 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
         options.vscodeExecutablePath = vscodeExecutablePath;
         const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
 
-        // Install the C/C++ extension from Microsoft which is a hard requirement.
-        const extensions = ["ms-vscode.cpptools", "ms-vscode.vscode-embedded-tools"];
+        // Install the C/C++ extension that are hard requirements.
+        const extensions = ["ms-vscode.cpptools", "ms-vscode.vscode-embedded-tools", "eclipse-cdt.memory-inspector"];
         // Use cp.spawn / cp.exec for custom setup
         extensions.forEach(extension => {
             console.log("Installing " + extension);
