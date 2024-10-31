@@ -28,6 +28,7 @@ import ContextInfo = ttypes.ContextInfo
 import StackSettings = ttypes.StackSettings
 import Breakpoint = ttypes.Breakpoint
 import PropertyTreeItem = ttypes.PropertyTreeItem
+import Capabilities = ttypes.Capabilities
 
 declare class Client {
   #output: thrift.TTransport;

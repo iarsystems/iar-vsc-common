@@ -234,3 +234,11 @@ declare class PropertyTreeItem {
   read(input: Object): void;
   write(input: Object): void;
 }
+
+declare class Capabilities {
+  public supportsEditorHighlight: boolean;
+
+    constructor(args?: { supportsEditorHighlight: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}

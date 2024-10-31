@@ -286,6 +286,18 @@ declare class Client extends HeartbeatService.Client {
    * Invoke a generic dialog.
    */
   invokeDialog(id: string, title: string, entries: shared_ttypes.PropertyTreeItem, callback?: (error: void, response: GenericDialogResults)=>void): void;
+
+  /**
+   * Handshake before start to establish the set of capabilities in the frontend
+   * and backend. Very similar to the concept in LSP.
+   */
+  getCapabilities(): Q.Promise<shared_ttypes.Capabilities>;
+
+  /**
+   * Handshake before start to establish the set of capabilities in the frontend
+   * and backend. Very similar to the concept in LSP.
+   */
+  getCapabilities(callback?: (error: void, response: shared_ttypes.Capabilities)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -312,4 +324,5 @@ declare class Processor extends HeartbeatService.Processor {
   process_resolveAliasForFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_getActiveTheme(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_invokeDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_getCapabilities(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }
