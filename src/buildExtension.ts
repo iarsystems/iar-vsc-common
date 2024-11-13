@@ -44,4 +44,10 @@ export interface BuildExtensionApi {
      */
     getCSpyCommandline(projectPath: string, configuration: string): Promise<string[] | undefined>;
 
+    /**
+     * Builds the project with the given path and configuration. Throws if the build fails.
+     * @param projectPath Path to the ewp file of the project to build
+     * @param configuration Name of the configuration to build
+     */
+    buildProject(projectPath: string, configuration: string): Promise<void>;
 }
