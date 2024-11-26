@@ -4,8 +4,7 @@
 
 import * as path from "path";
 import * as cp from "child_process";
-import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from "vscode-test";
-import { TestOptions } from "vscode-test/out/runTest";
+import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests, TestOptions } from "@vscode/test-electron";
 
 /**
  * Run a set of tests using the vscode-runtests interface.
@@ -38,19 +37,22 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
 
         const vscodeExecutablePath = await downloadAndUnzipVSCode("insiders");
         options.vscodeExecutablePath = vscodeExecutablePath;
-        const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
+        const [cli, ...args] = resolveCliArgsFromVSCodeExecutablePath(vscodeExecutablePath);
 
-        // Install the C/C++ extension that are hard requirements.
-        const extensions = ["ms-vscode.cpptools", "ms-vscode.vscode-embedded-tools", "eclipse-cdt.memory-inspector"];
-        // Use cp.spawn / cp.exec for custom setup
-        extensions.forEach(extension => {
-            console.log("Installing " + extension);
+        if (cli) {
+            // Install the C/C++ extension that are hard requirements.
+            const extensions = ["ms-vscode.cpptools", "ms-vscode.vscode-embedded-tools", "eclipse-cdt.memory-inspector"];
+            // Use cp.spawn / cp.exec for custom setup
+            extensions.forEach(extension => {
+                console.log("Installing " + extension);
 
-            cp.spawnSync(cliPath, ["--install-extension", extension], {
-                encoding: "utf-8",
-                stdio: "inherit"
+                cp.spawnSync(cli, [...args, "--install-extension", extension], {
+                    encoding: "utf-8",
+                    stdio: "inherit",
+                    shell: process.platform === "win32",
+                });
             });
-        });
+        }
 
         console.log("Starting vs code with the following envVars: ", options.extensionTestsEnv);
         await runTests(options);
