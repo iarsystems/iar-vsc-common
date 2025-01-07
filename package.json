@@ -59,7 +59,7 @@
     "bufferutil": "^4.0.6",
     "copyfiles": "latest",
     "java-properties": "^1.0.2",
-    "mocha": "^9.1.0",
+    "mocha": "^11.0.1",
     "mocha-junit-reporter": "^2.0.2",
     "thrift": "^0.12.0",
     "typescript": "^4.6.3",
