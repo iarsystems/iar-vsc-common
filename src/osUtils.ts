@@ -81,6 +81,10 @@ export namespace OsUtils {
      */
     export function normalizePath(path: string): string {
         path = Path.resolve(path);
+        try {
+            // This fails if the path does not exist
+            path = fs.realpathSync(path);
+        } catch {}
         if (OsUtils.detectOsType() === OsUtils.OsType.Windows) {
             path = path.toLowerCase();
         }
