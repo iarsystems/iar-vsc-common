@@ -39,6 +39,7 @@ declare enum NodeType {
   File = 2,
   ControlFile = 3,
   ExternBinary = 4,
+  AuxExternBinary = 5,
 }
 
 /**
@@ -59,6 +60,12 @@ declare enum OptionType {
   BuildActions = 6,
   DeviceSelection = 7,
   CMSISDevice = 8,
+  CMakeSettings = 9,
+}
+
+declare enum BuildSequence {
+  PreBuild = 0,
+  PostBuild = 1,
 }
 
 /**
@@ -135,9 +142,9 @@ declare class Toolchain {
   public tools: ToolDefinition[];
   public toolkitDir: string;
   public templatesDir: string;
-  public modifiable: boolean;
+  public isCMakeToolchain: boolean;
 
-    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; toolkitDir: string; templatesDir: string; modifiable: boolean; });
+    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; toolkitDir: string; templatesDir: string; isCMakeToolchain: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }

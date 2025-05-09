@@ -70,12 +70,16 @@ OptionsServiceError.prototype.write = function(output) {
 var CreateSessionRequest = module.exports.CreateSessionRequest = function(args) {
   this.projectPath = null;
   this.configurationName = null;
+  this.showHiddenOptions = null;
   if (args) {
     if (args.projectPath !== undefined && args.projectPath !== null) {
       this.projectPath = args.projectPath;
     }
     if (args.configurationName !== undefined && args.configurationName !== null) {
       this.configurationName = args.configurationName;
+    }
+    if (args.showHiddenOptions !== undefined && args.showHiddenOptions !== null) {
+      this.showHiddenOptions = args.showHiddenOptions;
     }
   }
 };
@@ -104,6 +108,13 @@ CreateSessionRequest.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.showHiddenOptions = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -123,6 +134,11 @@ CreateSessionRequest.prototype.write = function(output) {
   if (this.configurationName !== null && this.configurationName !== undefined) {
     output.writeFieldBegin('configurationName', Thrift.Type.STRING, 2);
     output.writeString(this.configurationName);
+    output.writeFieldEnd();
+  }
+  if (this.showHiddenOptions !== null && this.showHiddenOptions !== undefined) {
+    output.writeFieldBegin('showHiddenOptions', Thrift.Type.BOOL, 3);
+    output.writeBool(this.showHiddenOptions);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

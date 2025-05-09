@@ -22,8 +22,9 @@ declare class OptionsServiceError extends Thrift.TException {
 declare class CreateSessionRequest {
   public projectPath: string;
   public configurationName: string;
+  public showHiddenOptions: boolean;
 
-    constructor(args?: { projectPath: string; configurationName: string; });
+    constructor(args?: { projectPath: string; configurationName: string; showHiddenOptions: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }

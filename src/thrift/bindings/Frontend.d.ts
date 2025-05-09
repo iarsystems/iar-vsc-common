@@ -254,6 +254,30 @@ declare class Client extends HeartbeatService.Client {
   editSourceLocation(loc: shared_ttypes.SourceLocation, focus?: boolean, callback?: (error: void, response: void)=>void): void;
 
   /**
+   * Whether the frontend keeps track of aliases between debug sessions on its own. If this returns true,
+   * CSpyServer calls `loadAliases` at the start of the session, and does not store any aliases.
+   * If this returns false, aliases are stored/restored from a .dnx file in the project's settings directory.
+   */
+  handlesAliasStorage(): Q.Promise<boolean>;
+
+  /**
+   * Whether the frontend keeps track of aliases between debug sessions on its own. If this returns true,
+   * CSpyServer calls `loadAliases` at the start of the session, and does not store any aliases.
+   * If this returns false, aliases are stored/restored from a .dnx file in the project's settings directory.
+   */
+  handlesAliasStorage(callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Provides the initial file aliases known at the start of a debug session.
+   */
+  loadAliases(): Q.Promise<{ [k: string]: string; }>;
+
+  /**
+   * Provides the initial file aliases known at the start of a debug session.
+   */
+  loadAliases(callback?: (error: void, response: { [k: string]: string; })=>void): void;
+
+  /**
    * Resolves the alias for a specified string. The name of the file to be resolved is sent as
    * input and the returning string is the absolute path to the file to be linked with the
    * specified alias id.
@@ -321,6 +345,8 @@ declare class Processor extends HeartbeatService.Processor {
   process_openElementSelectionDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_openMultipleElementSelectionDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_editSourceLocation(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_handlesAliasStorage(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_loadAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_resolveAliasForFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_getActiveTheme(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_invokeDialog(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;

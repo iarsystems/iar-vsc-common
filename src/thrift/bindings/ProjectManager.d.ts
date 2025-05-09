@@ -17,6 +17,7 @@ import ToolType = ttypes.ToolType
 import InvocationType = ttypes.InvocationType
 import NodeType = ttypes.NodeType
 import OptionType = ttypes.OptionType
+import BuildSequence = ttypes.BuildSequence
 import FileCollectionType = ttypes.FileCollectionType
 import DesktopPathPlatform = ttypes.DesktopPathPlatform
 import DesktopPathSlavery = ttypes.DesktopPathSlavery
@@ -270,6 +271,16 @@ declare class Client extends HeartbeatService.Client {
   IsModified(project: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
 
   /**
+   * Sets the modified state of a project. Returns the previous state.
+   */
+  SetModified(project: ProjectContext, modified: boolean): Q.Promise<boolean>;
+
+  /**
+   * Sets the modified state of a project. Returns the previous state.
+   */
+  SetModified(project: ProjectContext, modified: boolean, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
    * Returns true if the given file is a member of current project.
    */
   IsMemberOfCurrentProject(file_path: string): Q.Promise<boolean>;
@@ -408,6 +419,52 @@ declare class Client extends HeartbeatService.Client {
    * This change is saved to the settings file.
    */
   SetCurrentConfiguration(project: ProjectContext, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Set current configuration for multiple projects and the last project as current project.
+   * This change is saved to the settings file.
+   */
+  SetCurrentConfigurations(projects: ProjectContext[], configurationNames: string[]): Q.Promise<void>;
+
+  /**
+   * Set current configuration for multiple projects and the last project as current project.
+   * This change is saved to the settings file.
+   */
+  SetCurrentConfigurations(projects: ProjectContext[], configurationNames: string[], callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  /**
+   * Create a working copy of an existing configuration, for use in interactive editing.
+   * Working copies only exist in memory and are only persisted when applied to their original config.
+   * @return a unique working copy id, to be used in ApplyConfigWorkingCopy and DiscardConfigWorkingCopy
+   */
+  CreateConfigWorkingCopy(project: ProjectContext, originalConfigName: string): Q.Promise<string>;
+
+  /**
+   * Create a working copy of an existing configuration, for use in interactive editing.
+   * Working copies only exist in memory and are only persisted when applied to their original config.
+   * @return a unique working copy id, to be used in ApplyConfigWorkingCopy and DiscardConfigWorkingCopy
+   */
+  CreateConfigWorkingCopy(project: ProjectContext, originalConfigName: string, callback?: (error: void, response: string)=>void): void;
+
+  /**
+   * Apply the changes of a configuration working copy to its original configuration
+   */
+  ApplyConfigWorkingCopy(project: ProjectContext, workingCopyId: string): Q.Promise<void>;
+
+  /**
+   * Apply the changes of a configuration working copy to its original configuration
+   */
+  ApplyConfigWorkingCopy(project: ProjectContext, workingCopyId: string, callback?: (error: void, response: void)=>void): void;
+
+  /**
+   * Discard the changes of a configuration working copy. Its id will be invalid when this call returns.
+   */
+  DiscardConfigWorkingCopy(project: ProjectContext, workingCopyId: string): Q.Promise<void>;
+
+  /**
+   * Discard the changes of a configuration working copy. Its id will be invalid when this call returns.
+   */
+  DiscardConfigWorkingCopy(project: ProjectContext, workingCopyId: string, callback?: (error: void, response: void)=>void): void;
 
   /**
    * Desktop path parameters
@@ -764,6 +821,30 @@ declare class Client extends HeartbeatService.Client {
   GetOptionCategories(prj: ProjectContext, configurationName: string, callback?: (error: void, response: OptionCategory[])=>void): void;
 
   /**
+   * Compares several lists of options, by:
+   * - computing a set containing all the options ids in each list
+   * - comparing the string value of options that have the same id. If an option is missing from an input list, it is considered as having an empty value in that list.
+   * - building a map from option ids to a list of values that differ
+   * 
+   * @return a map of option ids to string tuples for the options that differ (as lists containing exactly n values for n input lists).
+   *         If the result is an empty map, then the lists of options are identical.
+   *         Any option that are missing from one of the input lists will be considered as having an empty string value.
+   */
+  CompareOptions(optionsToCompare: OptionDescription[][]): Q.Promise<{ [k: string]: string[]; }>;
+
+  /**
+   * Compares several lists of options, by:
+   * - computing a set containing all the options ids in each list
+   * - comparing the string value of options that have the same id. If an option is missing from an input list, it is considered as having an empty value in that list.
+   * - building a map from option ids to a list of values that differ
+   * 
+   * @return a map of option ids to string tuples for the options that differ (as lists containing exactly n values for n input lists).
+   *         If the result is an empty map, then the lists of options are identical.
+   *         Any option that are missing from one of the input lists will be considered as having an empty string value.
+   */
+  CompareOptions(optionsToCompare: OptionDescription[][], callback?: (error: void, response: { [k: string]: string[]; })=>void): void;
+
+  /**
    * Enable/disable multi-file compilation for the provided project, configuration and project node
    */
   EnableMultiFileCompilation(prj: ProjectContext, configurationName: string, node: Node, enabled: boolean): Q.Promise<void>;
@@ -887,9 +968,9 @@ declare class Client extends HeartbeatService.Client {
 
   IsExternalProjectUpToDate(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
 
-  SynchonizeExternalProject(prj: ProjectContext): Q.Promise<boolean>;
+  SynchonizeExternalProject(prj: ProjectContext, seq?: BuildSequence): Q.Promise<boolean>;
 
-  SynchonizeExternalProject(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+  SynchonizeExternalProject(prj: ProjectContext, seq?: BuildSequence, callback?: (error: void, response: boolean)=>void): void;
 
   ConfigureExternalProject(prj: ProjectContext, force: boolean): Q.Promise<boolean>;
 
@@ -939,13 +1020,35 @@ declare class Client extends HeartbeatService.Client {
    */
   GetControlFilePlugins(callback?: (error: void, response: ControlFilePlugin[])=>void): void;
 
-  GetOptionsForProject(prj: ProjectContext): Q.Promise<OptionDescription[]>;
+  /**
+   * Get a list of options at project-level, possibly specifying which option ids to retrieve.
+   * An empty list will cause all project-level options to be retrieved.
+   */
+  GetOptionsForProject(prj: ProjectContext, optionIds?: string[]): Q.Promise<OptionDescription[]>;
 
-  GetOptionsForProject(prj: ProjectContext, callback?: (error: void, response: OptionDescription[])=>void): void;
+  /**
+   * Get a list of options at project-level, possibly specifying which option ids to retrieve.
+   * An empty list will cause all project-level options to be retrieved.
+   */
+  GetOptionsForProject(prj: ProjectContext, optionIds?: string[], callback?: (error: void, response: OptionDescription[])=>void): void;
 
-  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[]): Q.Promise<boolean>;
+  /**
+   * Apply the provided project-level options to the project.
+   * Returns the options that were actually set and their values.
+   * 
+   * Note that this function returned a bool up to platform 9.3.x. It has been changed in 9.4 to return
+   * the list of options that have actually changed.
+   */
+  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[]): Q.Promise<OptionDescription[]>;
 
-  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[], callback?: (error: void, response: boolean)=>void): void;
+  /**
+   * Apply the provided project-level options to the project.
+   * Returns the options that were actually set and their values.
+   * 
+   * Note that this function returned a bool up to platform 9.3.x. It has been changed in 9.4 to return
+   * the list of options that have actually changed.
+   */
+  ApplyOptionsForProject(prj: ProjectContext, options: OptionDescription[], callback?: (error: void, response: OptionDescription[])=>void): void;
 
   /**
    * Get the current settings for user-defined argument variables
@@ -968,14 +1071,16 @@ declare class Client extends HeartbeatService.Client {
   SetUserArgVarInfo(info: UserArgVarGroupInfo[], callback?: (error: void, response: void)=>void): void;
 
   /**
-   * Load the current settings for user-defined argument variables from a file
+   * Load the current settings for user-defined argument variables from a file.
+   * Throws a ProjectManagerError if the file cannot be imported.
    */
   ImportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string): Q.Promise<void>;
 
   /**
-   * Load the current settings for user-defined argument variables from a file
+   * Load the current settings for user-defined argument variables from a file.
+   * Throws a ProjectManagerError if the file cannot be imported.
    */
-  ImportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string, callback?: (error: void, response: void)=>void): void;
+  ImportUserArgVarInfo(category: UserArgVarCategory, argVarFilePath: string, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
 
   /**
    * Save the current settings for user-defined argument variables to a file
@@ -1038,6 +1143,48 @@ declare class Client extends HeartbeatService.Client {
   ApplyGlobalOptions(options: OptionDescription[]): Q.Promise<OptionDescription[]>;
 
   ApplyGlobalOptions(options: OptionDescription[], callback?: (error: ttypes.ProjectManagerError, response: OptionDescription[])=>void): void;
+
+  /**
+   * Returns a three-digit version number
+   */
+  GetTargetVersion(prj: ProjectContext, configuration: Configuration): Q.Promise<string>;
+
+  /**
+   * Returns a three-digit version number
+   */
+  GetTargetVersion(prj: ProjectContext, configuration: Configuration, callback?: (error: ttypes.ProjectManagerError, response: string)=>void): void;
+
+  /**
+   * Collect the resolved aliases, if any, for the project. This maps file-to-file
+   */
+  GetProjectAliases(prj: ProjectContext): Q.Promise<{ [k: string]: string; }>;
+
+  /**
+   * Collect the resolved aliases, if any, for the project. This maps file-to-file
+   */
+  GetProjectAliases(prj: ProjectContext, callback?: (error: void, response: { [k: string]: string; })=>void): void;
+
+  /**
+   * Collect the project folder aliases for the project, i.e., folder-to-folder, which can be
+   * used to create the file-to-file alias mapping.
+   */
+  GetProjectFolderAliases(prj: ProjectContext): Q.Promise<{ [k: string]: string; }>;
+
+  /**
+   * Collect the project folder aliases for the project, i.e., folder-to-folder, which can be
+   * used to create the file-to-file alias mapping.
+   */
+  GetProjectFolderAliases(prj: ProjectContext, callback?: (error: void, response: { [k: string]: string; })=>void): void;
+
+  /**
+   * Set the project folder aliases to be used when resolving the file-to-file alias mapping.
+   */
+  SetProjectFolderAliases(prj: ProjectContext, aliases: { [k: string]: string; }, forceUpdate: boolean): Q.Promise<boolean>;
+
+  /**
+   * Set the project folder aliases to be used when resolving the file-to-file alias mapping.
+   */
+  SetProjectFolderAliases(prj: ProjectContext, aliases: { [k: string]: string; }, forceUpdate: boolean, callback?: (error: void, response: boolean)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -1065,6 +1212,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_SaveEwpFileAs(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ImportProjectFiles(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsMemberOfCurrentProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_FindMatchingHeaderOrSourceFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1079,6 +1227,10 @@ declare class Processor extends HeartbeatService.Processor {
   process_SetConfigurationsOrder(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetCurrentConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetCurrentConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetCurrentConfigurations(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CreateConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ApplyConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_DiscardConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetDesktopPathParameters(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOfflineDesktopPath(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOnlineDesktopPath(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1113,6 +1265,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_ApplyOptionsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_VerifyOptionsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOptionCategories(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CompareOptions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_EnableMultiFileCompilation(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_EnableMultiFileDiscardPublicSymbols(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsMultiFileCompilationEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1144,4 +1297,8 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetGlobalOptions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetGlobalOption(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ApplyGlobalOptions(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetTargetVersion(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetProjectAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetProjectFolderAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetProjectFolderAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

@@ -42,7 +42,9 @@ ttypes.NodeType = {
   '3' : 'ControlFile',
   'ControlFile' : 3,
   '4' : 'ExternBinary',
-  'ExternBinary' : 4
+  'ExternBinary' : 4,
+  '5' : 'AuxExternBinary',
+  'AuxExternBinary' : 5
 };
 ttypes.OptionType = {
   '0' : 'Check',
@@ -62,7 +64,15 @@ ttypes.OptionType = {
   '7' : 'DeviceSelection',
   'DeviceSelection' : 7,
   '8' : 'CMSISDevice',
-  'CMSISDevice' : 8
+  'CMSISDevice' : 8,
+  '9' : 'CMakeSettings',
+  'CMakeSettings' : 9
+};
+ttypes.BuildSequence = {
+  '0' : 'PreBuild',
+  'PreBuild' : 0,
+  '1' : 'PostBuild',
+  'PostBuild' : 1
 };
 ttypes.FileCollectionType = {
   '0' : 'ProjFiles',
@@ -375,7 +385,7 @@ var Toolchain = module.exports.Toolchain = function(args) {
   this.tools = null;
   this.toolkitDir = null;
   this.templatesDir = null;
-  this.modifiable = null;
+  this.isCMakeToolchain = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -392,8 +402,8 @@ var Toolchain = module.exports.Toolchain = function(args) {
     if (args.templatesDir !== undefined && args.templatesDir !== null) {
       this.templatesDir = args.templatesDir;
     }
-    if (args.modifiable !== undefined && args.modifiable !== null) {
-      this.modifiable = args.modifiable;
+    if (args.isCMakeToolchain !== undefined && args.isCMakeToolchain !== null) {
+      this.isCMakeToolchain = args.isCMakeToolchain;
     }
   }
 };
@@ -454,7 +464,7 @@ Toolchain.prototype.read = function(input) {
       break;
       case 6:
       if (ftype == Thrift.Type.BOOL) {
-        this.modifiable = input.readBool();
+        this.isCMakeToolchain = input.readBool();
       } else {
         input.skip(ftype);
       }
@@ -502,9 +512,9 @@ Toolchain.prototype.write = function(output) {
     output.writeString(this.templatesDir);
     output.writeFieldEnd();
   }
-  if (this.modifiable !== null && this.modifiable !== undefined) {
-    output.writeFieldBegin('modifiable', Thrift.Type.BOOL, 6);
-    output.writeBool(this.modifiable);
+  if (this.isCMakeToolchain !== null && this.isCMakeToolchain !== undefined) {
+    output.writeFieldBegin('isCMakeToolchain', Thrift.Type.BOOL, 6);
+    output.writeBool(this.isCMakeToolchain);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

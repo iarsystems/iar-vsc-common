@@ -2131,6 +2131,174 @@ Frontend_editSourceLocation_result.prototype.write = function(output) {
   return;
 };
 
+var Frontend_handlesAliasStorage_args = function(args) {
+};
+Frontend_handlesAliasStorage_args.prototype = {};
+Frontend_handlesAliasStorage_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_handlesAliasStorage_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_handlesAliasStorage_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_handlesAliasStorage_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+Frontend_handlesAliasStorage_result.prototype = {};
+Frontend_handlesAliasStorage_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.BOOL) {
+        this.success = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_handlesAliasStorage_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_handlesAliasStorage_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.BOOL, 0);
+    output.writeBool(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_loadAliases_args = function(args) {
+};
+Frontend_loadAliases_args.prototype = {};
+Frontend_loadAliases_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_loadAliases_args.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_loadAliases_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Frontend_loadAliases_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyMap(args.success, [null]);
+    }
+  }
+};
+Frontend_loadAliases_result.prototype = {};
+Frontend_loadAliases_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.MAP) {
+        this.success = {};
+        var _rtmp351 = input.readMapBegin();
+        var _size50 = _rtmp351.size || 0;
+        for (var _i52 = 0; _i52 < _size50; ++_i52) {
+          var key53 = null;
+          var val54 = null;
+          key53 = input.readString();
+          val54 = input.readString();
+          this.success[key53] = val54;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Frontend_loadAliases_result.prototype.write = function(output) {
+  output.writeStructBegin('Frontend_loadAliases_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.MAP, 0);
+    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRING, Thrift.objectLength(this.success));
+    for (var kiter55 in this.success) {
+      if (this.success.hasOwnProperty(kiter55)) {
+        var viter56 = this.success[kiter55];
+        output.writeString(kiter55);
+        output.writeString(viter56);
+      }
+    }
+    output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var Frontend_resolveAliasForFile_args = function(args) {
   this.fileName = null;
   this.suggestedFile = null;
@@ -2291,15 +2459,15 @@ Frontend_getActiveTheme_result.prototype.read = function(input) {
       case 0:
       if (ftype == Thrift.Type.MAP) {
         this.success = {};
-        var _rtmp351 = input.readMapBegin();
-        var _size50 = _rtmp351.size || 0;
-        for (var _i52 = 0; _i52 < _size50; ++_i52) {
-          var key53 = null;
-          var val54 = null;
-          key53 = input.readI32();
-          val54 = new themes_ttypes.ColorSchema();
-          val54.read(input);
-          this.success[key53] = val54;
+        var _rtmp358 = input.readMapBegin();
+        var _size57 = _rtmp358.size || 0;
+        for (var _i59 = 0; _i59 < _size57; ++_i59) {
+          var key60 = null;
+          var val61 = null;
+          key60 = input.readI32();
+          val61 = new themes_ttypes.ColorSchema();
+          val61.read(input);
+          this.success[key60] = val61;
         }
         input.readMapEnd();
       } else {
@@ -2323,11 +2491,11 @@ Frontend_getActiveTheme_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.MAP, 0);
     output.writeMapBegin(Thrift.Type.I32, Thrift.Type.STRUCT, Thrift.objectLength(this.success));
-    for (var kiter55 in this.success) {
-      if (this.success.hasOwnProperty(kiter55)) {
-        var viter56 = this.success[kiter55];
-        output.writeI32(kiter55);
-        viter56.write(output);
+    for (var kiter62 in this.success) {
+      if (this.success.hasOwnProperty(kiter62)) {
+        var viter63 = this.success[kiter62];
+        output.writeI32(kiter62);
+        viter63.write(output);
       }
     }
     output.writeMapEnd();
@@ -3477,6 +3645,118 @@ FrontendClient.prototype.recv_editSourceLocation = function(input,mtype,rseqid) 
   callback(null);
 };
 
+FrontendClient.prototype.handlesAliasStorage = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_handlesAliasStorage();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_handlesAliasStorage();
+  }
+};
+
+FrontendClient.prototype.send_handlesAliasStorage = function() {
+  var output = new this.pClass(this.output);
+  var args = new Frontend_handlesAliasStorage_args();
+  try {
+    output.writeMessageBegin('handlesAliasStorage', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+FrontendClient.prototype.recv_handlesAliasStorage = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Frontend_handlesAliasStorage_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('handlesAliasStorage failed: unknown result');
+};
+
+FrontendClient.prototype.loadAliases = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_loadAliases();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_loadAliases();
+  }
+};
+
+FrontendClient.prototype.send_loadAliases = function() {
+  var output = new this.pClass(this.output);
+  var args = new Frontend_loadAliases_args();
+  try {
+    output.writeMessageBegin('loadAliases', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+FrontendClient.prototype.recv_loadAliases = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Frontend_loadAliases_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('loadAliases failed: unknown result');
+};
+
 FrontendClient.prototype.resolveAliasForFile = function(fileName, suggestedFile, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -4251,6 +4531,78 @@ FrontendProcessor.prototype.process_editSourceLocation = function(seqid, input, 
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("editSourceLocation", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+FrontendProcessor.prototype.process_handlesAliasStorage = function(seqid, input, output) {
+  var args = new Frontend_handlesAliasStorage_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.handlesAliasStorage.length === 0) {
+    Q.fcall(this._handler.handlesAliasStorage.bind(this._handler)
+    ).then(function(result) {
+      var result_obj = new Frontend_handlesAliasStorage_result({success: result});
+      output.writeMessageBegin("handlesAliasStorage", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("handlesAliasStorage", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.handlesAliasStorage(function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Frontend_handlesAliasStorage_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("handlesAliasStorage", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("handlesAliasStorage", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+FrontendProcessor.prototype.process_loadAliases = function(seqid, input, output) {
+  var args = new Frontend_loadAliases_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.loadAliases.length === 0) {
+    Q.fcall(this._handler.loadAliases.bind(this._handler)
+    ).then(function(result) {
+      var result_obj = new Frontend_loadAliases_result({success: result});
+      output.writeMessageBegin("loadAliases", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("loadAliases", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.loadAliases(function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new Frontend_loadAliases_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("loadAliases", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("loadAliases", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();
