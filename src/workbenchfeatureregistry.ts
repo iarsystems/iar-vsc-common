@@ -118,6 +118,12 @@ export namespace WorkbenchFeatures {
     { baseVersion: [9,4,0], minProductType: WorkbenchType.EXTENDED_BX };
 
     /**
+     * Whether this workbench supports generic dialogs on linux.
+    */
+    export const GenericDialogsOnLinux: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
      * Checks whether a workbench version meets the given minimum version.
      */
     export function supportsFeature(workbench: Workbench, requirement: FeatureRequirement, target?: string) {
