@@ -41,7 +41,14 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
 
         if (cli) {
             // Install the C/C++ extension that are hard requirements.
-            const extensions = ["ms-vscode.cpptools", "ms-vscode.vscode-embedded-tools", "eclipse-cdt.memory-inspector"];
+            const extensions = [
+                "ms-vscode.cpptools",
+                "ms-vscode.vscode-embedded-tools",
+                "eclipse-cdt.memory-inspector"
+            ];
+            if (envVars["iar-login-vsix"]) {
+                extensions.push(envVars["iar-login-vsix"]);
+            }
             // Use cp.spawn / cp.exec for custom setup
             extensions.forEach(extension => {
                 console.log("Installing " + extension);
