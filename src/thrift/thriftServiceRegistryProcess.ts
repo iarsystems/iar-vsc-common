@@ -94,7 +94,6 @@ export class ThriftServiceRegistryProcess {
         this.crashHandlers = [];
 
         await this.stopProcess(this.serviceRegistry);
-        this.serviceRegistry.dispose();
 
         // Wait for service registry process to exit
         if (this.process.exitCode === null) {
@@ -106,6 +105,8 @@ export class ThriftServiceRegistryProcess {
                 }, ThriftServiceRegistryProcess.PROCESS_EXIT_TIMEOUT);
             });
         }
+
+        this.serviceRegistry.dispose();
     }
 
     /**
