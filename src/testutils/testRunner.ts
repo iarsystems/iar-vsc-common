@@ -43,7 +43,6 @@ export async function runTestsIn(relPath: string, extensionPath: string, testPat
             // Install the C/C++ extension that are hard requirements.
             const extensions = [
                 "ms-vscode.cpptools",
-                "ms-vscode.vscode-embedded-tools",
                 "eclipse-cdt.memory-inspector"
             ];
             if (envVars["iar-login-vsix"]) {
