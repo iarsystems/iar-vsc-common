@@ -106,28 +106,28 @@ export namespace IarOsUtils {
      * @returns The full path to the library (e.g. /install/dir/bin/arm/libarmPROC.so), or undefined if it could not be found
      */
     export function resolveTargetLibrary(workbenchPath: string, targetName: string, libraryBasename: string): string | undefined {
-        let libName: string = libraryBasename;
+        let stem = Path.parse(libraryBasename).name;
 
-        if (!libName.startsWith(targetName)) {
-            libName = targetName + libName;
+        if (!stem.startsWith(targetName)) {
+            stem = targetName + stem;
         }
 
         const slPre = libraryPrefix();
+        if (!stem.startsWith(slPre)) {
+            stem = slPre + stem;
+        }
+
         const slExt = libraryExtension();
+        // Newer stages have split some libs into command-line, qt and mfc versions. Prefer
+        // command-line ('tty') libraries if available.
+        const libNames = [stem + "tty", stem].map(name => name + slExt);
 
-
-        if (!libName.startsWith(slPre)) {
-            libName = slPre + libName;
-        }
-
-        if (!libName.endsWith(slExt)) {
-            libName = libName + slExt;
-        }
-
-        // We need to check what the library is actually called, since capitalization varies between
-        // ew versions and OSs.
-        const candidates = fs.readdirSync(Path.join(workbenchPath, targetName.toLowerCase(), "bin"));
-        const actualLibName = candidates.find(cand => cand.toLowerCase() === libName.toLowerCase());
+        // Do a case-insensitive search for the library, since capitalization may vary between
+        // EW versions and OSs.
+        const files = fs.readdirSync(Path.join(workbenchPath, targetName.toLowerCase(), "bin"));
+        const actualLibName = files.find(file =>
+                                         libNames.some(libName => libName.toLowerCase() === file.toLowerCase())
+                                        );
         if (!actualLibName) return undefined;
         return Path.join(workbenchPath, targetName.toLowerCase(), "bin", actualLibName);
     }
