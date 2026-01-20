@@ -61,6 +61,8 @@ declare class Client extends HeartbeatService.Client {
    * Starts a debug session. Normally the very first thing which is
    * invoked in the lifecycle of a debug session. Responsible to
    * prepare the debugger to be able to load a module.
+   * 
+   * @deprecated Use configureSession() instead.
    */
   startSession(sessionConfig: SessionConfiguration): Q.Promise<void>;
 
@@ -68,8 +70,54 @@ declare class Client extends HeartbeatService.Client {
    * Starts a debug session. Normally the very first thing which is
    * invoked in the lifecycle of a debug session. Responsible to
    * prepare the debugger to be able to load a module.
+   * 
+   * @deprecated Use configureSession() instead.
    */
   startSession(sessionConfig: SessionConfiguration, callback?: (error: shared_ttypes.CSpyException, response: void)=>void): void;
+
+  /**
+   * Resolves a launch configuration from a json represented as a string.
+   * @todo refer to a json schema.
+   */
+  resolveLaunchConfiguration(launchJson: string): Q.Promise<shared_ttypes.LaunchConfiguration>;
+
+  /**
+   * Resolves a launch configuration from a json represented as a string.
+   * @todo refer to a json schema.
+   */
+  resolveLaunchConfiguration(launchJson: string, callback?: (error: shared_ttypes.CSpyException, response: shared_ttypes.LaunchConfiguration)=>void): void;
+
+  /**
+   * Configures a debug session based on the specified launch configuration.
+   * This function is typically the first to be invoked in the debug session lifecycle,
+   * preparing the debugger for initialization.
+   */
+  configureSession(config: shared_ttypes.LaunchConfiguration): Q.Promise<void>;
+
+  /**
+   * Configures a debug session based on the specified launch configuration.
+   * This function is typically the first to be invoked in the debug session lifecycle,
+   * preparing the debugger for initialization.
+   */
+  configureSession(config: shared_ttypes.LaunchConfiguration, callback?: (error: shared_ttypes.CSpyException, response: void)=>void): void;
+
+  /**
+   * Runs the standard debugger initialization sequence based on the configured launch configuration.
+   * This sequence includes module loading, flashing, and macro loading, eliminating the need to
+   * perform these steps separately.
+   * 
+   * @note configureSession() must be called before invoking this function.
+   */
+  startSMPSession(): Q.Promise<void>;
+
+  /**
+   * Runs the standard debugger initialization sequence based on the configured launch configuration.
+   * This sequence includes module loading, flashing, and macro loading, eliminating the need to
+   * perform these steps separately.
+   * 
+   * @note configureSession() must be called before invoking this function.
+   */
+  startSMPSession(callback?: (error: shared_ttypes.CSpyException, response: void)=>void): void;
 
   /**
    * Stops the debug session. When this method returns, the event
@@ -543,6 +591,9 @@ declare class Processor extends HeartbeatService.Processor {
   process(input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_getVersionString(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_startSession(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_resolveLaunchConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_configureSession(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_startSMPSession(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_stopSession(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_getDebugSettings(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_setDebugSettings(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;

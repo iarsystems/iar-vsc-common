@@ -11,6 +11,12 @@ import shared_ttypes = require('./shared_types');
 
 
 
+declare enum ProjectManagerErrorType {
+  Generic = 0,
+  LaunchConfigurationInvalid = 1,
+  LaunchConfigurationNotApplicable = 2,
+}
+
 /**
  * Each type describes the role of a tool in a C/C++ project build
  */
@@ -40,6 +46,8 @@ declare enum NodeType {
   ControlFile = 3,
   ExternBinary = 4,
   AuxExternBinary = 5,
+  CMakeExecutableGroup = 6,
+  CMakeLibraryGroup = 7,
 }
 
 /**
@@ -61,6 +69,9 @@ declare enum OptionType {
   DeviceSelection = 7,
   CMSISDevice = 8,
   CMakeSettings = 9,
+  PathList = 10,
+  EditHexInteger = 11,
+  JsonKeyValueMap = 12,
 }
 
 declare enum BuildSequence {
@@ -103,8 +114,9 @@ declare enum UserArgVarCategory {
 
 declare class ProjectManagerError extends Thrift.TException {
   public description: string;
+  public errorType: ProjectManagerErrorType;
 
-    constructor(args?: { description: string; });
+    constructor(args?: { description: string; errorType: ProjectManagerErrorType; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -143,8 +155,9 @@ declare class Toolchain {
   public toolkitDir: string;
   public templatesDir: string;
   public isCMakeToolchain: boolean;
+  public version: string;
 
-    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; toolkitDir: string; templatesDir: string; isCMakeToolchain: boolean; });
+    constructor(args?: { id: string; name: string; tools: ToolDefinition[]; toolkitDir: string; templatesDir: string; isCMakeToolchain: boolean; version: string; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -157,9 +170,9 @@ declare class Configuration {
   public name: string;
   public toolchainId: string;
   public isDebug: boolean;
-  public isControlFileManaged: boolean;
+  public isCMakeProject: boolean;
 
-    constructor(args?: { name: string; toolchainId: string; isDebug: boolean; isControlFileManaged: boolean; });
+    constructor(args?: { name: string; toolchainId: string; isDebug: boolean; isCMakeProject: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -258,8 +271,9 @@ declare class OptionDescription {
   public enabled: boolean;
   public visible: boolean;
   public canBeLocal: boolean;
+  public inherited: boolean;
 
-    constructor(args?: { id: string; value: string; type: OptionType; elements: OptionElementDescription[]; enabled: boolean; visible: boolean; canBeLocal: boolean; });
+    constructor(args?: { id: string; value: string; type: OptionType; elements: OptionElementDescription[]; enabled: boolean; visible: boolean; canBeLocal: boolean; inherited: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -378,8 +392,23 @@ declare class WizardPlugin {
   public displayName: string;
   public description: string;
   public requireSave: boolean;
+  public groupName: string;
 
-    constructor(args?: { toolchainName: string; displayName: string; description: string; requireSave: boolean; });
+    constructor(args?: { toolchainName: string; displayName: string; description: string; requireSave: boolean; groupName: string; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+/**
+ * A description of the current information stored in the debug launcher
+ */
+declare class DebugLauncherInfo {
+  public launchFile: string;
+  public launchName: string;
+  public isEnabled: boolean;
+  public latestReloadTime: Int64;
+
+    constructor(args?: { launchFile: string; launchName: string; isEnabled: boolean; latestReloadTime: Int64; });
   read(input: Object): void;
   write(input: Object): void;
 }

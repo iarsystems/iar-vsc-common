@@ -14,6 +14,14 @@ var shared_ttypes = require('./shared_types');
 
 
 var ttypes = module.exports = {};
+ttypes.ProjectManagerErrorType = {
+  '0' : 'Generic',
+  'Generic' : 0,
+  '1' : 'LaunchConfigurationInvalid',
+  'LaunchConfigurationInvalid' : 1,
+  '2' : 'LaunchConfigurationNotApplicable',
+  'LaunchConfigurationNotApplicable' : 2
+};
 ttypes.ToolType = {
   '1' : 'Compiler',
   'Compiler' : 1,
@@ -44,7 +52,11 @@ ttypes.NodeType = {
   '4' : 'ExternBinary',
   'ExternBinary' : 4,
   '5' : 'AuxExternBinary',
-  'AuxExternBinary' : 5
+  'AuxExternBinary' : 5,
+  '6' : 'CMakeExecutableGroup',
+  'CMakeExecutableGroup' : 6,
+  '7' : 'CMakeLibraryGroup',
+  'CMakeLibraryGroup' : 7
 };
 ttypes.OptionType = {
   '0' : 'Check',
@@ -66,7 +78,13 @@ ttypes.OptionType = {
   '8' : 'CMSISDevice',
   'CMSISDevice' : 8,
   '9' : 'CMakeSettings',
-  'CMakeSettings' : 9
+  'CMakeSettings' : 9,
+  '10' : 'PathList',
+  'PathList' : 10,
+  '11' : 'EditHexInteger',
+  'EditHexInteger' : 11,
+  '12' : 'JsonKeyValueMap',
+  'JsonKeyValueMap' : 12
 };
 ttypes.BuildSequence = {
   '0' : 'PreBuild',
@@ -110,9 +128,13 @@ var ProjectManagerError = module.exports.ProjectManagerError = function(args) {
   Thrift.TException.call(this, "ProjectManagerError");
   this.name = "ProjectManagerError";
   this.description = null;
+  this.errorType = null;
   if (args) {
     if (args.description !== undefined && args.description !== null) {
       this.description = args.description;
+    }
+    if (args.errorType !== undefined && args.errorType !== null) {
+      this.errorType = args.errorType;
     }
   }
 };
@@ -135,9 +157,13 @@ ProjectManagerError.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.errorType = input.readI32();
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -152,6 +178,11 @@ ProjectManagerError.prototype.write = function(output) {
   if (this.description !== null && this.description !== undefined) {
     output.writeFieldBegin('description', Thrift.Type.STRING, 1);
     output.writeString(this.description);
+    output.writeFieldEnd();
+  }
+  if (this.errorType !== null && this.errorType !== undefined) {
+    output.writeFieldBegin('errorType', Thrift.Type.I32, 2);
+    output.writeI32(this.errorType);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -386,6 +417,7 @@ var Toolchain = module.exports.Toolchain = function(args) {
   this.toolkitDir = null;
   this.templatesDir = null;
   this.isCMakeToolchain = null;
+  this.version = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -404,6 +436,9 @@ var Toolchain = module.exports.Toolchain = function(args) {
     }
     if (args.isCMakeToolchain !== undefined && args.isCMakeToolchain !== null) {
       this.isCMakeToolchain = args.isCMakeToolchain;
+    }
+    if (args.version !== undefined && args.version !== null) {
+      this.version = args.version;
     }
   }
 };
@@ -469,6 +504,13 @@ Toolchain.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 7:
+      if (ftype == Thrift.Type.STRING) {
+        this.version = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -517,6 +559,11 @@ Toolchain.prototype.write = function(output) {
     output.writeBool(this.isCMakeToolchain);
     output.writeFieldEnd();
   }
+  if (this.version !== null && this.version !== undefined) {
+    output.writeFieldBegin('version', Thrift.Type.STRING, 7);
+    output.writeString(this.version);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -526,7 +573,7 @@ var Configuration = module.exports.Configuration = function(args) {
   this.name = null;
   this.toolchainId = null;
   this.isDebug = null;
-  this.isControlFileManaged = null;
+  this.isCMakeProject = null;
   if (args) {
     if (args.name !== undefined && args.name !== null) {
       this.name = args.name;
@@ -537,8 +584,8 @@ var Configuration = module.exports.Configuration = function(args) {
     if (args.isDebug !== undefined && args.isDebug !== null) {
       this.isDebug = args.isDebug;
     }
-    if (args.isControlFileManaged !== undefined && args.isControlFileManaged !== null) {
-      this.isControlFileManaged = args.isControlFileManaged;
+    if (args.isCMakeProject !== undefined && args.isCMakeProject !== null) {
+      this.isCMakeProject = args.isCMakeProject;
     }
   }
 };
@@ -576,7 +623,7 @@ Configuration.prototype.read = function(input) {
       break;
       case 4:
       if (ftype == Thrift.Type.BOOL) {
-        this.isControlFileManaged = input.readBool();
+        this.isCMakeProject = input.readBool();
       } else {
         input.skip(ftype);
       }
@@ -607,9 +654,9 @@ Configuration.prototype.write = function(output) {
     output.writeBool(this.isDebug);
     output.writeFieldEnd();
   }
-  if (this.isControlFileManaged !== null && this.isControlFileManaged !== undefined) {
-    output.writeFieldBegin('isControlFileManaged', Thrift.Type.BOOL, 4);
-    output.writeBool(this.isControlFileManaged);
+  if (this.isCMakeProject !== null && this.isCMakeProject !== undefined) {
+    output.writeFieldBegin('isCMakeProject', Thrift.Type.BOOL, 4);
+    output.writeBool(this.isCMakeProject);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1214,6 +1261,7 @@ var OptionDescription = module.exports.OptionDescription = function(args) {
   this.enabled = null;
   this.visible = null;
   this.canBeLocal = null;
+  this.inherited = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -1235,6 +1283,9 @@ var OptionDescription = module.exports.OptionDescription = function(args) {
     }
     if (args.canBeLocal !== undefined && args.canBeLocal !== null) {
       this.canBeLocal = args.canBeLocal;
+    }
+    if (args.inherited !== undefined && args.inherited !== null) {
+      this.inherited = args.inherited;
     }
   }
 };
@@ -1307,6 +1358,13 @@ OptionDescription.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 8:
+      if (ftype == Thrift.Type.BOOL) {
+        this.inherited = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -1358,6 +1416,11 @@ OptionDescription.prototype.write = function(output) {
   if (this.canBeLocal !== null && this.canBeLocal !== undefined) {
     output.writeFieldBegin('canBeLocal', Thrift.Type.BOOL, 7);
     output.writeBool(this.canBeLocal);
+    output.writeFieldEnd();
+  }
+  if (this.inherited !== null && this.inherited !== undefined) {
+    output.writeFieldBegin('inherited', Thrift.Type.BOOL, 8);
+    output.writeBool(this.inherited);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -2161,6 +2224,7 @@ var WizardPlugin = module.exports.WizardPlugin = function(args) {
   this.displayName = null;
   this.description = null;
   this.requireSave = null;
+  this.groupName = null;
   if (args) {
     if (args.toolchainName !== undefined && args.toolchainName !== null) {
       this.toolchainName = args.toolchainName;
@@ -2173,6 +2237,9 @@ var WizardPlugin = module.exports.WizardPlugin = function(args) {
     }
     if (args.requireSave !== undefined && args.requireSave !== null) {
       this.requireSave = args.requireSave;
+    }
+    if (args.groupName !== undefined && args.groupName !== null) {
+      this.groupName = args.groupName;
     }
   }
 };
@@ -2215,6 +2282,13 @@ WizardPlugin.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.groupName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -2244,6 +2318,106 @@ WizardPlugin.prototype.write = function(output) {
   if (this.requireSave !== null && this.requireSave !== undefined) {
     output.writeFieldBegin('requireSave', Thrift.Type.BOOL, 4);
     output.writeBool(this.requireSave);
+    output.writeFieldEnd();
+  }
+  if (this.groupName !== null && this.groupName !== undefined) {
+    output.writeFieldBegin('groupName', Thrift.Type.STRING, 5);
+    output.writeString(this.groupName);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var DebugLauncherInfo = module.exports.DebugLauncherInfo = function(args) {
+  this.launchFile = null;
+  this.launchName = null;
+  this.isEnabled = null;
+  this.latestReloadTime = null;
+  if (args) {
+    if (args.launchFile !== undefined && args.launchFile !== null) {
+      this.launchFile = args.launchFile;
+    }
+    if (args.launchName !== undefined && args.launchName !== null) {
+      this.launchName = args.launchName;
+    }
+    if (args.isEnabled !== undefined && args.isEnabled !== null) {
+      this.isEnabled = args.isEnabled;
+    }
+    if (args.latestReloadTime !== undefined && args.latestReloadTime !== null) {
+      this.latestReloadTime = args.latestReloadTime;
+    }
+  }
+};
+DebugLauncherInfo.prototype = {};
+DebugLauncherInfo.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.launchFile = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.launchName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isEnabled = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.I64) {
+        this.latestReloadTime = input.readI64();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+DebugLauncherInfo.prototype.write = function(output) {
+  output.writeStructBegin('DebugLauncherInfo');
+  if (this.launchFile !== null && this.launchFile !== undefined) {
+    output.writeFieldBegin('launchFile', Thrift.Type.STRING, 1);
+    output.writeString(this.launchFile);
+    output.writeFieldEnd();
+  }
+  if (this.launchName !== null && this.launchName !== undefined) {
+    output.writeFieldBegin('launchName', Thrift.Type.STRING, 2);
+    output.writeString(this.launchName);
+    output.writeFieldEnd();
+  }
+  if (this.isEnabled !== null && this.isEnabled !== undefined) {
+    output.writeFieldBegin('isEnabled', Thrift.Type.BOOL, 3);
+    output.writeBool(this.isEnabled);
+    output.writeFieldEnd();
+  }
+  if (this.latestReloadTime !== null && this.latestReloadTime !== undefined) {
+    output.writeFieldBegin('latestReloadTime', Thrift.Type.I64, 4);
+    output.writeI64(this.latestReloadTime);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

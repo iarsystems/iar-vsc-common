@@ -29,6 +29,9 @@ import StackSettings = ttypes.StackSettings
 import Breakpoint = ttypes.Breakpoint
 import PropertyTreeItem = ttypes.PropertyTreeItem
 import Capabilities = ttypes.Capabilities
+import ExtraImage = ttypes.ExtraImage
+import DownloadConfiguration = ttypes.DownloadConfiguration
+import LaunchConfiguration = ttypes.LaunchConfiguration
 
 declare class Client {
   #output: thrift.TTransport;

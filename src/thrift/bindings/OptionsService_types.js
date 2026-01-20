@@ -11,6 +11,7 @@ var Q = thrift.Q;
 var Int64 = require('node-int64');
 
 var shared_ttypes = require('./shared_types');
+var projectmanager_ttypes = require('./projectmanager_types');
 
 
 var ttypes = module.exports = {};
@@ -60,150 +61,6 @@ OptionsServiceError.prototype.write = function(output) {
   if (this.description !== null && this.description !== undefined) {
     output.writeFieldBegin('description', Thrift.Type.STRING, 1);
     output.writeString(this.description);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var CreateSessionRequest = module.exports.CreateSessionRequest = function(args) {
-  this.projectPath = null;
-  this.configurationName = null;
-  this.showHiddenOptions = null;
-  if (args) {
-    if (args.projectPath !== undefined && args.projectPath !== null) {
-      this.projectPath = args.projectPath;
-    }
-    if (args.configurationName !== undefined && args.configurationName !== null) {
-      this.configurationName = args.configurationName;
-    }
-    if (args.showHiddenOptions !== undefined && args.showHiddenOptions !== null) {
-      this.showHiddenOptions = args.showHiddenOptions;
-    }
-  }
-};
-CreateSessionRequest.prototype = {};
-CreateSessionRequest.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.projectPath = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.configurationName = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
-      if (ftype == Thrift.Type.BOOL) {
-        this.showHiddenOptions = input.readBool();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-CreateSessionRequest.prototype.write = function(output) {
-  output.writeStructBegin('CreateSessionRequest');
-  if (this.projectPath !== null && this.projectPath !== undefined) {
-    output.writeFieldBegin('projectPath', Thrift.Type.STRING, 1);
-    output.writeString(this.projectPath);
-    output.writeFieldEnd();
-  }
-  if (this.configurationName !== null && this.configurationName !== undefined) {
-    output.writeFieldBegin('configurationName', Thrift.Type.STRING, 2);
-    output.writeString(this.configurationName);
-    output.writeFieldEnd();
-  }
-  if (this.showHiddenOptions !== null && this.showHiddenOptions !== undefined) {
-    output.writeFieldBegin('showHiddenOptions', Thrift.Type.BOOL, 3);
-    output.writeBool(this.showHiddenOptions);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var CreateSessionResponse = module.exports.CreateSessionResponse = function(args) {
-  this.sessionId = null;
-  this.success = null;
-  if (args) {
-    if (args.sessionId !== undefined && args.sessionId !== null) {
-      this.sessionId = new shared_ttypes.Id(args.sessionId);
-    }
-    if (args.success !== undefined && args.success !== null) {
-      this.success = new shared_ttypes.Success(args.success);
-    }
-  }
-};
-CreateSessionResponse.prototype = {};
-CreateSessionResponse.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.sessionId = new shared_ttypes.Id();
-        this.sessionId.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new shared_ttypes.Success();
-        this.success.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-CreateSessionResponse.prototype.write = function(output) {
-  output.writeStructBegin('CreateSessionResponse');
-  if (this.sessionId !== null && this.sessionId !== undefined) {
-    output.writeFieldBegin('sessionId', Thrift.Type.STRUCT, 1);
-    this.sessionId.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 2);
-    this.success.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -292,24 +149,28 @@ CreateSessionWithDataRequest.prototype.write = function(output) {
   return;
 };
 
-var UpdateOptionValueRequest = module.exports.UpdateOptionValueRequest = function(args) {
-  this.sessionId = null;
-  this.optionId = null;
-  this.newValue = null;
+var CreateSessionRequest = module.exports.CreateSessionRequest = function(args) {
+  this.projectPath = null;
+  this.configurationName = null;
+  this.nodePathOrIndex = null;
+  this.showHiddenOptions = null;
   if (args) {
-    if (args.sessionId !== undefined && args.sessionId !== null) {
-      this.sessionId = new shared_ttypes.Id(args.sessionId);
+    if (args.projectPath !== undefined && args.projectPath !== null) {
+      this.projectPath = args.projectPath;
     }
-    if (args.optionId !== undefined && args.optionId !== null) {
-      this.optionId = args.optionId;
+    if (args.configurationName !== undefined && args.configurationName !== null) {
+      this.configurationName = args.configurationName;
     }
-    if (args.newValue !== undefined && args.newValue !== null) {
-      this.newValue = args.newValue;
+    if (args.nodePathOrIndex !== undefined && args.nodePathOrIndex !== null) {
+      this.nodePathOrIndex = args.nodePathOrIndex;
+    }
+    if (args.showHiddenOptions !== undefined && args.showHiddenOptions !== null) {
+      this.showHiddenOptions = args.showHiddenOptions;
     }
   }
 };
-UpdateOptionValueRequest.prototype = {};
-UpdateOptionValueRequest.prototype.read = function(input) {
+CreateSessionRequest.prototype = {};
+CreateSessionRequest.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -320,23 +181,29 @@ UpdateOptionValueRequest.prototype.read = function(input) {
     }
     switch (fid) {
       case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.sessionId = new shared_ttypes.Id();
-        this.sessionId.read(input);
+      if (ftype == Thrift.Type.STRING) {
+        this.projectPath = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.optionId = input.readString();
+        this.configurationName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.nodePathOrIndex = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.STRING) {
-        this.newValue = input.readString();
+      if (ftype == Thrift.Type.BOOL) {
+        this.showHiddenOptions = input.readBool();
       } else {
         input.skip(ftype);
       }
@@ -350,21 +217,26 @@ UpdateOptionValueRequest.prototype.read = function(input) {
   return;
 };
 
-UpdateOptionValueRequest.prototype.write = function(output) {
-  output.writeStructBegin('UpdateOptionValueRequest');
-  if (this.sessionId !== null && this.sessionId !== undefined) {
-    output.writeFieldBegin('sessionId', Thrift.Type.STRUCT, 1);
-    this.sessionId.write(output);
+CreateSessionRequest.prototype.write = function(output) {
+  output.writeStructBegin('CreateSessionRequest');
+  if (this.projectPath !== null && this.projectPath !== undefined) {
+    output.writeFieldBegin('projectPath', Thrift.Type.STRING, 1);
+    output.writeString(this.projectPath);
     output.writeFieldEnd();
   }
-  if (this.optionId !== null && this.optionId !== undefined) {
-    output.writeFieldBegin('optionId', Thrift.Type.STRING, 2);
-    output.writeString(this.optionId);
+  if (this.configurationName !== null && this.configurationName !== undefined) {
+    output.writeFieldBegin('configurationName', Thrift.Type.STRING, 2);
+    output.writeString(this.configurationName);
     output.writeFieldEnd();
   }
-  if (this.newValue !== null && this.newValue !== undefined) {
-    output.writeFieldBegin('newValue', Thrift.Type.STRING, 3);
-    output.writeString(this.newValue);
+  if (this.nodePathOrIndex !== null && this.nodePathOrIndex !== undefined) {
+    output.writeFieldBegin('nodePathOrIndex', Thrift.Type.STRING, 4);
+    output.writeString(this.nodePathOrIndex);
+    output.writeFieldEnd();
+  }
+  if (this.showHiddenOptions !== null && this.showHiddenOptions !== undefined) {
+    output.writeFieldBegin('showHiddenOptions', Thrift.Type.BOOL, 3);
+    output.writeBool(this.showHiddenOptions);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -372,24 +244,28 @@ UpdateOptionValueRequest.prototype.write = function(output) {
   return;
 };
 
-var UpdateOptionValueResponse = module.exports.UpdateOptionValueResponse = function(args) {
+var CreateSessionResponse = module.exports.CreateSessionResponse = function(args) {
   this.sessionId = null;
-  this.result = null;
-  this.optionId = null;
+  this.success = null;
+  this.context = null;
+  this.readOnly = null;
   if (args) {
     if (args.sessionId !== undefined && args.sessionId !== null) {
       this.sessionId = new shared_ttypes.Id(args.sessionId);
     }
-    if (args.result !== undefined && args.result !== null) {
-      this.result = new shared_ttypes.Success(args.result);
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new shared_ttypes.Success(args.success);
     }
-    if (args.optionId !== undefined && args.optionId !== null) {
-      this.optionId = args.optionId;
+    if (args.context !== undefined && args.context !== null) {
+      this.context = new projectmanager_ttypes.ProjectContext(args.context);
+    }
+    if (args.readOnly !== undefined && args.readOnly !== null) {
+      this.readOnly = args.readOnly;
     }
   }
 };
-UpdateOptionValueResponse.prototype = {};
-UpdateOptionValueResponse.prototype.read = function(input) {
+CreateSessionResponse.prototype = {};
+CreateSessionResponse.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -409,15 +285,23 @@ UpdateOptionValueResponse.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.STRUCT) {
-        this.result = new shared_ttypes.Success();
-        this.result.read(input);
+        this.success = new shared_ttypes.Success();
+        this.success.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.STRING) {
-        this.optionId = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.context = new projectmanager_ttypes.ProjectContext();
+        this.context.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.BOOL) {
+        this.readOnly = input.readBool();
       } else {
         input.skip(ftype);
       }
@@ -431,21 +315,26 @@ UpdateOptionValueResponse.prototype.read = function(input) {
   return;
 };
 
-UpdateOptionValueResponse.prototype.write = function(output) {
-  output.writeStructBegin('UpdateOptionValueResponse');
+CreateSessionResponse.prototype.write = function(output) {
+  output.writeStructBegin('CreateSessionResponse');
   if (this.sessionId !== null && this.sessionId !== undefined) {
     output.writeFieldBegin('sessionId', Thrift.Type.STRUCT, 1);
     this.sessionId.write(output);
     output.writeFieldEnd();
   }
-  if (this.result !== null && this.result !== undefined) {
-    output.writeFieldBegin('result', Thrift.Type.STRUCT, 2);
-    this.result.write(output);
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 2);
+    this.success.write(output);
     output.writeFieldEnd();
   }
-  if (this.optionId !== null && this.optionId !== undefined) {
-    output.writeFieldBegin('optionId', Thrift.Type.STRING, 3);
-    output.writeString(this.optionId);
+  if (this.context !== null && this.context !== undefined) {
+    output.writeFieldBegin('context', Thrift.Type.STRUCT, 3);
+    this.context.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.readOnly !== null && this.readOnly !== undefined) {
+    output.writeFieldBegin('readOnly', Thrift.Type.BOOL, 4);
+    output.writeBool(this.readOnly);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -916,12 +805,20 @@ GetOptionTreeResponse.prototype.write = function(output) {
 var OptionValue = module.exports.OptionValue = function(args) {
   this.optionDefinitionId = null;
   this.data = null;
+  this.children = null;
+  this.inherited = null;
   if (args) {
     if (args.optionDefinitionId !== undefined && args.optionDefinitionId !== null) {
       this.optionDefinitionId = args.optionDefinitionId;
     }
     if (args.data !== undefined && args.data !== null) {
       this.data = args.data;
+    }
+    if (args.children !== undefined && args.children !== null) {
+      this.children = Thrift.copyList(args.children, [null]);
+    }
+    if (args.inherited !== undefined && args.inherited !== null) {
+      this.inherited = args.inherited;
     }
   }
 };
@@ -950,6 +847,29 @@ OptionValue.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 3:
+      if (ftype == Thrift.Type.LIST) {
+        this.children = [];
+        var _rtmp38 = input.readListBegin();
+        var _size7 = _rtmp38.size || 0;
+        for (var _i9 = 0; _i9 < _size7; ++_i9) {
+          var elem10 = null;
+          elem10 = new ttypes.OptionValue();
+          elem10.read(input);
+          this.children.push(elem10);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.BOOL) {
+        this.inherited = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -969,6 +889,23 @@ OptionValue.prototype.write = function(output) {
   if (this.data !== null && this.data !== undefined) {
     output.writeFieldBegin('data', Thrift.Type.STRING, 2);
     output.writeString(this.data);
+    output.writeFieldEnd();
+  }
+  if (this.children !== null && this.children !== undefined) {
+    output.writeFieldBegin('children', Thrift.Type.LIST, 3);
+    output.writeListBegin(Thrift.Type.STRUCT, this.children.length);
+    for (var iter11 in this.children) {
+      if (this.children.hasOwnProperty(iter11)) {
+        iter11 = this.children[iter11];
+        iter11.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.inherited !== null && this.inherited !== undefined) {
+    output.writeFieldBegin('inherited', Thrift.Type.BOOL, 4);
+    output.writeBool(this.inherited);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1039,20 +976,32 @@ VerificationError.prototype.write = function(output) {
   return;
 };
 
-var VerifyOptionStateRequest = module.exports.VerifyOptionStateRequest = function(args) {
+var UpdateOptionsStateRequest = module.exports.UpdateOptionsStateRequest = function(args) {
   this.sessionId = null;
-  this.optionValues = null;
+  this.treeId = null;
+  this.createdOptionValues = null;
+  this.updatedOptionValues = null;
+  this.deletedOptionValues = null;
   if (args) {
     if (args.sessionId !== undefined && args.sessionId !== null) {
       this.sessionId = new shared_ttypes.Id(args.sessionId);
     }
-    if (args.optionValues !== undefined && args.optionValues !== null) {
-      this.optionValues = Thrift.copyList(args.optionValues, [ttypes.OptionValue]);
+    if (args.treeId !== undefined && args.treeId !== null) {
+      this.treeId = new shared_ttypes.Id(args.treeId);
+    }
+    if (args.createdOptionValues !== undefined && args.createdOptionValues !== null) {
+      this.createdOptionValues = Thrift.copyList(args.createdOptionValues, [ttypes.OptionValue]);
+    }
+    if (args.updatedOptionValues !== undefined && args.updatedOptionValues !== null) {
+      this.updatedOptionValues = Thrift.copyList(args.updatedOptionValues, [ttypes.OptionValue]);
+    }
+    if (args.deletedOptionValues !== undefined && args.deletedOptionValues !== null) {
+      this.deletedOptionValues = Thrift.copyList(args.deletedOptionValues, [ttypes.OptionValue]);
     }
   }
 };
-VerifyOptionStateRequest.prototype = {};
-VerifyOptionStateRequest.prototype.read = function(input) {
+UpdateOptionsStateRequest.prototype = {};
+UpdateOptionsStateRequest.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -1071,15 +1020,55 @@ VerifyOptionStateRequest.prototype.read = function(input) {
       }
       break;
       case 2:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.treeId = new shared_ttypes.Id();
+        this.treeId.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
       if (ftype == Thrift.Type.LIST) {
-        this.optionValues = [];
-        var _rtmp38 = input.readListBegin();
-        var _size7 = _rtmp38.size || 0;
-        for (var _i9 = 0; _i9 < _size7; ++_i9) {
-          var elem10 = null;
-          elem10 = new ttypes.OptionValue();
-          elem10.read(input);
-          this.optionValues.push(elem10);
+        this.createdOptionValues = [];
+        var _rtmp313 = input.readListBegin();
+        var _size12 = _rtmp313.size || 0;
+        for (var _i14 = 0; _i14 < _size12; ++_i14) {
+          var elem15 = null;
+          elem15 = new ttypes.OptionValue();
+          elem15.read(input);
+          this.createdOptionValues.push(elem15);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.LIST) {
+        this.updatedOptionValues = [];
+        var _rtmp317 = input.readListBegin();
+        var _size16 = _rtmp317.size || 0;
+        for (var _i18 = 0; _i18 < _size16; ++_i18) {
+          var elem19 = null;
+          elem19 = new ttypes.OptionValue();
+          elem19.read(input);
+          this.updatedOptionValues.push(elem19);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.LIST) {
+        this.deletedOptionValues = [];
+        var _rtmp321 = input.readListBegin();
+        var _size20 = _rtmp321.size || 0;
+        for (var _i22 = 0; _i22 < _size20; ++_i22) {
+          var elem23 = null;
+          elem23 = new ttypes.OptionValue();
+          elem23.read(input);
+          this.deletedOptionValues.push(elem23);
         }
         input.readListEnd();
       } else {
@@ -1095,20 +1084,49 @@ VerifyOptionStateRequest.prototype.read = function(input) {
   return;
 };
 
-VerifyOptionStateRequest.prototype.write = function(output) {
-  output.writeStructBegin('VerifyOptionStateRequest');
+UpdateOptionsStateRequest.prototype.write = function(output) {
+  output.writeStructBegin('UpdateOptionsStateRequest');
   if (this.sessionId !== null && this.sessionId !== undefined) {
     output.writeFieldBegin('sessionId', Thrift.Type.STRUCT, 1);
     this.sessionId.write(output);
     output.writeFieldEnd();
   }
-  if (this.optionValues !== null && this.optionValues !== undefined) {
-    output.writeFieldBegin('optionValues', Thrift.Type.LIST, 2);
-    output.writeListBegin(Thrift.Type.STRUCT, this.optionValues.length);
-    for (var iter11 in this.optionValues) {
-      if (this.optionValues.hasOwnProperty(iter11)) {
-        iter11 = this.optionValues[iter11];
-        iter11.write(output);
+  if (this.treeId !== null && this.treeId !== undefined) {
+    output.writeFieldBegin('treeId', Thrift.Type.STRUCT, 2);
+    this.treeId.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.createdOptionValues !== null && this.createdOptionValues !== undefined) {
+    output.writeFieldBegin('createdOptionValues', Thrift.Type.LIST, 3);
+    output.writeListBegin(Thrift.Type.STRUCT, this.createdOptionValues.length);
+    for (var iter24 in this.createdOptionValues) {
+      if (this.createdOptionValues.hasOwnProperty(iter24)) {
+        iter24 = this.createdOptionValues[iter24];
+        iter24.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.updatedOptionValues !== null && this.updatedOptionValues !== undefined) {
+    output.writeFieldBegin('updatedOptionValues', Thrift.Type.LIST, 4);
+    output.writeListBegin(Thrift.Type.STRUCT, this.updatedOptionValues.length);
+    for (var iter25 in this.updatedOptionValues) {
+      if (this.updatedOptionValues.hasOwnProperty(iter25)) {
+        iter25 = this.updatedOptionValues[iter25];
+        iter25.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.deletedOptionValues !== null && this.deletedOptionValues !== undefined) {
+    output.writeFieldBegin('deletedOptionValues', Thrift.Type.LIST, 5);
+    output.writeListBegin(Thrift.Type.STRUCT, this.deletedOptionValues.length);
+    for (var iter26 in this.deletedOptionValues) {
+      if (this.deletedOptionValues.hasOwnProperty(iter26)) {
+        iter26 = this.deletedOptionValues[iter26];
+        iter26.write(output);
       }
     }
     output.writeListEnd();
@@ -1119,7 +1137,7 @@ VerifyOptionStateRequest.prototype.write = function(output) {
   return;
 };
 
-var VerifyOptionStateResponse = module.exports.VerifyOptionStateResponse = function(args) {
+var UpdateOptionsStateResponse = module.exports.UpdateOptionsStateResponse = function(args) {
   this.sessionId = null;
   this.tree = null;
   this.success = null;
@@ -1139,8 +1157,8 @@ var VerifyOptionStateResponse = module.exports.VerifyOptionStateResponse = funct
     }
   }
 };
-VerifyOptionStateResponse.prototype = {};
-VerifyOptionStateResponse.prototype.read = function(input) {
+UpdateOptionsStateResponse.prototype = {};
+UpdateOptionsStateResponse.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -1177,13 +1195,13 @@ VerifyOptionStateResponse.prototype.read = function(input) {
       case 4:
       if (ftype == Thrift.Type.LIST) {
         this.verificationErrors = [];
-        var _rtmp313 = input.readListBegin();
-        var _size12 = _rtmp313.size || 0;
-        for (var _i14 = 0; _i14 < _size12; ++_i14) {
-          var elem15 = null;
-          elem15 = new ttypes.VerificationError();
-          elem15.read(input);
-          this.verificationErrors.push(elem15);
+        var _rtmp328 = input.readListBegin();
+        var _size27 = _rtmp328.size || 0;
+        for (var _i29 = 0; _i29 < _size27; ++_i29) {
+          var elem30 = null;
+          elem30 = new ttypes.VerificationError();
+          elem30.read(input);
+          this.verificationErrors.push(elem30);
         }
         input.readListEnd();
       } else {
@@ -1199,8 +1217,8 @@ VerifyOptionStateResponse.prototype.read = function(input) {
   return;
 };
 
-VerifyOptionStateResponse.prototype.write = function(output) {
-  output.writeStructBegin('VerifyOptionStateResponse');
+UpdateOptionsStateResponse.prototype.write = function(output) {
+  output.writeStructBegin('UpdateOptionsStateResponse');
   if (this.sessionId !== null && this.sessionId !== undefined) {
     output.writeFieldBegin('sessionId', Thrift.Type.STRUCT, 1);
     this.sessionId.write(output);
@@ -1219,10 +1237,10 @@ VerifyOptionStateResponse.prototype.write = function(output) {
   if (this.verificationErrors !== null && this.verificationErrors !== undefined) {
     output.writeFieldBegin('verificationErrors', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRUCT, this.verificationErrors.length);
-    for (var iter16 in this.verificationErrors) {
-      if (this.verificationErrors.hasOwnProperty(iter16)) {
-        iter16 = this.verificationErrors[iter16];
-        iter16.write(output);
+    for (var iter31 in this.verificationErrors) {
+      if (this.verificationErrors.hasOwnProperty(iter31)) {
+        iter31 = this.verificationErrors[iter31];
+        iter31.write(output);
       }
     }
     output.writeListEnd();
@@ -1350,3 +1368,8 @@ CommitOptionStateResponse.prototype.write = function(output) {
 };
 
 ttypes.SERVICE_ID = 'com.iar.optionsservice';
+ttypes.BUILD_ACTION_BUILD_SEQUENCE_OPTION_ID = 'BUILDACTION.BuildActions.BuildSequence';
+ttypes.BUILD_ACTION_COMMAND_LINE_OPTION_ID = 'BUILDACTION.BuildActions.CommandLine';
+ttypes.BUILD_ACTION_DEPENDENCIES_OPTION_ID = 'BUILDACTION.BuildActions.Dependencies';
+ttypes.BUILD_ACTION_OUTPUTS_OPTION_ID = 'BUILDACTION.BuildActions.Outputs';
+ttypes.BUILD_ACTION_WORKING_DIRECTORY_OPTION_ID = 'BUILDACTION.BuildActions.WorkingDirectory';

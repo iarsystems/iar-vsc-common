@@ -160,7 +160,7 @@ declare class Symbol {
  * A context ref is a way to refer to, or address, a context. Context refs
  * are primarily sent from the UI to the debugger when performing operations
  * which require a context. The debugger will then have to obtain a DkContext
- * object explicity using the kernel client API.
+ * object explicitly using the kernel client API.
  */
 declare class ContextRef {
   public type: ContextType;
@@ -239,6 +239,55 @@ declare class Capabilities {
   public supportsEditorHighlight: boolean;
 
     constructor(args?: { supportsEditorHighlight: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class ExtraImage {
+  public image: string;
+  public offset: Int64;
+  public suppressDownload: boolean;
+
+    constructor(args?: { image: string; offset: Int64; suppressDownload: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class DownloadConfiguration {
+  public flashLoader: string;
+  public deviceMacros: string[];
+  public suppressAllDownloads: boolean;
+  public suppressProgramDownload: boolean;
+  public performMassErase: boolean;
+  public extraImages: ExtraImage[];
+  public verifyAllDownloads: boolean;
+
+    constructor(args?: { flashLoader: string; deviceMacros: string[]; suppressAllDownloads: boolean; suppressProgramDownload: boolean; performMassErase: boolean; extraImages: ExtraImage[]; verifyAllDownloads: boolean; });
+  read(input: Object): void;
+  write(input: Object): void;
+}
+
+declare class LaunchConfiguration {
+  public program: string;
+  public programArgs: string[];
+  public targetOrEmpty: string;
+  public processor: string;
+  public driverNameOrEmpty: string;
+  public driverLib: string;
+  public driverOptions: string[];
+  public setupMacros: string[];
+  public macroParams: { [k: string]: string; };
+  public plugins: string[];
+  public projectFilenameOrEmpty: string;
+  public projectDirOrEmpty: string;
+  public configNameOrEmpty: string;
+  public attachToTarget: boolean;
+  public handleCRunEvents: boolean;
+  public leaveTargetRunning: boolean;
+  public stopOnSymbol: string;
+  public download: DownloadConfiguration;
+
+    constructor(args?: { program: string; programArgs: string[]; targetOrEmpty: string; processor: string; driverNameOrEmpty: string; driverLib: string; driverOptions: string[]; setupMacros: string[]; macroParams: { [k: string]: string; }; plugins: string[]; projectFilenameOrEmpty: string; projectDirOrEmpty: string; configNameOrEmpty: string; attachToTarget: boolean; handleCRunEvents: boolean; leaveTargetRunning: boolean; stopOnSymbol: string; download: DownloadConfiguration; });
   read(input: Object): void;
   write(input: Object): void;
 }

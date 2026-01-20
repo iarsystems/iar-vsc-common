@@ -8,6 +8,7 @@ import Thrift = thrift.Thrift;
 import Q = thrift.Q;
 import Int64 = require('node-int64');
 import shared_ttypes = require('./shared_types');
+import projectmanager_ttypes = require('./projectmanager_types');
 
 
 
@@ -15,25 +16,6 @@ declare class OptionsServiceError extends Thrift.TException {
   public description: string;
 
     constructor(args?: { description: string; });
-  read(input: Object): void;
-  write(input: Object): void;
-}
-
-declare class CreateSessionRequest {
-  public projectPath: string;
-  public configurationName: string;
-  public showHiddenOptions: boolean;
-
-    constructor(args?: { projectPath: string; configurationName: string; showHiddenOptions: boolean; });
-  read(input: Object): void;
-  write(input: Object): void;
-}
-
-declare class CreateSessionResponse {
-  public sessionId: shared_ttypes.Id;
-  public success: shared_ttypes.Success;
-
-    constructor(args?: { sessionId: shared_ttypes.Id; success: shared_ttypes.Success; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -54,30 +36,24 @@ declare class CreateSessionWithDataRequest {
   write(input: Object): void;
 }
 
-/**
- * Defines the data needed for updating one specific option value
- * 
- * This data is used for updating one option to a given value, if possible.
- */
-declare class UpdateOptionValueRequest {
-  public sessionId: shared_ttypes.Id;
-  public optionId: string;
-  public newValue: string;
+declare class CreateSessionRequest {
+  public projectPath: string;
+  public configurationName: string;
+  public nodePathOrIndex: string;
+  public showHiddenOptions: boolean;
 
-    constructor(args?: { sessionId: shared_ttypes.Id; optionId: string; newValue: string; });
+    constructor(args?: { projectPath: string; configurationName: string; nodePathOrIndex: string; showHiddenOptions: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
 
-/**
- * Defines the response for setting an option value
- */
-declare class UpdateOptionValueResponse {
+declare class CreateSessionResponse {
   public sessionId: shared_ttypes.Id;
-  public result: shared_ttypes.Success;
-  public optionId: string;
+  public success: shared_ttypes.Success;
+  public context: projectmanager_ttypes.ProjectContext;
+  public readOnly: boolean;
 
-    constructor(args?: { sessionId: shared_ttypes.Id; result: shared_ttypes.Success; optionId: string; });
+    constructor(args?: { sessionId: shared_ttypes.Id; success: shared_ttypes.Success; context: projectmanager_ttypes.ProjectContext; readOnly: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -148,8 +124,10 @@ declare class GetOptionTreeResponse {
 declare class OptionValue {
   public optionDefinitionId: string;
   public data: string;
+  public children: OptionValue[];
+  public inherited: boolean;
 
-    constructor(args?: { optionDefinitionId: string; data: string; });
+    constructor(args?: { optionDefinitionId: string; data: string; children: OptionValue[]; inherited: boolean; });
   read(input: Object): void;
   write(input: Object): void;
 }
@@ -163,16 +141,19 @@ declare class VerificationError {
   write(input: Object): void;
 }
 
-declare class VerifyOptionStateRequest {
+declare class UpdateOptionsStateRequest {
   public sessionId: shared_ttypes.Id;
-  public optionValues: OptionValue[];
+  public treeId: shared_ttypes.Id;
+  public createdOptionValues: OptionValue[];
+  public updatedOptionValues: OptionValue[];
+  public deletedOptionValues: OptionValue[];
 
-    constructor(args?: { sessionId: shared_ttypes.Id; optionValues: OptionValue[]; });
+    constructor(args?: { sessionId: shared_ttypes.Id; treeId: shared_ttypes.Id; createdOptionValues: OptionValue[]; updatedOptionValues: OptionValue[]; deletedOptionValues: OptionValue[]; });
   read(input: Object): void;
   write(input: Object): void;
 }
 
-declare class VerifyOptionStateResponse {
+declare class UpdateOptionsStateResponse {
   public sessionId: shared_ttypes.Id;
   public tree: Tree;
   public success: shared_ttypes.Success;
@@ -201,3 +182,13 @@ declare class CommitOptionStateResponse {
 }
 
 declare var SERVICE_ID: string;
+
+declare var BUILD_ACTION_BUILD_SEQUENCE_OPTION_ID: string;
+
+declare var BUILD_ACTION_COMMAND_LINE_OPTION_ID: string;
+
+declare var BUILD_ACTION_DEPENDENCIES_OPTION_ID: string;
+
+declare var BUILD_ACTION_OUTPUTS_OPTION_ID: string;
+
+declare var BUILD_ACTION_WORKING_DIRECTORY_OPTION_ID: string;

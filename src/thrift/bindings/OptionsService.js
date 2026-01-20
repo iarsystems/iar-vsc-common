@@ -11,112 +11,11 @@ var Q = thrift.Q;
 var Int64 = require('node-int64');
 
 var shared_ttypes = require('./shared_types');
+var projectmanager_ttypes = require('./projectmanager_types');
 
 
 var ttypes = require('./OptionsService_types');
 //HELPER FUNCTIONS AND STRUCTURES
-
-var OptionsService_CreateSession_args = function(args) {
-  this.request = null;
-  if (args) {
-    if (args.request !== undefined && args.request !== null) {
-      this.request = new ttypes.CreateSessionRequest(args.request);
-    }
-  }
-};
-OptionsService_CreateSession_args.prototype = {};
-OptionsService_CreateSession_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.request = new ttypes.CreateSessionRequest();
-        this.request.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-OptionsService_CreateSession_args.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_CreateSession_args');
-  if (this.request !== null && this.request !== undefined) {
-    output.writeFieldBegin('request', Thrift.Type.STRUCT, 1);
-    this.request.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var OptionsService_CreateSession_result = function(args) {
-  this.success = null;
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = new ttypes.CreateSessionResponse(args.success);
-    }
-  }
-};
-OptionsService_CreateSession_result.prototype = {};
-OptionsService_CreateSession_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 0:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new ttypes.CreateSessionResponse();
-        this.success.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-OptionsService_CreateSession_result.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_CreateSession_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
-    this.success.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
 
 var OptionsService_CreateSessionWithData_args = function(args) {
   this.request = null;
@@ -220,16 +119,16 @@ OptionsService_CreateSessionWithData_result.prototype.write = function(output) {
   return;
 };
 
-var OptionsService_UpdateOptionValue_args = function(args) {
+var OptionsService_CreateSession_args = function(args) {
   this.request = null;
   if (args) {
     if (args.request !== undefined && args.request !== null) {
-      this.request = new ttypes.UpdateOptionValueRequest(args.request);
+      this.request = new ttypes.CreateSessionRequest(args.request);
     }
   }
 };
-OptionsService_UpdateOptionValue_args.prototype = {};
-OptionsService_UpdateOptionValue_args.prototype.read = function(input) {
+OptionsService_CreateSession_args.prototype = {};
+OptionsService_CreateSession_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -241,7 +140,7 @@ OptionsService_UpdateOptionValue_args.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.request = new ttypes.UpdateOptionValueRequest();
+        this.request = new ttypes.CreateSessionRequest();
         this.request.read(input);
       } else {
         input.skip(ftype);
@@ -259,8 +158,8 @@ OptionsService_UpdateOptionValue_args.prototype.read = function(input) {
   return;
 };
 
-OptionsService_UpdateOptionValue_args.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_UpdateOptionValue_args');
+OptionsService_CreateSession_args.prototype.write = function(output) {
+  output.writeStructBegin('OptionsService_CreateSession_args');
   if (this.request !== null && this.request !== undefined) {
     output.writeFieldBegin('request', Thrift.Type.STRUCT, 1);
     this.request.write(output);
@@ -271,16 +170,16 @@ OptionsService_UpdateOptionValue_args.prototype.write = function(output) {
   return;
 };
 
-var OptionsService_UpdateOptionValue_result = function(args) {
+var OptionsService_CreateSession_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new ttypes.UpdateOptionValueResponse(args.success);
+      this.success = new ttypes.CreateSessionResponse(args.success);
     }
   }
 };
-OptionsService_UpdateOptionValue_result.prototype = {};
-OptionsService_UpdateOptionValue_result.prototype.read = function(input) {
+OptionsService_CreateSession_result.prototype = {};
+OptionsService_CreateSession_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -292,7 +191,7 @@ OptionsService_UpdateOptionValue_result.prototype.read = function(input) {
     switch (fid) {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new ttypes.UpdateOptionValueResponse();
+        this.success = new ttypes.CreateSessionResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -310,8 +209,8 @@ OptionsService_UpdateOptionValue_result.prototype.read = function(input) {
   return;
 };
 
-OptionsService_UpdateOptionValue_result.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_UpdateOptionValue_result');
+OptionsService_CreateSession_result.prototype.write = function(output) {
+  output.writeStructBegin('OptionsService_CreateSession_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
     this.success.write(output);
@@ -628,16 +527,16 @@ OptionsService_GetOptionTree_result.prototype.write = function(output) {
   return;
 };
 
-var OptionsService_VerifyOptionState_args = function(args) {
-  this.verifyOptionStateRequest = null;
+var OptionsService_UpdateOptionsState_args = function(args) {
+  this.updateOptionsStateRequest = null;
   if (args) {
-    if (args.verifyOptionStateRequest !== undefined && args.verifyOptionStateRequest !== null) {
-      this.verifyOptionStateRequest = new ttypes.VerifyOptionStateRequest(args.verifyOptionStateRequest);
+    if (args.updateOptionsStateRequest !== undefined && args.updateOptionsStateRequest !== null) {
+      this.updateOptionsStateRequest = new ttypes.UpdateOptionsStateRequest(args.updateOptionsStateRequest);
     }
   }
 };
-OptionsService_VerifyOptionState_args.prototype = {};
-OptionsService_VerifyOptionState_args.prototype.read = function(input) {
+OptionsService_UpdateOptionsState_args.prototype = {};
+OptionsService_UpdateOptionsState_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -649,8 +548,8 @@ OptionsService_VerifyOptionState_args.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.verifyOptionStateRequest = new ttypes.VerifyOptionStateRequest();
-        this.verifyOptionStateRequest.read(input);
+        this.updateOptionsStateRequest = new ttypes.UpdateOptionsStateRequest();
+        this.updateOptionsStateRequest.read(input);
       } else {
         input.skip(ftype);
       }
@@ -667,11 +566,11 @@ OptionsService_VerifyOptionState_args.prototype.read = function(input) {
   return;
 };
 
-OptionsService_VerifyOptionState_args.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_VerifyOptionState_args');
-  if (this.verifyOptionStateRequest !== null && this.verifyOptionStateRequest !== undefined) {
-    output.writeFieldBegin('verifyOptionStateRequest', Thrift.Type.STRUCT, 1);
-    this.verifyOptionStateRequest.write(output);
+OptionsService_UpdateOptionsState_args.prototype.write = function(output) {
+  output.writeStructBegin('OptionsService_UpdateOptionsState_args');
+  if (this.updateOptionsStateRequest !== null && this.updateOptionsStateRequest !== undefined) {
+    output.writeFieldBegin('updateOptionsStateRequest', Thrift.Type.STRUCT, 1);
+    this.updateOptionsStateRequest.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -679,16 +578,16 @@ OptionsService_VerifyOptionState_args.prototype.write = function(output) {
   return;
 };
 
-var OptionsService_VerifyOptionState_result = function(args) {
+var OptionsService_UpdateOptionsState_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new ttypes.VerifyOptionStateResponse(args.success);
+      this.success = new ttypes.UpdateOptionsStateResponse(args.success);
     }
   }
 };
-OptionsService_VerifyOptionState_result.prototype = {};
-OptionsService_VerifyOptionState_result.prototype.read = function(input) {
+OptionsService_UpdateOptionsState_result.prototype = {};
+OptionsService_UpdateOptionsState_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -700,7 +599,7 @@ OptionsService_VerifyOptionState_result.prototype.read = function(input) {
     switch (fid) {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new ttypes.VerifyOptionStateResponse();
+        this.success = new ttypes.UpdateOptionsStateResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -718,8 +617,8 @@ OptionsService_VerifyOptionState_result.prototype.read = function(input) {
   return;
 };
 
-OptionsService_VerifyOptionState_result.prototype.write = function(output) {
-  output.writeStructBegin('OptionsService_VerifyOptionState_result');
+OptionsService_UpdateOptionsState_result.prototype.write = function(output) {
+  output.writeStructBegin('OptionsService_UpdateOptionsState_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
     this.success.write(output);
@@ -842,65 +741,6 @@ OptionsServiceClient.prototype = {};
 OptionsServiceClient.prototype.seqid = function() { return this._seqid; };
 OptionsServiceClient.prototype.new_seqid = function() { return this._seqid += 1; };
 
-OptionsServiceClient.prototype.CreateSession = function(request, callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_CreateSession(request);
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_CreateSession(request);
-  }
-};
-
-OptionsServiceClient.prototype.send_CreateSession = function(request) {
-  var output = new this.pClass(this.output);
-  var params = {
-    request: request
-  };
-  var args = new OptionsService_CreateSession_args(params);
-  try {
-    output.writeMessageBegin('CreateSession', Thrift.MessageType.CALL, this.seqid());
-    args.write(output);
-    output.writeMessageEnd();
-    return this.output.flush();
-  }
-  catch (e) {
-    delete this._reqs[this.seqid()];
-    if (typeof output.reset === 'function') {
-      output.reset();
-    }
-    throw e;
-  }
-};
-
-OptionsServiceClient.prototype.recv_CreateSession = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new OptionsService_CreateSession_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  if (null !== result.success) {
-    return callback(null, result.success);
-  }
-  return callback('CreateSession failed: unknown result');
-};
-
 OptionsServiceClient.prototype.CreateSessionWithData = function(request, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -960,7 +800,7 @@ OptionsServiceClient.prototype.recv_CreateSessionWithData = function(input,mtype
   return callback('CreateSessionWithData failed: unknown result');
 };
 
-OptionsServiceClient.prototype.UpdateOptionValue = function(request, callback) {
+OptionsServiceClient.prototype.CreateSession = function(request, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -971,22 +811,22 @@ OptionsServiceClient.prototype.UpdateOptionValue = function(request, callback) {
         _defer.resolve(result);
       }
     };
-    this.send_UpdateOptionValue(request);
+    this.send_CreateSession(request);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_UpdateOptionValue(request);
+    this.send_CreateSession(request);
   }
 };
 
-OptionsServiceClient.prototype.send_UpdateOptionValue = function(request) {
+OptionsServiceClient.prototype.send_CreateSession = function(request) {
   var output = new this.pClass(this.output);
   var params = {
     request: request
   };
-  var args = new OptionsService_UpdateOptionValue_args(params);
+  var args = new OptionsService_CreateSession_args(params);
   try {
-    output.writeMessageBegin('UpdateOptionValue', Thrift.MessageType.CALL, this.seqid());
+    output.writeMessageBegin('CreateSession', Thrift.MessageType.CALL, this.seqid());
     args.write(output);
     output.writeMessageEnd();
     return this.output.flush();
@@ -1000,7 +840,7 @@ OptionsServiceClient.prototype.send_UpdateOptionValue = function(request) {
   }
 };
 
-OptionsServiceClient.prototype.recv_UpdateOptionValue = function(input,mtype,rseqid) {
+OptionsServiceClient.prototype.recv_CreateSession = function(input,mtype,rseqid) {
   var callback = this._reqs[rseqid] || function() {};
   delete this._reqs[rseqid];
   if (mtype == Thrift.MessageType.EXCEPTION) {
@@ -1009,14 +849,14 @@ OptionsServiceClient.prototype.recv_UpdateOptionValue = function(input,mtype,rse
     input.readMessageEnd();
     return callback(x);
   }
-  var result = new OptionsService_UpdateOptionValue_result();
+  var result = new OptionsService_CreateSession_result();
   result.read(input);
   input.readMessageEnd();
 
   if (null !== result.success) {
     return callback(null, result.success);
   }
-  return callback('UpdateOptionValue failed: unknown result');
+  return callback('CreateSession failed: unknown result');
 };
 
 OptionsServiceClient.prototype.DestroySession = function(destroySessionRequest, callback) {
@@ -1196,7 +1036,7 @@ OptionsServiceClient.prototype.recv_GetOptionTree = function(input,mtype,rseqid)
   return callback('GetOptionTree failed: unknown result');
 };
 
-OptionsServiceClient.prototype.VerifyOptionState = function(verifyOptionStateRequest, callback) {
+OptionsServiceClient.prototype.UpdateOptionsState = function(updateOptionsStateRequest, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -1207,22 +1047,22 @@ OptionsServiceClient.prototype.VerifyOptionState = function(verifyOptionStateReq
         _defer.resolve(result);
       }
     };
-    this.send_VerifyOptionState(verifyOptionStateRequest);
+    this.send_UpdateOptionsState(updateOptionsStateRequest);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_VerifyOptionState(verifyOptionStateRequest);
+    this.send_UpdateOptionsState(updateOptionsStateRequest);
   }
 };
 
-OptionsServiceClient.prototype.send_VerifyOptionState = function(verifyOptionStateRequest) {
+OptionsServiceClient.prototype.send_UpdateOptionsState = function(updateOptionsStateRequest) {
   var output = new this.pClass(this.output);
   var params = {
-    verifyOptionStateRequest: verifyOptionStateRequest
+    updateOptionsStateRequest: updateOptionsStateRequest
   };
-  var args = new OptionsService_VerifyOptionState_args(params);
+  var args = new OptionsService_UpdateOptionsState_args(params);
   try {
-    output.writeMessageBegin('VerifyOptionState', Thrift.MessageType.CALL, this.seqid());
+    output.writeMessageBegin('UpdateOptionsState', Thrift.MessageType.CALL, this.seqid());
     args.write(output);
     output.writeMessageEnd();
     return this.output.flush();
@@ -1236,7 +1076,7 @@ OptionsServiceClient.prototype.send_VerifyOptionState = function(verifyOptionSta
   }
 };
 
-OptionsServiceClient.prototype.recv_VerifyOptionState = function(input,mtype,rseqid) {
+OptionsServiceClient.prototype.recv_UpdateOptionsState = function(input,mtype,rseqid) {
   var callback = this._reqs[rseqid] || function() {};
   delete this._reqs[rseqid];
   if (mtype == Thrift.MessageType.EXCEPTION) {
@@ -1245,14 +1085,14 @@ OptionsServiceClient.prototype.recv_VerifyOptionState = function(input,mtype,rse
     input.readMessageEnd();
     return callback(x);
   }
-  var result = new OptionsService_VerifyOptionState_result();
+  var result = new OptionsService_UpdateOptionsState_result();
   result.read(input);
   input.readMessageEnd();
 
   if (null !== result.success) {
     return callback(null, result.success);
   }
-  return callback('VerifyOptionState failed: unknown result');
+  return callback('UpdateOptionsState failed: unknown result');
 };
 
 OptionsServiceClient.prototype.CommitOptionState = function(commitOptionStateRequest, callback) {
@@ -1330,43 +1170,6 @@ OptionsServiceProcessor.prototype.process = function(input, output) {
     output.flush();
   }
 };
-OptionsServiceProcessor.prototype.process_CreateSession = function(seqid, input, output) {
-  var args = new OptionsService_CreateSession_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.CreateSession.length === 1) {
-    Q.fcall(this._handler.CreateSession.bind(this._handler),
-      args.request
-    ).then(function(result) {
-      var result_obj = new OptionsService_CreateSession_result({success: result});
-      output.writeMessageBegin("CreateSession", Thrift.MessageType.REPLY, seqid);
-      result_obj.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    }).catch(function (err) {
-      var result;
-      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-      output.writeMessageBegin("CreateSession", Thrift.MessageType.EXCEPTION, seqid);
-      result.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  } else {
-    this._handler.CreateSession(args.request, function (err, result) {
-      var result_obj;
-      if ((err === null || typeof err === 'undefined')) {
-        result_obj = new OptionsService_CreateSession_result((err !== null || typeof err === 'undefined') ? err : {success: result});
-        output.writeMessageBegin("CreateSession", Thrift.MessageType.REPLY, seqid);
-      } else {
-        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("CreateSession", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result_obj.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-};
 OptionsServiceProcessor.prototype.process_CreateSessionWithData = function(seqid, input, output) {
   var args = new OptionsService_CreateSessionWithData_args();
   args.read(input);
@@ -1404,36 +1207,36 @@ OptionsServiceProcessor.prototype.process_CreateSessionWithData = function(seqid
     });
   }
 };
-OptionsServiceProcessor.prototype.process_UpdateOptionValue = function(seqid, input, output) {
-  var args = new OptionsService_UpdateOptionValue_args();
+OptionsServiceProcessor.prototype.process_CreateSession = function(seqid, input, output) {
+  var args = new OptionsService_CreateSession_args();
   args.read(input);
   input.readMessageEnd();
-  if (this._handler.UpdateOptionValue.length === 1) {
-    Q.fcall(this._handler.UpdateOptionValue.bind(this._handler),
+  if (this._handler.CreateSession.length === 1) {
+    Q.fcall(this._handler.CreateSession.bind(this._handler),
       args.request
     ).then(function(result) {
-      var result_obj = new OptionsService_UpdateOptionValue_result({success: result});
-      output.writeMessageBegin("UpdateOptionValue", Thrift.MessageType.REPLY, seqid);
+      var result_obj = new OptionsService_CreateSession_result({success: result});
+      output.writeMessageBegin("CreateSession", Thrift.MessageType.REPLY, seqid);
       result_obj.write(output);
       output.writeMessageEnd();
       output.flush();
     }).catch(function (err) {
       var result;
       result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-      output.writeMessageBegin("UpdateOptionValue", Thrift.MessageType.EXCEPTION, seqid);
+      output.writeMessageBegin("CreateSession", Thrift.MessageType.EXCEPTION, seqid);
       result.write(output);
       output.writeMessageEnd();
       output.flush();
     });
   } else {
-    this._handler.UpdateOptionValue(args.request, function (err, result) {
+    this._handler.CreateSession(args.request, function (err, result) {
       var result_obj;
       if ((err === null || typeof err === 'undefined')) {
-        result_obj = new OptionsService_UpdateOptionValue_result((err !== null || typeof err === 'undefined') ? err : {success: result});
-        output.writeMessageBegin("UpdateOptionValue", Thrift.MessageType.REPLY, seqid);
+        result_obj = new OptionsService_CreateSession_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("CreateSession", Thrift.MessageType.REPLY, seqid);
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("UpdateOptionValue", Thrift.MessageType.EXCEPTION, seqid);
+        output.writeMessageBegin("CreateSession", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();
@@ -1552,36 +1355,36 @@ OptionsServiceProcessor.prototype.process_GetOptionTree = function(seqid, input,
     });
   }
 };
-OptionsServiceProcessor.prototype.process_VerifyOptionState = function(seqid, input, output) {
-  var args = new OptionsService_VerifyOptionState_args();
+OptionsServiceProcessor.prototype.process_UpdateOptionsState = function(seqid, input, output) {
+  var args = new OptionsService_UpdateOptionsState_args();
   args.read(input);
   input.readMessageEnd();
-  if (this._handler.VerifyOptionState.length === 1) {
-    Q.fcall(this._handler.VerifyOptionState.bind(this._handler),
-      args.verifyOptionStateRequest
+  if (this._handler.UpdateOptionsState.length === 1) {
+    Q.fcall(this._handler.UpdateOptionsState.bind(this._handler),
+      args.updateOptionsStateRequest
     ).then(function(result) {
-      var result_obj = new OptionsService_VerifyOptionState_result({success: result});
-      output.writeMessageBegin("VerifyOptionState", Thrift.MessageType.REPLY, seqid);
+      var result_obj = new OptionsService_UpdateOptionsState_result({success: result});
+      output.writeMessageBegin("UpdateOptionsState", Thrift.MessageType.REPLY, seqid);
       result_obj.write(output);
       output.writeMessageEnd();
       output.flush();
     }).catch(function (err) {
       var result;
       result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-      output.writeMessageBegin("VerifyOptionState", Thrift.MessageType.EXCEPTION, seqid);
+      output.writeMessageBegin("UpdateOptionsState", Thrift.MessageType.EXCEPTION, seqid);
       result.write(output);
       output.writeMessageEnd();
       output.flush();
     });
   } else {
-    this._handler.VerifyOptionState(args.verifyOptionStateRequest, function (err, result) {
+    this._handler.UpdateOptionsState(args.updateOptionsStateRequest, function (err, result) {
       var result_obj;
       if ((err === null || typeof err === 'undefined')) {
-        result_obj = new OptionsService_VerifyOptionState_result((err !== null || typeof err === 'undefined') ? err : {success: result});
-        output.writeMessageBegin("VerifyOptionState", Thrift.MessageType.REPLY, seqid);
+        result_obj = new OptionsService_UpdateOptionsState_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("UpdateOptionsState", Thrift.MessageType.REPLY, seqid);
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("VerifyOptionState", Thrift.MessageType.EXCEPTION, seqid);
+        output.writeMessageBegin("UpdateOptionsState", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

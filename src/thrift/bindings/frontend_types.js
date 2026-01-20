@@ -69,7 +69,9 @@ ttypes.FileDialogOptions = {
   '2' : 'kPathMustExist',
   'kPathMustExist' : 2,
   '3' : 'kAllowReturningReadOnlyFile',
-  'kAllowReturningReadOnlyFile' : 3
+  'kAllowReturningReadOnlyFile' : 3,
+  '4' : 'kDontResolveSymlinks',
+  'kDontResolveSymlinks' : 4
 };
 ttypes.GenericDialogReturnType = {
   '0' : 'kOk',

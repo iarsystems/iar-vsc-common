@@ -13,6 +13,7 @@ import shared_ttypes = require('./shared_types');
 
 
 import ttypes = require('./projectmanager_types');
+import ProjectManagerErrorType = ttypes.ProjectManagerErrorType
 import ToolType = ttypes.ToolType
 import InvocationType = ttypes.InvocationType
 import NodeType = ttypes.NodeType
@@ -42,6 +43,7 @@ import UserArgVarInfo = ttypes.UserArgVarInfo
 import UserArgVarGroupInfo = ttypes.UserArgVarGroupInfo
 import ExternalTool = ttypes.ExternalTool
 import WizardPlugin = ttypes.WizardPlugin
+import DebugLauncherInfo = ttypes.DebugLauncherInfo
 import HeartbeatService = require('./HeartbeatService');
 
 /**
@@ -95,6 +97,16 @@ declare class Client extends HeartbeatService.Client {
    * Supplying an empty path will create an empty workspace and not attempt to load anything.
    */
   LoadEwwFile(file_path: string, callback?: (error: ttypes.ProjectManagerError, response: WorkspaceContext)=>void): void;
+
+  /**
+   * Check if a workspace exists
+   */
+  HasWorkspace(): Q.Promise<boolean>;
+
+  /**
+   * Check if a workspace exists
+   */
+  HasWorkspace(callback?: (error: void, response: boolean)=>void): void;
 
   /**
    * Returns true is there is cached data that is not saved.
@@ -281,6 +293,16 @@ declare class Client extends HeartbeatService.Client {
   SetModified(project: ProjectContext, modified: boolean, callback?: (error: void, response: boolean)=>void): void;
 
   /**
+   * Returns true if the given configuration is busy and is not allowed to be modified *
+   */
+  IsLocked(project: ProjectContext, configurationName: string): Q.Promise<boolean>;
+
+  /**
+   * Returns true if the given configuration is busy and is not allowed to be modified *
+   */
+  IsLocked(project: ProjectContext, configurationName: string, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
    * Returns true if the given file is a member of current project.
    */
   IsMemberOfCurrentProject(file_path: string): Q.Promise<boolean>;
@@ -301,12 +323,14 @@ declare class Client extends HeartbeatService.Client {
   FindMatchingHeaderOrSourceFile(file_path: string, callback?: (error: void, response: string[])=>void): void;
 
   /**
-   * Get existing project context given file path
+   * Get existing project context given file path.
+   * Throws a ProjectManagerError if the project has not been previously loaded
    */
   GetProject(file_path: string): Q.Promise<ProjectContext>;
 
   /**
-   * Get existing project context given file path
+   * Get existing project context given file path.
+   * Throws a ProjectManagerError if the project has not been previously loaded
    */
   GetProject(file_path: string, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
 
@@ -447,6 +471,20 @@ declare class Client extends HeartbeatService.Client {
   CreateConfigWorkingCopy(project: ProjectContext, originalConfigName: string, callback?: (error: void, response: string)=>void): void;
 
   /**
+   * Create a working copy of a node local settings in an existing configuration, for use in interactive editing.
+   * Working copies only exist in memory and are only persisted when applied to their original config.
+   * @return a unique working copy id, to be used in ApplyConfigWorkingCopy and DiscardConfigWorkingCopy
+   */
+  CreateConfigNodeWorkingCopy(project: ProjectContext, originalConfigName: string, node: Node): Q.Promise<string>;
+
+  /**
+   * Create a working copy of a node local settings in an existing configuration, for use in interactive editing.
+   * Working copies only exist in memory and are only persisted when applied to their original config.
+   * @return a unique working copy id, to be used in ApplyConfigWorkingCopy and DiscardConfigWorkingCopy
+   */
+  CreateConfigNodeWorkingCopy(project: ProjectContext, originalConfigName: string, node: Node, callback?: (error: void, response: string)=>void): void;
+
+  /**
    * Apply the changes of a configuration working copy to its original configuration
    */
   ApplyConfigWorkingCopy(project: ProjectContext, workingCopyId: string): Q.Promise<void>;
@@ -517,14 +555,24 @@ declare class Client extends HeartbeatService.Client {
   SetNode(ctx: ProjectContext, node: Node, callback?: (error: void, response: void)=>void): void;
 
   /**
-   * If the node is not part of the project, returned node has type == Invalid.
+   * If the node is not part of the project, or if the project cannot be found, the returned node has type == Invalid.
    */
   GetNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[]): Q.Promise<Node>;
 
   /**
-   * If the node is not part of the project, returned node has type == Invalid.
+   * If the node is not part of the project, or if the project cannot be found, the returned node has type == Invalid.
    */
   GetNodeByIndex(ctx: ProjectContext, nodeIndexPath: Int64[], callback?: (error: void, response: Node)=>void): void;
+
+  /**
+   * If the node is not part of the project, returned node has type == Invalid.
+   */
+  GetNodeByIndexAndConfig(ctx: ProjectContext, nodeIndexPath: Int64[], configName: string): Q.Promise<Node>;
+
+  /**
+   * If the node is not part of the project, returned node has type == Invalid.
+   */
+  GetNodeByIndexAndConfig(ctx: ProjectContext, nodeIndexPath: Int64[], configName: string, callback?: (error: void, response: Node)=>void): void;
 
   /**
    * If the node is not part of the project an exception is thrown.
@@ -898,6 +946,10 @@ declare class Client extends HeartbeatService.Client {
    */
   GetToolArgumentsForConfiguration(prj: ProjectContext, toolId: string, configurationName: string, callback?: (error: void, response: string[])=>void): void;
 
+  GetLaunchConfigurationForConfiguration(prj: ProjectContext, configurationName: string): Q.Promise<shared_ttypes.LaunchConfiguration>;
+
+  GetLaunchConfigurationForConfiguration(prj: ProjectContext, configurationName: string, callback?: (error: ttypes.ProjectManagerError, response: shared_ttypes.LaunchConfiguration)=>void): void;
+
   /**
    * Expand all argument variables ('argvar' e.g. $TOOLKIT_DIR$) in the provided input string,
    * given the current workspace and provided project and build configuration
@@ -976,6 +1028,14 @@ declare class Client extends HeartbeatService.Client {
 
   ConfigureExternalProject(prj: ProjectContext, force: boolean, callback?: (error: void, response: boolean)=>void): void;
 
+  SelectAndAttachCMakeBuildDir(prj: ProjectContext): Q.Promise<boolean>;
+
+  SelectAndAttachCMakeBuildDir(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+
+  SelectAndImportCMakeLists(prj: ProjectContext): Q.Promise<boolean>;
+
+  SelectAndImportCMakeLists(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+
   /**
    * Add a control file for a specific plugin. Throws if:
    * 1. The supplied plugin does not exist.
@@ -999,6 +1059,26 @@ declare class Client extends HeartbeatService.Client {
    * Check if the project has a control file node registered for a given plugin.
    */
   HasControlFileFor(prj: ProjectContext, pluginId: string, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Check if the project is a CMake project
+   */
+  IsCMakeProject(prj: ProjectContext): Q.Promise<boolean>;
+
+  /**
+   * Check if the project is a CMake project
+   */
+  IsCMakeProject(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Check if the project is an empty CMake project
+   */
+  IsEmptyCMakeProject(prj: ProjectContext): Q.Promise<boolean>;
+
+  /**
+   * Check if the project is an empty CMake project
+   */
+  IsEmptyCMakeProject(prj: ProjectContext, callback?: (error: void, response: boolean)=>void): void;
 
   /**
    * Check if project connection is enabled.
@@ -1123,14 +1203,16 @@ declare class Client extends HeartbeatService.Client {
   GetWizards(toolchainId: string, callback?: (error: void, response: WizardPlugin[])=>void): void;
 
   /**
-   * Run a wizard
+   * Create a project by running a wizard
+   * Throws a ProjectManagerError if the wizard failed to create a project.
    */
   RunWizard(wizard: WizardPlugin): Q.Promise<ProjectContext>;
 
   /**
-   * Run a wizard
+   * Create a project by running a wizard
+   * Throws a ProjectManagerError if the wizard failed to create a project.
    */
-  RunWizard(wizard: WizardPlugin, callback?: (error: void, response: ProjectContext)=>void): void;
+  RunWizard(wizard: WizardPlugin, callback?: (error: ttypes.ProjectManagerError, response: ProjectContext)=>void): void;
 
   GetGlobalOptions(): Q.Promise<OptionDescription[]>;
 
@@ -1185,6 +1267,34 @@ declare class Client extends HeartbeatService.Client {
    * Set the project folder aliases to be used when resolving the file-to-file alias mapping.
    */
   SetProjectFolderAliases(prj: ProjectContext, aliases: { [k: string]: string; }, forceUpdate: boolean, callback?: (error: void, response: boolean)=>void): void;
+
+  /**
+   * Check if the given configuration has a launch file specified
+   */
+  GetDebugLauncherInfo(prj: ProjectContext, configuration: Configuration): Q.Promise<DebugLauncherInfo>;
+
+  /**
+   * Check if the given configuration has a launch file specified
+   */
+  GetDebugLauncherInfo(prj: ProjectContext, configuration: Configuration, callback?: (error: ttypes.ProjectManagerError, response: DebugLauncherInfo)=>void): void;
+
+  /**
+   * Reload the current launch file if one is provided. Throws if the reload fails or if no launch file has been specified
+   */
+  ReloadLaunchFile(prj: ProjectContext, configuration: Configuration): Q.Promise<void>;
+
+  /**
+   * Reload the current launch file if one is provided. Throws if the reload fails or if no launch file has been specified
+   */
+  ReloadLaunchFile(prj: ProjectContext, configuration: Configuration, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  SetCMakeDebugTarget(prj: ProjectContext, target: string): Q.Promise<void>;
+
+  SetCMakeDebugTarget(prj: ProjectContext, target: string, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+  GetCMakeDebugTarget(prj: ProjectContext): Q.Promise<string>;
+
+  GetCMakeDebugTarget(prj: ProjectContext, callback?: (error: ttypes.ProjectManagerError, response: string)=>void): void;
 }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -1195,6 +1305,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_CreateEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_DisableAutoDataStoring(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_LoadEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_HasWorkspace(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsWorkspaceModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwwFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SaveEwwFileAs(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1213,6 +1324,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_ImportProjectFiles(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetModified(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_IsLocked(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsMemberOfCurrentProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_FindMatchingHeaderOrSourceFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1229,6 +1341,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_SetCurrentConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetCurrentConfigurations(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_CreateConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_CreateConfigNodeWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ApplyConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_DiscardConfigWorkingCopy(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetDesktopPathParameters(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1237,6 +1350,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetRootNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetNode(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetNodeByIndexAndConfig(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_RemoveNodeByIndex(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1271,6 +1385,7 @@ declare class Processor extends HeartbeatService.Processor {
   process_IsMultiFileCompilationEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsMultiFileDiscardPublicSymbolsEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetToolArgumentsForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetLaunchConfigurationForConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ExpandArgVars(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetPresentationForOptionsAsJson(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_UpdateProjectConnections(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1280,8 +1395,12 @@ declare class Processor extends HeartbeatService.Processor {
   process_IsExternalProjectUpToDate(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SynchonizeExternalProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_ConfigureExternalProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SelectAndAttachCMakeBuildDir(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SelectAndImportCMakeLists(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_AddControlFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_HasControlFileFor(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_IsCMakeProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_IsEmptyCMakeProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_IsProjectConnectionsEnabled(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetControlFilePlugins(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetOptionsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
@@ -1301,4 +1420,8 @@ declare class Processor extends HeartbeatService.Processor {
   process_GetProjectAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_GetProjectFolderAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
   process_SetProjectFolderAliases(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetDebugLauncherInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_ReloadLaunchFile(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_SetCMakeDebugTarget(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+  process_GetCMakeDebugTarget(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

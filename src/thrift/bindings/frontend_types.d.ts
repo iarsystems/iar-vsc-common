@@ -69,6 +69,7 @@ declare enum FileDialogOptions {
   kFileMustExist = 1,
   kPathMustExist = 2,
   kAllowReturningReadOnlyFile = 3,
+  kDontResolveSymlinks = 4,
 }
 
 declare enum GenericDialogReturnType {

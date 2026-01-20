@@ -1579,3 +1579,654 @@ Capabilities.prototype.write = function(output) {
   return;
 };
 
+var ExtraImage = module.exports.ExtraImage = function(args) {
+  this.image = null;
+  this.offset = null;
+  this.suppressDownload = null;
+  if (args) {
+    if (args.image !== undefined && args.image !== null) {
+      this.image = args.image;
+    }
+    if (args.offset !== undefined && args.offset !== null) {
+      this.offset = args.offset;
+    }
+    if (args.suppressDownload !== undefined && args.suppressDownload !== null) {
+      this.suppressDownload = args.suppressDownload;
+    }
+  }
+};
+ExtraImage.prototype = {};
+ExtraImage.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.image = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I64) {
+        this.offset = input.readI64();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.suppressDownload = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ExtraImage.prototype.write = function(output) {
+  output.writeStructBegin('ExtraImage');
+  if (this.image !== null && this.image !== undefined) {
+    output.writeFieldBegin('image', Thrift.Type.STRING, 1);
+    output.writeString(this.image);
+    output.writeFieldEnd();
+  }
+  if (this.offset !== null && this.offset !== undefined) {
+    output.writeFieldBegin('offset', Thrift.Type.I64, 2);
+    output.writeI64(this.offset);
+    output.writeFieldEnd();
+  }
+  if (this.suppressDownload !== null && this.suppressDownload !== undefined) {
+    output.writeFieldBegin('suppressDownload', Thrift.Type.BOOL, 3);
+    output.writeBool(this.suppressDownload);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var DownloadConfiguration = module.exports.DownloadConfiguration = function(args) {
+  this.flashLoader = null;
+  this.deviceMacros = null;
+  this.suppressAllDownloads = null;
+  this.suppressProgramDownload = null;
+  this.performMassErase = null;
+  this.extraImages = null;
+  this.verifyAllDownloads = null;
+  if (args) {
+    if (args.flashLoader !== undefined && args.flashLoader !== null) {
+      this.flashLoader = args.flashLoader;
+    }
+    if (args.deviceMacros !== undefined && args.deviceMacros !== null) {
+      this.deviceMacros = Thrift.copyList(args.deviceMacros, [null]);
+    }
+    if (args.suppressAllDownloads !== undefined && args.suppressAllDownloads !== null) {
+      this.suppressAllDownloads = args.suppressAllDownloads;
+    }
+    if (args.suppressProgramDownload !== undefined && args.suppressProgramDownload !== null) {
+      this.suppressProgramDownload = args.suppressProgramDownload;
+    }
+    if (args.performMassErase !== undefined && args.performMassErase !== null) {
+      this.performMassErase = args.performMassErase;
+    }
+    if (args.extraImages !== undefined && args.extraImages !== null) {
+      this.extraImages = Thrift.copyList(args.extraImages, [ttypes.ExtraImage]);
+    }
+    if (args.verifyAllDownloads !== undefined && args.verifyAllDownloads !== null) {
+      this.verifyAllDownloads = args.verifyAllDownloads;
+    }
+  }
+};
+DownloadConfiguration.prototype = {};
+DownloadConfiguration.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.flashLoader = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        this.deviceMacros = [];
+        var _rtmp316 = input.readListBegin();
+        var _size15 = _rtmp316.size || 0;
+        for (var _i17 = 0; _i17 < _size15; ++_i17) {
+          var elem18 = null;
+          elem18 = input.readString();
+          this.deviceMacros.push(elem18);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.BOOL) {
+        this.suppressAllDownloads = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.BOOL) {
+        this.suppressProgramDownload = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.BOOL) {
+        this.performMassErase = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.LIST) {
+        this.extraImages = [];
+        var _rtmp320 = input.readListBegin();
+        var _size19 = _rtmp320.size || 0;
+        for (var _i21 = 0; _i21 < _size19; ++_i21) {
+          var elem22 = null;
+          elem22 = new ttypes.ExtraImage();
+          elem22.read(input);
+          this.extraImages.push(elem22);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.BOOL) {
+        this.verifyAllDownloads = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+DownloadConfiguration.prototype.write = function(output) {
+  output.writeStructBegin('DownloadConfiguration');
+  if (this.flashLoader !== null && this.flashLoader !== undefined) {
+    output.writeFieldBegin('flashLoader', Thrift.Type.STRING, 1);
+    output.writeString(this.flashLoader);
+    output.writeFieldEnd();
+  }
+  if (this.deviceMacros !== null && this.deviceMacros !== undefined) {
+    output.writeFieldBegin('deviceMacros', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRING, this.deviceMacros.length);
+    for (var iter23 in this.deviceMacros) {
+      if (this.deviceMacros.hasOwnProperty(iter23)) {
+        iter23 = this.deviceMacros[iter23];
+        output.writeString(iter23);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.suppressAllDownloads !== null && this.suppressAllDownloads !== undefined) {
+    output.writeFieldBegin('suppressAllDownloads', Thrift.Type.BOOL, 3);
+    output.writeBool(this.suppressAllDownloads);
+    output.writeFieldEnd();
+  }
+  if (this.suppressProgramDownload !== null && this.suppressProgramDownload !== undefined) {
+    output.writeFieldBegin('suppressProgramDownload', Thrift.Type.BOOL, 4);
+    output.writeBool(this.suppressProgramDownload);
+    output.writeFieldEnd();
+  }
+  if (this.performMassErase !== null && this.performMassErase !== undefined) {
+    output.writeFieldBegin('performMassErase', Thrift.Type.BOOL, 5);
+    output.writeBool(this.performMassErase);
+    output.writeFieldEnd();
+  }
+  if (this.extraImages !== null && this.extraImages !== undefined) {
+    output.writeFieldBegin('extraImages', Thrift.Type.LIST, 6);
+    output.writeListBegin(Thrift.Type.STRUCT, this.extraImages.length);
+    for (var iter24 in this.extraImages) {
+      if (this.extraImages.hasOwnProperty(iter24)) {
+        iter24 = this.extraImages[iter24];
+        iter24.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.verifyAllDownloads !== null && this.verifyAllDownloads !== undefined) {
+    output.writeFieldBegin('verifyAllDownloads', Thrift.Type.BOOL, 7);
+    output.writeBool(this.verifyAllDownloads);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var LaunchConfiguration = module.exports.LaunchConfiguration = function(args) {
+  this.program = null;
+  this.programArgs = null;
+  this.targetOrEmpty = null;
+  this.processor = null;
+  this.driverNameOrEmpty = null;
+  this.driverLib = null;
+  this.driverOptions = null;
+  this.setupMacros = null;
+  this.macroParams = null;
+  this.plugins = null;
+  this.projectFilenameOrEmpty = null;
+  this.projectDirOrEmpty = null;
+  this.configNameOrEmpty = null;
+  this.attachToTarget = null;
+  this.handleCRunEvents = null;
+  this.leaveTargetRunning = null;
+  this.stopOnSymbol = null;
+  this.download = null;
+  if (args) {
+    if (args.program !== undefined && args.program !== null) {
+      this.program = args.program;
+    }
+    if (args.programArgs !== undefined && args.programArgs !== null) {
+      this.programArgs = Thrift.copyList(args.programArgs, [null]);
+    }
+    if (args.targetOrEmpty !== undefined && args.targetOrEmpty !== null) {
+      this.targetOrEmpty = args.targetOrEmpty;
+    }
+    if (args.processor !== undefined && args.processor !== null) {
+      this.processor = args.processor;
+    }
+    if (args.driverNameOrEmpty !== undefined && args.driverNameOrEmpty !== null) {
+      this.driverNameOrEmpty = args.driverNameOrEmpty;
+    }
+    if (args.driverLib !== undefined && args.driverLib !== null) {
+      this.driverLib = args.driverLib;
+    }
+    if (args.driverOptions !== undefined && args.driverOptions !== null) {
+      this.driverOptions = Thrift.copyList(args.driverOptions, [null]);
+    }
+    if (args.setupMacros !== undefined && args.setupMacros !== null) {
+      this.setupMacros = Thrift.copyList(args.setupMacros, [null]);
+    }
+    if (args.macroParams !== undefined && args.macroParams !== null) {
+      this.macroParams = Thrift.copyMap(args.macroParams, [null]);
+    }
+    if (args.plugins !== undefined && args.plugins !== null) {
+      this.plugins = Thrift.copyList(args.plugins, [null]);
+    }
+    if (args.projectFilenameOrEmpty !== undefined && args.projectFilenameOrEmpty !== null) {
+      this.projectFilenameOrEmpty = args.projectFilenameOrEmpty;
+    }
+    if (args.projectDirOrEmpty !== undefined && args.projectDirOrEmpty !== null) {
+      this.projectDirOrEmpty = args.projectDirOrEmpty;
+    }
+    if (args.configNameOrEmpty !== undefined && args.configNameOrEmpty !== null) {
+      this.configNameOrEmpty = args.configNameOrEmpty;
+    }
+    if (args.attachToTarget !== undefined && args.attachToTarget !== null) {
+      this.attachToTarget = args.attachToTarget;
+    }
+    if (args.handleCRunEvents !== undefined && args.handleCRunEvents !== null) {
+      this.handleCRunEvents = args.handleCRunEvents;
+    }
+    if (args.leaveTargetRunning !== undefined && args.leaveTargetRunning !== null) {
+      this.leaveTargetRunning = args.leaveTargetRunning;
+    }
+    if (args.stopOnSymbol !== undefined && args.stopOnSymbol !== null) {
+      this.stopOnSymbol = args.stopOnSymbol;
+    }
+    if (args.download !== undefined && args.download !== null) {
+      this.download = new ttypes.DownloadConfiguration(args.download);
+    }
+  }
+};
+LaunchConfiguration.prototype = {};
+LaunchConfiguration.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.program = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.LIST) {
+        this.programArgs = [];
+        var _rtmp326 = input.readListBegin();
+        var _size25 = _rtmp326.size || 0;
+        for (var _i27 = 0; _i27 < _size25; ++_i27) {
+          var elem28 = null;
+          elem28 = input.readString();
+          this.programArgs.push(elem28);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.targetOrEmpty = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.processor = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.driverNameOrEmpty = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.driverLib = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.LIST) {
+        this.driverOptions = [];
+        var _rtmp330 = input.readListBegin();
+        var _size29 = _rtmp330.size || 0;
+        for (var _i31 = 0; _i31 < _size29; ++_i31) {
+          var elem32 = null;
+          elem32 = input.readString();
+          this.driverOptions.push(elem32);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.LIST) {
+        this.setupMacros = [];
+        var _rtmp334 = input.readListBegin();
+        var _size33 = _rtmp334.size || 0;
+        for (var _i35 = 0; _i35 < _size33; ++_i35) {
+          var elem36 = null;
+          elem36 = input.readString();
+          this.setupMacros.push(elem36);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 9:
+      if (ftype == Thrift.Type.MAP) {
+        this.macroParams = {};
+        var _rtmp338 = input.readMapBegin();
+        var _size37 = _rtmp338.size || 0;
+        for (var _i39 = 0; _i39 < _size37; ++_i39) {
+          var key40 = null;
+          var val41 = null;
+          key40 = input.readString();
+          val41 = input.readString();
+          this.macroParams[key40] = val41;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 10:
+      if (ftype == Thrift.Type.LIST) {
+        this.plugins = [];
+        var _rtmp343 = input.readListBegin();
+        var _size42 = _rtmp343.size || 0;
+        for (var _i44 = 0; _i44 < _size42; ++_i44) {
+          var elem45 = null;
+          elem45 = input.readString();
+          this.plugins.push(elem45);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 11:
+      if (ftype == Thrift.Type.STRING) {
+        this.projectFilenameOrEmpty = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 12:
+      if (ftype == Thrift.Type.STRING) {
+        this.projectDirOrEmpty = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 13:
+      if (ftype == Thrift.Type.STRING) {
+        this.configNameOrEmpty = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 14:
+      if (ftype == Thrift.Type.BOOL) {
+        this.attachToTarget = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 15:
+      if (ftype == Thrift.Type.BOOL) {
+        this.handleCRunEvents = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 16:
+      if (ftype == Thrift.Type.BOOL) {
+        this.leaveTargetRunning = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 17:
+      if (ftype == Thrift.Type.STRING) {
+        this.stopOnSymbol = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 18:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.download = new ttypes.DownloadConfiguration();
+        this.download.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+LaunchConfiguration.prototype.write = function(output) {
+  output.writeStructBegin('LaunchConfiguration');
+  if (this.program !== null && this.program !== undefined) {
+    output.writeFieldBegin('program', Thrift.Type.STRING, 1);
+    output.writeString(this.program);
+    output.writeFieldEnd();
+  }
+  if (this.programArgs !== null && this.programArgs !== undefined) {
+    output.writeFieldBegin('programArgs', Thrift.Type.LIST, 2);
+    output.writeListBegin(Thrift.Type.STRING, this.programArgs.length);
+    for (var iter46 in this.programArgs) {
+      if (this.programArgs.hasOwnProperty(iter46)) {
+        iter46 = this.programArgs[iter46];
+        output.writeString(iter46);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.targetOrEmpty !== null && this.targetOrEmpty !== undefined) {
+    output.writeFieldBegin('targetOrEmpty', Thrift.Type.STRING, 3);
+    output.writeString(this.targetOrEmpty);
+    output.writeFieldEnd();
+  }
+  if (this.processor !== null && this.processor !== undefined) {
+    output.writeFieldBegin('processor', Thrift.Type.STRING, 4);
+    output.writeString(this.processor);
+    output.writeFieldEnd();
+  }
+  if (this.driverNameOrEmpty !== null && this.driverNameOrEmpty !== undefined) {
+    output.writeFieldBegin('driverNameOrEmpty', Thrift.Type.STRING, 5);
+    output.writeString(this.driverNameOrEmpty);
+    output.writeFieldEnd();
+  }
+  if (this.driverLib !== null && this.driverLib !== undefined) {
+    output.writeFieldBegin('driverLib', Thrift.Type.STRING, 6);
+    output.writeString(this.driverLib);
+    output.writeFieldEnd();
+  }
+  if (this.driverOptions !== null && this.driverOptions !== undefined) {
+    output.writeFieldBegin('driverOptions', Thrift.Type.LIST, 7);
+    output.writeListBegin(Thrift.Type.STRING, this.driverOptions.length);
+    for (var iter47 in this.driverOptions) {
+      if (this.driverOptions.hasOwnProperty(iter47)) {
+        iter47 = this.driverOptions[iter47];
+        output.writeString(iter47);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.setupMacros !== null && this.setupMacros !== undefined) {
+    output.writeFieldBegin('setupMacros', Thrift.Type.LIST, 8);
+    output.writeListBegin(Thrift.Type.STRING, this.setupMacros.length);
+    for (var iter48 in this.setupMacros) {
+      if (this.setupMacros.hasOwnProperty(iter48)) {
+        iter48 = this.setupMacros[iter48];
+        output.writeString(iter48);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.macroParams !== null && this.macroParams !== undefined) {
+    output.writeFieldBegin('macroParams', Thrift.Type.MAP, 9);
+    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRING, Thrift.objectLength(this.macroParams));
+    for (var kiter49 in this.macroParams) {
+      if (this.macroParams.hasOwnProperty(kiter49)) {
+        var viter50 = this.macroParams[kiter49];
+        output.writeString(kiter49);
+        output.writeString(viter50);
+      }
+    }
+    output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  if (this.plugins !== null && this.plugins !== undefined) {
+    output.writeFieldBegin('plugins', Thrift.Type.LIST, 10);
+    output.writeListBegin(Thrift.Type.STRING, this.plugins.length);
+    for (var iter51 in this.plugins) {
+      if (this.plugins.hasOwnProperty(iter51)) {
+        iter51 = this.plugins[iter51];
+        output.writeString(iter51);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  if (this.projectFilenameOrEmpty !== null && this.projectFilenameOrEmpty !== undefined) {
+    output.writeFieldBegin('projectFilenameOrEmpty', Thrift.Type.STRING, 11);
+    output.writeString(this.projectFilenameOrEmpty);
+    output.writeFieldEnd();
+  }
+  if (this.projectDirOrEmpty !== null && this.projectDirOrEmpty !== undefined) {
+    output.writeFieldBegin('projectDirOrEmpty', Thrift.Type.STRING, 12);
+    output.writeString(this.projectDirOrEmpty);
+    output.writeFieldEnd();
+  }
+  if (this.configNameOrEmpty !== null && this.configNameOrEmpty !== undefined) {
+    output.writeFieldBegin('configNameOrEmpty', Thrift.Type.STRING, 13);
+    output.writeString(this.configNameOrEmpty);
+    output.writeFieldEnd();
+  }
+  if (this.attachToTarget !== null && this.attachToTarget !== undefined) {
+    output.writeFieldBegin('attachToTarget', Thrift.Type.BOOL, 14);
+    output.writeBool(this.attachToTarget);
+    output.writeFieldEnd();
+  }
+  if (this.handleCRunEvents !== null && this.handleCRunEvents !== undefined) {
+    output.writeFieldBegin('handleCRunEvents', Thrift.Type.BOOL, 15);
+    output.writeBool(this.handleCRunEvents);
+    output.writeFieldEnd();
+  }
+  if (this.leaveTargetRunning !== null && this.leaveTargetRunning !== undefined) {
+    output.writeFieldBegin('leaveTargetRunning', Thrift.Type.BOOL, 16);
+    output.writeBool(this.leaveTargetRunning);
+    output.writeFieldEnd();
+  }
+  if (this.stopOnSymbol !== null && this.stopOnSymbol !== undefined) {
+    output.writeFieldBegin('stopOnSymbol', Thrift.Type.STRING, 17);
+    output.writeString(this.stopOnSymbol);
+    output.writeFieldEnd();
+  }
+  if (this.download !== null && this.download !== undefined) {
+    output.writeFieldBegin('download', Thrift.Type.STRUCT, 18);
+    this.download.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+

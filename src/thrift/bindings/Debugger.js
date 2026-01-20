@@ -200,6 +200,311 @@ Debugger_startSession_result.prototype.write = function(output) {
   return;
 };
 
+var Debugger_resolveLaunchConfiguration_args = function(args) {
+  this.launchJson = null;
+  if (args) {
+    if (args.launchJson !== undefined && args.launchJson !== null) {
+      this.launchJson = args.launchJson;
+    }
+  }
+};
+Debugger_resolveLaunchConfiguration_args.prototype = {};
+Debugger_resolveLaunchConfiguration_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.launchJson = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_resolveLaunchConfiguration_args.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_resolveLaunchConfiguration_args');
+  if (this.launchJson !== null && this.launchJson !== undefined) {
+    output.writeFieldBegin('launchJson', Thrift.Type.STRING, 1);
+    output.writeString(this.launchJson);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Debugger_resolveLaunchConfiguration_result = function(args) {
+  this.success = null;
+  this.e = null;
+  if (args instanceof shared_ttypes.CSpyException) {
+    this.e = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new shared_ttypes.LaunchConfiguration(args.success);
+    }
+    if (args.e !== undefined && args.e !== null) {
+      this.e = args.e;
+    }
+  }
+};
+Debugger_resolveLaunchConfiguration_result.prototype = {};
+Debugger_resolveLaunchConfiguration_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new shared_ttypes.LaunchConfiguration();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.e = new shared_ttypes.CSpyException();
+        this.e.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_resolveLaunchConfiguration_result.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_resolveLaunchConfiguration_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.e !== null && this.e !== undefined) {
+    output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+    this.e.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Debugger_configureSession_args = function(args) {
+  this.config = null;
+  if (args) {
+    if (args.config !== undefined && args.config !== null) {
+      this.config = new shared_ttypes.LaunchConfiguration(args.config);
+    }
+  }
+};
+Debugger_configureSession_args.prototype = {};
+Debugger_configureSession_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.config = new shared_ttypes.LaunchConfiguration();
+        this.config.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_configureSession_args.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_configureSession_args');
+  if (this.config !== null && this.config !== undefined) {
+    output.writeFieldBegin('config', Thrift.Type.STRUCT, 1);
+    this.config.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Debugger_configureSession_result = function(args) {
+  this.e = null;
+  if (args instanceof shared_ttypes.CSpyException) {
+    this.e = args;
+    return;
+  }
+  if (args) {
+    if (args.e !== undefined && args.e !== null) {
+      this.e = args.e;
+    }
+  }
+};
+Debugger_configureSession_result.prototype = {};
+Debugger_configureSession_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.e = new shared_ttypes.CSpyException();
+        this.e.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_configureSession_result.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_configureSession_result');
+  if (this.e !== null && this.e !== undefined) {
+    output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+    this.e.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Debugger_startSMPSession_args = function(args) {
+};
+Debugger_startSMPSession_args.prototype = {};
+Debugger_startSMPSession_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_startSMPSession_args.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_startSMPSession_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var Debugger_startSMPSession_result = function(args) {
+  this.e = null;
+  if (args instanceof shared_ttypes.CSpyException) {
+    this.e = args;
+    return;
+  }
+  if (args) {
+    if (args.e !== undefined && args.e !== null) {
+      this.e = args.e;
+    }
+  }
+};
+Debugger_startSMPSession_result.prototype = {};
+Debugger_startSMPSession_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.e = new shared_ttypes.CSpyException();
+        this.e.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Debugger_startSMPSession_result.prototype.write = function(output) {
+  output.writeStructBegin('Debugger_startSMPSession_result');
+  if (this.e !== null && this.e !== undefined) {
+    output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+    this.e.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var Debugger_stopSession_args = function(args) {
 };
 Debugger_stopSession_args.prototype = {};
@@ -6380,6 +6685,183 @@ DebuggerClient.prototype.recv_startSession = function(input,mtype,rseqid) {
   callback(null);
 };
 
+DebuggerClient.prototype.resolveLaunchConfiguration = function(launchJson, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_resolveLaunchConfiguration(launchJson);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_resolveLaunchConfiguration(launchJson);
+  }
+};
+
+DebuggerClient.prototype.send_resolveLaunchConfiguration = function(launchJson) {
+  var output = new this.pClass(this.output);
+  var params = {
+    launchJson: launchJson
+  };
+  var args = new Debugger_resolveLaunchConfiguration_args(params);
+  try {
+    output.writeMessageBegin('resolveLaunchConfiguration', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+DebuggerClient.prototype.recv_resolveLaunchConfiguration = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Debugger_resolveLaunchConfiguration_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.e) {
+    return callback(result.e);
+  }
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('resolveLaunchConfiguration failed: unknown result');
+};
+
+DebuggerClient.prototype.configureSession = function(config, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_configureSession(config);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_configureSession(config);
+  }
+};
+
+DebuggerClient.prototype.send_configureSession = function(config) {
+  var output = new this.pClass(this.output);
+  var params = {
+    config: config
+  };
+  var args = new Debugger_configureSession_args(params);
+  try {
+    output.writeMessageBegin('configureSession', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+DebuggerClient.prototype.recv_configureSession = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Debugger_configureSession_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.e) {
+    return callback(result.e);
+  }
+  callback(null);
+};
+
+DebuggerClient.prototype.startSMPSession = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_startSMPSession();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_startSMPSession();
+  }
+};
+
+DebuggerClient.prototype.send_startSMPSession = function() {
+  var output = new this.pClass(this.output);
+  var args = new Debugger_startSMPSession_args();
+  try {
+    output.writeMessageBegin('startSMPSession', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+DebuggerClient.prototype.recv_startSMPSession = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Debugger_startSMPSession_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.e) {
+    return callback(result.e);
+  }
+  callback(null);
+};
+
 DebuggerClient.prototype.stopSession = function(callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -9737,6 +10219,131 @@ DebuggerProcessor.prototype.process_startSession = function(seqid, input, output
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("startSession", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+DebuggerProcessor.prototype.process_resolveLaunchConfiguration = function(seqid, input, output) {
+  var args = new Debugger_resolveLaunchConfiguration_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.resolveLaunchConfiguration.length === 1) {
+    Q.fcall(this._handler.resolveLaunchConfiguration.bind(this._handler),
+      args.launchJson
+    ).then(function(result) {
+      var result_obj = new Debugger_resolveLaunchConfiguration_result({success: result});
+      output.writeMessageBegin("resolveLaunchConfiguration", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      if (err instanceof shared_ttypes.CSpyException) {
+        result = new Debugger_resolveLaunchConfiguration_result(err);
+        output.writeMessageBegin("resolveLaunchConfiguration", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("resolveLaunchConfiguration", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.resolveLaunchConfiguration(args.launchJson, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined') || err instanceof shared_ttypes.CSpyException) {
+        result_obj = new Debugger_resolveLaunchConfiguration_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("resolveLaunchConfiguration", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("resolveLaunchConfiguration", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+DebuggerProcessor.prototype.process_configureSession = function(seqid, input, output) {
+  var args = new Debugger_configureSession_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.configureSession.length === 1) {
+    Q.fcall(this._handler.configureSession.bind(this._handler),
+      args.config
+    ).then(function(result) {
+      var result_obj = new Debugger_configureSession_result({success: result});
+      output.writeMessageBegin("configureSession", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      if (err instanceof shared_ttypes.CSpyException) {
+        result = new Debugger_configureSession_result(err);
+        output.writeMessageBegin("configureSession", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("configureSession", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.configureSession(args.config, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined') || err instanceof shared_ttypes.CSpyException) {
+        result_obj = new Debugger_configureSession_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("configureSession", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("configureSession", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+DebuggerProcessor.prototype.process_startSMPSession = function(seqid, input, output) {
+  var args = new Debugger_startSMPSession_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.startSMPSession.length === 0) {
+    Q.fcall(this._handler.startSMPSession.bind(this._handler)
+    ).then(function(result) {
+      var result_obj = new Debugger_startSMPSession_result({success: result});
+      output.writeMessageBegin("startSMPSession", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      if (err instanceof shared_ttypes.CSpyException) {
+        result = new Debugger_startSMPSession_result(err);
+        output.writeMessageBegin("startSMPSession", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("startSMPSession", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.startSMPSession(function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined') || err instanceof shared_ttypes.CSpyException) {
+        result_obj = new Debugger_startSMPSession_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("startSMPSession", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("startSMPSession", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();
