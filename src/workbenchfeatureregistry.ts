@@ -124,6 +124,12 @@ export namespace WorkbenchFeatures {
     { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
 
     /**
+     * Whether this workbench uses the sliding version of the interrupt log.
+    */
+    export const SlidingInterruptLog: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
      * Checks whether a workbench version meets the given minimum version.
      */
     export function supportsFeature(workbench: Workbench, requirement: FeatureRequirement, target?: string) {
