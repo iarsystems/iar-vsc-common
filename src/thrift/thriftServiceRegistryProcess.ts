@@ -150,7 +150,7 @@ async function waitForServiceToBeOnline(serviceRegistryLocation: ServiceLocation
         try {
             await serviceRegistry.service.waitForService(serviceId, 1000);
             return Promise.resolve();
-        } catch (e) {
+        } catch {
             await new Promise((res, _) => setTimeout(res, i*100));
         }
     }
