@@ -126,8 +126,8 @@ export namespace IarOsUtils {
         // EW versions and OSs.
         const files = fs.readdirSync(Path.join(workbenchPath, targetName.toLowerCase(), "bin"));
         const actualLibName = files.find(file =>
-                                         libNames.some(libName => libName.toLowerCase() === file.toLowerCase())
-                                        );
+            libNames.some(libName => libName.toLowerCase() === file.toLowerCase())
+        );
         if (!actualLibName) return undefined;
         return Path.join(workbenchPath, targetName.toLowerCase(), "bin", actualLibName);
     }

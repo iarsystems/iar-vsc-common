@@ -67,7 +67,7 @@ export namespace Workbench {
             const stat = Fs.statSync(builderPath);
 
             return stat.isFile();
-        } catch (e) {
+        } catch {
             return false;
         }
     }

@@ -71,9 +71,11 @@ export class TestSandbox {
             const sourcePath = Path.join(src, entry.name);
             const destinationPath = Path.join(dest, entry.name);
 
-            entry.isDirectory()
-                ? TestSandbox.copyDirectory(sourcePath, destinationPath)
-                : Fs.copyFileSync(sourcePath, destinationPath);
+            if (entry.isDirectory()) {
+                TestSandbox.copyDirectory(sourcePath, destinationPath);
+            } else {
+                Fs.copyFileSync(sourcePath, destinationPath);
+            }
         });
     }
 
