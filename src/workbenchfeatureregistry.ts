@@ -124,6 +124,61 @@ export namespace WorkbenchFeatures {
     { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
 
     /**
+     * Whether this workbench supports thrift procedures for using a launch
+     * configuration.
+     */
+    export const LaunchConfiguration: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports setting program args.
+     */
+    export const ProgramArgs: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports setting macro parameters.
+     */
+    export const MacroParams: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports setting the device.
+     */
+    export const Device: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports setting the C-SPY driver to handle C-Run events.
+     */
+    export const HandleCRunEvents: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports suppressing all downloads".
+     */
+    export const SuppressAllDownloads: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports suppressing program download.
+     */
+    export const SuppressProgramDownload: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports verifying all downloads.
+     */
+    export const VerifyAllDownloads: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
+     * Whether this workbench supports performing a mass erase before flashing.
+     */
+    export const PerformMassErase: FeatureRequirement =
+    { baseVersion: [9,5,0], minProductType: WorkbenchType.EXTENDED_BX };
+
+    /**
      * Checks whether a workbench version meets the given minimum version.
      */
     export function supportsFeature(workbench: Workbench, requirement: FeatureRequirement, target?: string) {
