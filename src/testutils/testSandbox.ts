@@ -40,8 +40,12 @@ export class TestSandbox {
                 // watchers sometimes won't catch if we delete and then quickly
                 // recreate a file, so just leave them be; they will be
                 // overwritten when we do the copying anyway.
+                //
+                // We also preserve .vscode: VS Code holds it open, and deleting
+                // it on Windows leaves it "delete pending" (every later op fails
+                // with EPERM).
                 TestSandbox.removeRecursive(targetPath,
-                    path => !path.endsWith(".ewp") && !path.endsWith(".eww"));
+                    path => !path.endsWith(".ewp") && !path.endsWith(".eww") && Path.basename(path) !== ".vscode");
             }
             TestSandbox.copyDirectory(toCopy, targetPath);
         }
@@ -80,8 +84,9 @@ export class TestSandbox {
     }
 
     /**
-     * Recursively removes all contents of a directory that matches the predicate.
-     * Note that this does not remove the directory itself.
+     * Recursively removes contents of a directory that match the predicate (not
+     * the directory itself). The predicate also governs directories: one it
+     * rejects is kept and not recursed into, so callers can protect a subtree.
      *
      * @returns Whether there are any entries left in the directory.
      */
@@ -91,7 +96,9 @@ export class TestSandbox {
             const subItemPath = Path.join(dir, subItem);
             try {
                 if (Fs.statSync(subItemPath).isDirectory()) {
-                    if (!this.removeRecursive(subItemPath, predicate)) {
+                    if (!predicate(subItemPath)) {
+                        anyItemsLeft = true;
+                    } else if (!this.removeRecursive(subItemPath, predicate)) {
                         try {
                             Fs.rmSync(subItemPath, {recursive: true, force: true});
                         } catch {}
