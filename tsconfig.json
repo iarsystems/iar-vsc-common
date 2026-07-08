@@ -19,6 +19,7 @@
         "noPropertyAccessFromIndexSignature": true, /* Report errors when accessing nonexistent fields */
         "noUncheckedIndexedAccess": true, /* Add 'undefined' to the type returned from indexed accesses */
         "isolatedModules": true, /* Recommended when using bundlers */
+        "skipLibCheck": true,
 	},
 	"include": [
 		"src/**/*",
