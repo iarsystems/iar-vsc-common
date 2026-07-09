@@ -52,7 +52,8 @@ export class ThriftServiceRegistryProcess {
 
         const tmpDir = getTmpDir();
         const expectedLocationFile = Path.join(tmpDir, "CSpyServer2-ServiceRegistry.txt");
-        const locationPromise = waitForServiceRegistryLocationFile(expectedLocationFile);
+        const abortController = new AbortController();
+        const locationPromise = waitForServiceRegistryLocationFile(expectedLocationFile, abortController.signal);
         return new Promise((resolve, reject) => {
             const process = spawn(execPath, args, { cwd: tmpDir });
             process.stdout?.on("data", data => {
@@ -63,9 +64,11 @@ export class ThriftServiceRegistryProcess {
             });
             process.on("exit", code => {
                 procMon?.exit(code);
+                abortController.abort();
                 reject(new Error("Service registry exited prematurely, code: " + code));
             });
-            setTimeout(() => {
+            const launchTimeout = setTimeout(() => {
+                abortController.abort();
                 reject(new Error("Service registry launch timed out"));
             }, this.PROCESS_LAUNCH_TIMEOUT);
 
@@ -73,7 +76,11 @@ export class ThriftServiceRegistryProcess {
             // then optionally wait for some service to be registered in the registry
             locationPromise.then(async location => {
                 if (serviceToAwait) await waitForServiceToBeOnline(location, serviceToAwait);
+                clearTimeout(launchTimeout);
                 resolve(new ThriftServiceRegistryProcess(location, process, stopProcess));
+            }).catch(err => {
+                clearTimeout(launchTimeout);
+                reject(err);
             });
         });
     }
@@ -118,28 +125,65 @@ export class ThriftServiceRegistryProcess {
 }
 
 // Waits for a service registry location file to appear, then reads it.
-function waitForServiceRegistryLocationFile(locationFilePath: string): Promise<ServiceLocation> {
-    let resolved = false;
-    return new Promise<ServiceLocation>(resolve => {
-        // Start watching for the registry file
-        Fs.watch(Path.dirname(locationFilePath), undefined, (type, fileName) => {
-            // When the file has been created, read the location of the registry
-            if (!resolved && (type === "rename") && fileName === Path.basename(locationFilePath)) {
-                // Find the location of the service registry
+function waitForServiceRegistryLocationFile(locationFilePath: string, abortSignal?: AbortSignal): Promise<ServiceLocation> {
+    return new Promise<ServiceLocation>((resolve, reject) => {
+        if (abortSignal?.aborted) {
+            reject(new Error("Aborted while waiting for the service registry location file"));
+            return;
+        }
+
+        let settled = false;
+        let watcher: Fs.FSWatcher | undefined;
+
+        const cleanup = () => {
+            watcher?.close();
+            clearInterval(poll);
+            abortSignal?.removeEventListener("abort", onAbort);
+        };
+
+        const onAbort = () => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            reject(new Error("Aborted while waiting for the service registry location file"));
+        };
+
+        // Attempts to read and parse the location file. Does nothing (and can be
+        // retried) if the file does not exist yet or is still being written.
+        const tryRead = () => {
+            if (settled) return;
+            let location: ServiceLocation;
+            try {
                 const locSerialized = Fs.readFileSync(locationFilePath);
+                // The file may exist but not be fully written yet; wait for more data.
+                if (locSerialized.length === 0) return;
                 // These concats are a hack to create a valid thrift message. The thrift library seems unable to deserialize just a struct (at least for the json protocol)
                 // Once could also do JSON.parse and manually convert it to a ServiceLocation, but this is arguably more robust
                 const transport = new Thrift.TFramedTransport(Buffer.concat([Buffer.from("[1,0,0,0,"), locSerialized, Buffer.from("]")]));
                 const prot = new Thrift.TJSONProtocol(transport);
                 prot.readMessageBegin();
-                const location = new ServiceLocation();
+                location = new ServiceLocation();
                 location.read(prot);
                 prot.readMessageEnd();
-
-                resolved = true;
-                resolve(location);
+            } catch {
+                return;
             }
-        });
+            settled = true;
+            cleanup();
+            resolve(location);
+        };
+
+        abortSignal?.addEventListener("abort", onAbort);
+
+        // Start watching the directory for any change, then re-check the file.
+        try {
+            watcher = Fs.watch(Path.dirname(locationFilePath), undefined, () => tryRead());
+        } catch {
+            // fs.watch may not be supported; the poll below is our fallback.
+        }
+
+        // Safety net in case the watch event is missed or reports no usable filename.
+        const poll = setInterval(tryRead, 100);
     });
 }
 
