@@ -29,8 +29,14 @@ export interface ProcessMonitor {
 export class ThriftServiceRegistryProcess {
     readonly serviceRegistry: ThriftServiceRegistry;
 
+
     private static readonly PROCESS_LAUNCH_TIMEOUT = 20000;
     private static readonly PROCESS_EXIT_TIMEOUT = 15000;
+    // When set, kills the process in a way that produces a crashpad dump if it hangs during shutdown
+    public static readonly CRASH_ON_HANG_ENV = "CSPYSERVER_CRASH_ON_HANG";
+    // How long to wait for crashpad to write a crash dump after we force a crash,
+    // before giving up and hard-killing the process.
+    private static readonly CRASH_DUMP_TIMEOUT = 4000;
     private crashHandlers: CrashHandler[] = [];
 
     /**
@@ -100,20 +106,56 @@ export class ThriftServiceRegistryProcess {
         // Prevent crash handlers from being called from an expected exit.
         this.crashHandlers = [];
 
-        await this.stopProcess(this.serviceRegistry);
+        // Note: we do not await; this should cause the process to exit, so we
+        // can wait for that instead (with a timeout).
+        this.stopProcess(this.serviceRegistry);
 
-        // Wait for service registry process to exit
-        if (this.process.exitCode === null) {
-            await new Promise<void>(resolve => {
-                this.process.on("exit", resolve);
-                setTimeout(() => {
-                    resolve();
-                    this.process.kill();
-                }, ThriftServiceRegistryProcess.PROCESS_EXIT_TIMEOUT);
-            });
+
+        const exited = await this.waitForExit(ThriftServiceRegistryProcess.PROCESS_EXIT_TIMEOUT);
+        if (!exited) {
+            const crashOnHang = process.env[ThriftServiceRegistryProcess.CRASH_ON_HANG_ENV] !== undefined;
+            if (crashOnHang) {
+                await this.crashProcess();
+            } else {
+                this.process.kill();
+            }
         }
 
         this.serviceRegistry.dispose();
+    }
+
+    private waitForExit(timeoutMs: number): Promise<boolean> {
+        if (this.process.exitCode !== null) {
+            return Promise.resolve(true);
+        }
+        return new Promise<boolean>(resolve => {
+            const onExit = () => {
+                clearTimeout(timer);
+                resolve(true);
+            };
+            const timer = setTimeout(() => {
+                this.process.off("exit", onExit);
+                resolve(false);
+            }, timeoutMs);
+            this.process.once("exit", onExit);
+        });
+    }
+
+    /**
+     * Forcibly terminates the process in a way that lets crashpad produce a crash
+     * dump.
+     */
+    private async crashProcess(): Promise<void> {
+        if (Os.platform() === "win32") {
+            // No simple way to do this on windows
+            this.process.kill();
+            return;
+        }
+        this.process.kill("SIGABRT");
+        const exited = await this.waitForExit(ThriftServiceRegistryProcess.CRASH_DUMP_TIMEOUT);
+        if (!exited) {
+            this.process.kill();
+        }
     }
 
     /**
