@@ -4,7 +4,6 @@
   "description": "Common code for both IAR VS Code extensions",
   "exports": {
     "./*": "./dist/*.js",
-    "./testutils/*": "./dist/testutils/*.js",
     "./thrift/*": "./dist/thrift/*.js",
     "./thrift/bindings/*": "./dist/thrift/bindings/*.js"
   },
@@ -20,9 +19,6 @@
       ],
       "thrift/*": [
         "dist/thrift/*.d.ts"
-      ],
-      "testutils/*": [
-        "dist/testutils/*.d.ts"
       ],
       "*": [
         "dist/*.d.ts"
