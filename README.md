@@ -1,6 +1,6 @@
 # iar-vsc-common
 
-This package contains code that is shared between the two IAR VS Code extensions.
+This package contains code that is shared between IAR VS Code extensions.
 
 The `src/thrift/bindings` directory contains automatically generated thrift code, and should not be edited manually.
 
@@ -10,19 +10,29 @@ dependency on this repository:
 ```json
 "dependencies": {
     ...
-    "iar-vsc-common": "git@github.com:IARSystems/iar-vsc-common.git#<commit-hash>"
+    "iar-vsc-common": "git@github.com:IARSystems/iar-vsc-common.git#<tag>"
 }
 ```
-The typescript source code is transpiled on installation. Thus, pushing to the `src`
-directory of this repository *is* publishing.
+The typescript source code is transpiled on installation.
 
+For development, it is practical to use a local version of this repository. Simply clone this repository next to the extension repositories. Then, in the extension directory, run:
+```sh
+npm link <path-to>/iar-vsc-common
+```
+The link stays active until you next run `npm install` or `npm unlink`
 
-For development, it is practical to use a local version of this repository. Simply clone this repository next to the extension repositories, then change
-the `package.json` dependency for each extension to point to the new clone:
+To use your changes in the extensions, commit your changes, then create and push a tag:
+```sh
+git tag v1.1.1
+git push origin tag v1.1.1
+```
+
+In the extension(s) `package.json` file, update the dependency to the new tag.
+
 ```json
 "dependencies": {
     ...
-    "iar-vsc-common": "file:../iar-vsc-common"
+    "iar-vsc-common": "git@github.com:IARSystems/iar-vsc-common.git#v1.1.1"
 }
 ```
-When you've finished, do not forget to change the dependency back, and update the target revision number.
+
