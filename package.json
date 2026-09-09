@@ -10,7 +10,7 @@
   "files": [
     "dist",
     "src"
-  ]
+  ],
   "typesVersions": {
     "*": {
       "thrift/bindings/*": [
