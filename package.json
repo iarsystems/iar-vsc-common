@@ -7,6 +7,10 @@
     "./thrift/*": "./dist/thrift/*.js",
     "./thrift/bindings/*": "./dist/thrift/bindings/*.js"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "typesVersions": {
     "*": {
       "thrift/bindings/*": [
