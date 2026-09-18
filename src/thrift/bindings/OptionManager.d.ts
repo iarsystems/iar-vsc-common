@@ -34,7 +34,7 @@ import VerifierError = ttypes.VerifierError
  * <p>
  * One typical use case is an Eclipse frontend reading options in an EW project
  * file and/or manipulating its build configurations.
- * 
+ *
  */
 declare class Client {
   #output: thrift.TTransport;
@@ -45,42 +45,42 @@ declare class Client {
 
   /**
    * Get the currently registered definition of an option.
-   * 
+   *
    * @throws OptionError if id is not known to the option manager
    */
-  getOptionDefinition(id: string): Q.Promise<OptionDefinition>;
+  getOptionDefinition(id: string): Promise<OptionDefinition>;
 
   /**
    * Get the currently registered definition of an option.
-   * 
+   *
    * @throws OptionError if id is not known to the option manager
    */
   getOptionDefinition(id: string, callback?: (error: ttypes.OptionError, response: OptionDefinition)=>void): void;
 
   /**
    * Register a new option configuration
-   * 
+   *
    * @param config
    */
-  addConfiguration(config: OptionConfiguration): Q.Promise<void>;
+  addConfiguration(config: OptionConfiguration): Promise<void>;
 
   /**
    * Register a new option configuration
-   * 
+   *
    * @param config
    */
   addConfiguration(config: OptionConfiguration, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Define how a configuration and its options are presented to the user
-   * 
+   *
    * @param configPresentation
    */
-  addConfigurationPresentation(configPresentation: ConfigurationPresentation): Q.Promise<void>;
+  addConfigurationPresentation(configPresentation: ConfigurationPresentation): Promise<void>;
 
   /**
    * Define how a configuration and its options are presented to the user
-   * 
+   *
    * @param configPresentation
    */
   addConfigurationPresentation(configPresentation: ConfigurationPresentation, callback?: (error: ttypes.OptionError, response: void)=>void): void;
@@ -89,26 +89,26 @@ declare class Client {
    * Get the presentation information for the given configuration ID.
    * The presentations can be inherited from parent configurations, and all those which are found
    * are returned - possibly none.
-   * 
+   *
    * @return a (possiblt empty) list of ConfigurationPresentation.
-   * 
+   *
    */
-  getConfigurationPresentation(configId: string): Q.Promise<ConfigurationPresentation[]>;
+  getConfigurationPresentation(configId: string): Promise<ConfigurationPresentation[]>;
 
   /**
    * Get the presentation information for the given configuration ID.
    * The presentations can be inherited from parent configurations, and all those which are found
    * are returned - possibly none.
-   * 
+   *
    * @return a (possiblt empty) list of ConfigurationPresentation.
-   * 
+   *
    */
   getConfigurationPresentation(configId: string, callback?: (error: ttypes.OptionError, response: ConfigurationPresentation[])=>void): void;
 
   /**
    * Remove a previously-declared configuration presentation.
    */
-  removeConfigurationPresentation(id: string): Q.Promise<void>;
+  removeConfigurationPresentation(id: string): Promise<void>;
 
   /**
    * Remove a previously-declared configuration presentation.
@@ -117,28 +117,28 @@ declare class Client {
 
   /**
    * Get the currently registered option configuration for the provided id.
-   * 
+   *
    * @throws OptionError if id is not known to the option manager
    */
-  getOptionConfiguration(id: string): Q.Promise<OptionConfiguration>;
+  getOptionConfiguration(id: string): Promise<OptionConfiguration>;
 
   /**
    * Get the currently registered option configuration for the provided id.
-   * 
+   *
    * @throws OptionError if id is not known to the option manager
    */
   getOptionConfiguration(id: string, callback?: (error: ttypes.OptionError, response: OptionConfiguration)=>void): void;
 
   /**
    * Remove an option configuration
-   * 
+   *
    * @param configId
    */
-  removeOptionConfiguration(id: string): Q.Promise<void>;
+  removeOptionConfiguration(id: string): Promise<void>;
 
   /**
    * Remove an option configuration
-   * 
+   *
    * @param configId
    */
   removeOptionConfiguration(id: string, callback?: (error: ttypes.OptionError, response: void)=>void): void;
@@ -155,7 +155,7 @@ declare class Client {
    * * @param config
    * * @return
    */
-  verifyOptionConfiguration(config: OptionConfiguration): Q.Promise<VerifierError[]>;
+  verifyOptionConfiguration(config: OptionConfiguration): Promise<VerifierError[]>;
 
   /**
    * * Runs all registered configuration verifiers for the given configuration
@@ -174,17 +174,17 @@ declare class Client {
   /**
    * Get the build tool definition for the given id, or <code>null</code> if
    * none is registered
-   * 
+   *
    * @param toolId
    *            unique id of the build tool, e.g. "iar.arm.compiler"
    * @return
    */
-  getTool(id: string): Q.Promise<ToolDefinition>;
+  getTool(id: string): Promise<ToolDefinition>;
 
   /**
    * Get the build tool definition for the given id, or <code>null</code> if
    * none is registered
-   * 
+   *
    * @param toolId
    *            unique id of the build tool, e.g. "iar.arm.compiler"
    * @return
@@ -193,7 +193,7 @@ declare class Client {
 
   /**
    * Get a list of command line arguments for the specified tool
-   * 
+   *
    * @param configId
    *            unique id of an option configuration to generate a command
    *            line for
@@ -202,11 +202,11 @@ declare class Client {
    * @return a list of command line arguments for the tool, excluding the tool
    *         executable name
    */
-  getToolCommandLine(configId: string, toolId: string): Q.Promise<string[]>;
+  getToolCommandLine(configId: string, toolId: string): Promise<string[]>;
 
   /**
    * Get a list of command line arguments for the specified tool
-   * 
+   *
    * @param configId
    *            unique id of an option configuration to generate a command
    *            line for
@@ -220,17 +220,17 @@ declare class Client {
   /**
    * Get the serialized value of an option (whether local or inherited) within an option
    * configuration or its ancestors.
-   * 
+   *
    * @param configId
    * @param optionId
    * @return
    */
-  getOptionValue(configId: string, optionId: string): Q.Promise<string>;
+  getOptionValue(configId: string, optionId: string): Promise<string>;
 
   /**
    * Get the serialized value of an option (whether local or inherited) within an option
    * configuration or its ancestors.
-   * 
+   *
    * @param configId
    * @param optionId
    * @return
@@ -240,7 +240,7 @@ declare class Client {
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#string}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -249,12 +249,12 @@ declare class Client {
    *            unique id of the option
    * @return the option value
    */
-  getOptionValueAsString(configId: string, id: string): Q.Promise<string>;
+  getOptionValueAsString(configId: string, id: string): Promise<string>;
 
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#string}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -268,7 +268,7 @@ declare class Client {
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#Boolean}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -277,12 +277,12 @@ declare class Client {
    *            unique id of the option
    * @return the option value
    */
-  getOptionValueAsBoolean(configId: string, id: string): Q.Promise<boolean>;
+  getOptionValueAsBoolean(configId: string, id: string): Promise<boolean>;
 
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#Boolean}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -296,7 +296,7 @@ declare class Client {
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#Enumerated}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -306,12 +306,12 @@ declare class Client {
    * @return the enumerated value id of the option, see
    *         {@link IIarEnumeratedOptionValue}
    */
-  getOptionValueAsEnumerated(configId: string, id: string): Q.Promise<string>;
+  getOptionValueAsEnumerated(configId: string, id: string): Promise<string>;
 
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#Enumerated}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -327,7 +327,7 @@ declare class Client {
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#StringList}, {@link OptionType#IncludePaths} or
    * {@link OptionType#PreprocessorSymbols}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -336,13 +336,13 @@ declare class Client {
    *            unique id of the option
    * @return the option value
    */
-  getOptionValueAsStringList(configId: string, id: string): Q.Promise<string[]>;
+  getOptionValueAsStringList(configId: string, id: string): Promise<string[]>;
 
   /**
    * Get the value of a string option. Will throw if the option type is not
    * {@link OptionType#StringList}, {@link OptionType#IncludePaths} or
    * {@link OptionType#PreprocessorSymbols}
-   * 
+   *
    * @param configId
    *            Id of option configuration to derive the value from. The
    *            configuration ancestors or the option default value might be
@@ -355,16 +355,16 @@ declare class Client {
 
   /**
    * Get the enumerated type definition for the given id
-   * 
+   *
    * @param enumeratedTypeId
    * @return an {@link EnumeratedOptionType}, or <code>null</code> if
    *         undefined
    */
-  getEnumeratedType(enumeratedTypeId: string): Q.Promise<EnumeratedOptionType>;
+  getEnumeratedType(enumeratedTypeId: string): Promise<EnumeratedOptionType>;
 
   /**
    * Get the enumerated type definition for the given id
-   * 
+   *
    * @param enumeratedTypeId
    * @return an {@link EnumeratedOptionType}, or <code>null</code> if
    *         undefined
@@ -377,11 +377,11 @@ declare class Client {
    * The condition is referred to by its id, and needs to be registered directly
    * with the option handler implementation - adding conditions from a client interface
    * is not supported as of now.
-   * 
+   *
    * @param conditionId unique id of the condition to evaluate
    * @param configurationId unique id of the configuration on which to evaluate the condition
    */
-  evaluateCondition(conditionId: string, configurationId: string): Q.Promise<boolean>;
+  evaluateCondition(conditionId: string, configurationId: string): Promise<boolean>;
 
   /**
    * Evaluate a previously-registered condition on the provided configuration.
@@ -389,7 +389,7 @@ declare class Client {
    * The condition is referred to by its id, and needs to be registered directly
    * with the option handler implementation - adding conditions from a client interface
    * is not supported as of now.
-   * 
+   *
    * @param conditionId unique id of the condition to evaluate
    * @param configurationId unique id of the configuration on which to evaluate the condition
    */
@@ -401,12 +401,12 @@ declare class Client {
    * The filter is referred to by its id, and needs to be registered directly
    * with the option handler implementation - adding filters from a client interface
    * is not supported as of now.
-   * 
+   *
    * @param filterId unique id of the filter to evaluate
    * @param configurationId unique id of the configuration on which the option to filter is present
    * @param optionId unique id of the enumerated option whose values should be filtered
    */
-  evaluateEnumeratedOptionFilter(filterId: string, configurationId: string, optionId: string): Q.Promise<EnumeratedOptionValue[]>;
+  evaluateEnumeratedOptionFilter(filterId: string, configurationId: string, optionId: string): Promise<EnumeratedOptionValue[]>;
 
   /**
    * Evaluate a previously-registered filter for an enumerated option in the provided configuration.
@@ -414,7 +414,7 @@ declare class Client {
    * The filter is referred to by its id, and needs to be registered directly
    * with the option handler implementation - adding filters from a client interface
    * is not supported as of now.
-   * 
+   *
    * @param filterId unique id of the filter to evaluate
    * @param configurationId unique id of the configuration on which the option to filter is present
    * @param optionId unique id of the enumerated option whose values should be filtered
@@ -423,15 +423,15 @@ declare class Client {
 
   /**
    * Define an option
-   * 
+   *
    * @param optionDefinition
    *                          desrciption of the option being registered
    */
-  addOptionDefinition(optionDefinition: OptionDefinition): Q.Promise<void>;
+  addOptionDefinition(optionDefinition: OptionDefinition): Promise<void>;
 
   /**
    * Define an option
-   * 
+   *
    * @param optionDefinition
    *                          desrciption of the option being registered
    */
@@ -439,31 +439,31 @@ declare class Client {
 
   /**
    * Unregister an option
-   * 
+   *
    * @param optionId the unique id of the option to remove
    */
-  removeOption(optionId: string): Q.Promise<void>;
+  removeOption(optionId: string): Promise<void>;
 
   /**
    * Unregister an option
-   * 
+   *
    * @param optionId the unique id of the option to remove
    */
   removeOption(optionId: string, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Register a new build tool
-   * 
-   * 
+   *
+   *
    * @param tool
    *            description of the tool being registered
    */
-  addTool(tool: ToolDefinition): Q.Promise<void>;
+  addTool(tool: ToolDefinition): Promise<void>;
 
   /**
    * Register a new build tool
-   * 
-   * 
+   *
+   *
    * @param tool
    *            description of the tool being registered
    */
@@ -471,15 +471,15 @@ declare class Client {
 
   /**
    * Unregister a build tool
-   * 
+   *
    * @param id
    *            unique id of the tool, e.g. "iar.arm.tool.compiler"
    */
-  removeTool(id: string): Q.Promise<void>;
+  removeTool(id: string): Promise<void>;
 
   /**
    * Unregister a build tool
-   * 
+   *
    * @param id
    *            unique id of the tool, e.g. "iar.arm.tool.compiler"
    */
@@ -487,83 +487,83 @@ declare class Client {
 
   /**
    * Register an enumerated type
-   * 
+   *
    * @param type
    */
-  addEnumeratedType(type: EnumeratedOptionType): Q.Promise<void>;
+  addEnumeratedType(type: EnumeratedOptionType): Promise<void>;
 
   /**
    * Register an enumerated type
-   * 
+   *
    * @param type
    */
   addEnumeratedType(type: EnumeratedOptionType, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Unregister an enumerated type
-   * 
+   *
    * @param typeId the type to remove
    */
-  removeEnumeratedType(typeId: string): Q.Promise<void>;
+  removeEnumeratedType(typeId: string): Promise<void>;
 
   /**
    * Unregister an enumerated type
-   * 
+   *
    * @param typeId the type to remove
    */
   removeEnumeratedType(typeId: string, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Registers a new toolchain and its default configurations
-   * 
+   *
    * @param toolchain
    */
-  addToolchain(toolchain: Toolchain): Q.Promise<void>;
+  addToolchain(toolchain: Toolchain): Promise<void>;
 
   /**
    * Registers a new toolchain and its default configurations
-   * 
+   *
    * @param toolchain
    */
   addToolchain(toolchain: Toolchain, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Unregisters a toolchain and its default configurations
-   * 
+   *
    * @param toolchainId
    */
-  removeToolchain(toolchainId: string): Q.Promise<void>;
+  removeToolchain(toolchainId: string): Promise<void>;
 
   /**
    * Unregisters a toolchain and its default configurations
-   * 
+   *
    * @param toolchainId
    */
   removeToolchain(toolchainId: string, callback?: (error: ttypes.OptionError, response: void)=>void): void;
 
   /**
    * Get a previously registered toolchain
-   * 
+   *
    * @param toolchainId
    */
-  getToolchain(toolchainId: string): Q.Promise<Toolchain>;
+  getToolchain(toolchainId: string): Promise<Toolchain>;
 
   /**
    * Get a previously registered toolchain
-   * 
+   *
    * @param toolchainId
    */
   getToolchain(toolchainId: string, callback?: (error: ttypes.OptionError, response: Toolchain)=>void): void;
 
   /**
    * Get a list of all previously-registered toolchains
-   * 
+   *
    */
-  getToolchains(): Q.Promise<Toolchain[]>;
+  getToolchains(): Promise<Toolchain[]>;
 
   /**
    * Get a list of all previously-registered toolchains
-   * 
+   *
    */
   getToolchains(callback?: (error: ttypes.OptionError, response: Toolchain[])=>void): void;
 }

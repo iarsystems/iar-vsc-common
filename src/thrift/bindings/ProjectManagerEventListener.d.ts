@@ -25,7 +25,7 @@ declare class Client extends HeartbeatService.Client {
 
   constructor(output: thrift.TTransport, pClass: { new(trans: thrift.TTransport): thrift.TProtocol });
 
-  postEvent(event: ProjectManagerEvent): Q.Promise<void>;
+  postEvent(event: ProjectManagerEvent): Promise<void>;
 
   postEvent(event: ProjectManagerEvent, callback?: (error: void, response: void)=>void): void;
 }

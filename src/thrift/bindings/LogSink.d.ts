@@ -29,11 +29,11 @@ declare class Client extends HeartbeatService.Client {
 
   constructor(output: thrift.TTransport, pClass: { new(trans: thrift.TTransport): thrift.TProtocol });
 
-  startSession(category: string): Q.Promise<void>;
+  startSession(category: string): Promise<void>;
 
   startSession(category: string, callback?: (error: void, response: void)=>void): void;
 
-  postLogEntry(entry: LogEntry): Q.Promise<void>;
+  postLogEntry(entry: LogEntry): Promise<void>;
 
   postLogEntry(entry: LogEntry, callback?: (error: void, response: void)=>void): void;
 }
