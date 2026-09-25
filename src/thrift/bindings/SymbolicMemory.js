@@ -12,7 +12,7 @@ import * as ServiceRegistry_ttypes from './ServiceRegistry_types.js';
 import * as shared_ttypes from './shared_types.js';
 
 
-const ListWindowBackend = require('./ListWindowBackend.js');
+import * as ListWindowBackend from './ListWindowBackend.js';
 const ListWindowBackendClient = ListWindowBackend.Client;
 const ListWindowBackendProcessor = ListWindowBackend.Processor;
 import * as ttypes from './listwindow_types.js';

@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import * as shared_ttypes from './shared_types.js';
 
 
-const HeartbeatService = require('./HeartbeatService.js');
+import * as HeartbeatService from './HeartbeatService.js';
 const HeartbeatServiceClient = HeartbeatService.Client;
 const HeartbeatServiceProcessor = HeartbeatService.Processor;
 import * as ttypes from './sourcelookup_types.js';

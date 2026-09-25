@@ -12,7 +12,7 @@ import * as ServiceRegistry_ttypes from './ServiceRegistry_types.js';
 import * as shared_ttypes from './shared_types.js';
 
 
-const HeartbeatService = require('./HeartbeatService.js');
+import * as HeartbeatService from './HeartbeatService.js';
 const HeartbeatServiceClient = HeartbeatService.Client;
 const HeartbeatServiceProcessor = HeartbeatService.Processor;
 import * as ttypes from './listwindow_types.js';
