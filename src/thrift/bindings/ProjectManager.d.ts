@@ -1409,6 +1409,10 @@ declare class Client extends HeartbeatService.Client {
     ExportCStatConfiguration(prj: ProjectContext, configurationName: string, filename: string): Promise<void>;
 
     ExportCStatConfiguration(prj: ProjectContext, configurationName: string, filename: string, callback?: (error: ttypes.ProjectManagerError, response: void)=>void): void;
+
+    GetVersionInfo(): Promise<shared_ttypes.PropertyTreeItem>;
+
+    GetVersionInfo(callback?: (error: ttypes.ProjectManagerError, response: shared_ttypes.PropertyTreeItem)=>void): void;
   }
 
 declare class Processor extends HeartbeatService.Processor {
@@ -1553,4 +1557,5 @@ declare class Processor extends HeartbeatService.Processor {
     process_ImportCStatSettingsForProject(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
     process_ExportCStatChecks(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
     process_ExportCStatConfiguration(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
+    process_GetVersionInfo(seqid: number, input: thrift.TProtocol, output: thrift.TProtocol): void;
 }

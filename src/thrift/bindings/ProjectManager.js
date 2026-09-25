@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import * as shared_ttypes from './shared_types.js';
 
 
-const HeartbeatService = require('./HeartbeatService.js');
+import * as HeartbeatService from './HeartbeatService.js';
 const HeartbeatServiceClient = HeartbeatService.Client;
 const HeartbeatServiceProcessor = HeartbeatService.Processor;
 import * as ttypes from './projectmanager_types.js';
@@ -19974,6 +19974,124 @@ const ProjectManager_ExportCStatConfiguration_result = class {
   }
 
 };
+const ProjectManager_GetVersionInfo_args = class {
+  constructor(args) {
+  }
+
+  ["read"] (input) {
+    input.incrementRecursionDepth();
+    try {
+      input.readStructBegin();
+      while (true) {
+        const ret = input.readFieldBegin();
+        const ftype = ret.ftype;
+        if (ftype == Thrift.Type.STOP) {
+          break;
+        }
+        input.skip(ftype);
+        input.readFieldEnd();
+      }
+      input.readStructEnd();
+    } finally {
+      input.decrementRecursionDepth();
+    }
+    return;
+  }
+
+  ["write"] (output) {
+    output.incrementRecursionDepth();
+    try {
+      output.writeStructBegin('ProjectManager_GetVersionInfo_args');
+      output.writeFieldStop();
+      output.writeStructEnd();
+    } finally {
+      output.decrementRecursionDepth();
+    }
+    return;
+  }
+
+};
+const ProjectManager_GetVersionInfo_result = class {
+  constructor(args) {
+    this.success = null;
+    this.e = null;
+    if (args instanceof ttypes.ProjectManagerError) {
+        this.e = args;
+        return;
+    }
+    if (args) {
+      if (args.success !== undefined && args.success !== null) {
+        this.success = new shared_ttypes.PropertyTreeItem(args.success);
+      }
+      if (args.e !== undefined && args.e !== null) {
+        this.e = args.e;
+      }
+    }
+  }
+
+  ["read"] (input) {
+    input.incrementRecursionDepth();
+    try {
+      input.readStructBegin();
+      while (true) {
+        const ret = input.readFieldBegin();
+        const ftype = ret.ftype;
+        const fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+          break;
+        }
+        switch (fid) {
+          case 0:
+          if (ftype == Thrift.Type.STRUCT) {
+            this.success = new shared_ttypes.PropertyTreeItem();
+            this.success["read"](input);
+          } else {
+            input.skip(ftype);
+          }
+          break;
+          case 1:
+          if (ftype == Thrift.Type.STRUCT) {
+            this.e = new ttypes.ProjectManagerError();
+            this.e["read"](input);
+          } else {
+            input.skip(ftype);
+          }
+          break;
+          default:
+            input.skip(ftype);
+        }
+        input.readFieldEnd();
+      }
+      input.readStructEnd();
+    } finally {
+      input.decrementRecursionDepth();
+    }
+    return;
+  }
+
+  ["write"] (output) {
+    output.incrementRecursionDepth();
+    try {
+      output.writeStructBegin('ProjectManager_GetVersionInfo_result');
+      if (this.success !== null && this.success !== undefined) {
+        output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+        this.success["write"](output);
+        output.writeFieldEnd();
+      }
+      if (this.e !== null && this.e !== undefined) {
+        output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+        this.e["write"](output);
+        output.writeFieldEnd();
+      }
+      output.writeFieldStop();
+      output.writeStructEnd();
+    } finally {
+      output.decrementRecursionDepth();
+    }
+    return;
+  }
+
+};
 const ProjectManagerClient = class ProjectManagerClient extends HeartbeatServiceClient {
   constructor(output, pClass) {
     super(output, pClass);
@@ -27185,6 +27303,57 @@ const ProjectManagerClient = class ProjectManagerClient extends HeartbeatService
     }
     callback(null);
   }
+
+  GetVersionInfo () {
+    this._seqid = this.new_seqid();
+    const self = this;
+    return new Promise((resolve, reject) => {
+      self._reqs[self.seqid()] = (error, result) => {
+        return error ? reject(error) : resolve(result);
+      };
+      self.send_GetVersionInfo();
+    });
+  }
+
+  send_GetVersionInfo () {
+    const output = new this.pClass(this.output);
+    const args = new ProjectManager_GetVersionInfo_args();
+    try {
+      output.writeMessageBegin('GetVersionInfo', Thrift.MessageType.CALL, this.seqid());
+      args["write"](output);
+      output.writeMessageEnd();
+      return this.output.flush();
+    }
+    catch (e) {
+      delete this._reqs[this.seqid()];
+      if (typeof output.reset === 'function') {
+        output.reset();
+      }
+      throw e;
+    }
+  }
+
+  recv_GetVersionInfo (input, mtype, rseqid) {
+    const callback = this._reqs[rseqid] || function() {};
+    delete this._reqs[rseqid];
+    if (mtype == Thrift.MessageType.EXCEPTION) {
+      const x = new Thrift.TApplicationException();
+      x["read"](input);
+      input.readMessageEnd();
+      return callback(x);
+    }
+    const result = new ProjectManager_GetVersionInfo_result();
+    result["read"](input);
+    input.readMessageEnd();
+
+    if (null !== result.e) {
+      return callback(result.e);
+    }
+    if (null !== result.success) {
+      return callback(null, result.success);
+    }
+    return callback('GetVersionInfo failed: unknown result');
+  }
 };
 export { ProjectManagerClient as Client };
 const ProjectManagerProcessor = class ProjectManagerProcessor extends HeartbeatServiceProcessor {
@@ -32793,6 +32962,47 @@ const ProjectManagerProcessor = class ProjectManagerProcessor extends HeartbeatS
         } else {
           result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
           output.writeMessageBegin("ExportCStatConfiguration", Thrift.MessageType.EXCEPTION, seqid);
+        }
+        result_obj["write"](output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+    }
+  }
+  process_GetVersionInfo (seqid, input, output) {
+    const args = new ProjectManager_GetVersionInfo_args();
+    args["read"](input);
+    input.readMessageEnd();
+    if (this._handler.GetVersionInfo.length === 0) {
+      new Promise((resolve) => resolve(this._handler.GetVersionInfo.bind(this._handler)(
+      ))).then(result => {
+        const result_obj = new ProjectManager_GetVersionInfo_result({success: result});
+        output.writeMessageBegin("GetVersionInfo", Thrift.MessageType.REPLY, seqid);
+        result_obj["write"](output);
+        output.writeMessageEnd();
+        output.flush();
+      }).catch(err => {
+        let result;
+        if (err instanceof ttypes.ProjectManagerError) {
+          result = new ProjectManager_GetVersionInfo_result(err);
+          output.writeMessageBegin("GetVersionInfo", Thrift.MessageType.REPLY, seqid);
+        } else {
+          result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+          output.writeMessageBegin("GetVersionInfo", Thrift.MessageType.EXCEPTION, seqid);
+        }
+        result["write"](output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+    } else {
+      this._handler.GetVersionInfo((err, result) => {
+        let result_obj;
+        if ((err === null || typeof err === 'undefined') || err instanceof ttypes.ProjectManagerError) {
+          result_obj = new ProjectManager_GetVersionInfo_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+          output.writeMessageBegin("GetVersionInfo", Thrift.MessageType.REPLY, seqid);
+        } else {
+          result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+          output.writeMessageBegin("GetVersionInfo", Thrift.MessageType.EXCEPTION, seqid);
         }
         result_obj["write"](output);
         output.writeMessageEnd();

@@ -13,7 +13,7 @@ import * as cspy_ttypes from './cspy_types.js';
 import * as ServiceRegistry_ttypes from './ServiceRegistry_types.js';
 
 
-const HeartbeatService = require('./HeartbeatService.js');
+import * as HeartbeatService from './HeartbeatService.js';
 const HeartbeatServiceClient = HeartbeatService.Client;
 const HeartbeatServiceProcessor = HeartbeatService.Processor;
 import * as ttypes from './ampsync_types.js';
